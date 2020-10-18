@@ -8,7 +8,6 @@ from skimage.color import rgb2gray
 from skimage.transform import resize
 
 def load_images(path):
-    
     img_list = listdir(path)
     loaded_imgs = []
     
@@ -19,7 +18,6 @@ def load_images(path):
     return loaded_imgs
 
 def transform_image(image, size=200, black_and_white=True):
-    
     img = np.array(image)
 
     height = np.shape(img)[0]
@@ -46,7 +44,6 @@ def transform_image(image, size=200, black_and_white=True):
     return Image.fromarray(img)
 
 def transform_directory(input_path, output_path, size=200, black_and_white=True):
-    
     imgs = load_images(input_path)
     count = 0
     
@@ -56,15 +53,16 @@ def transform_directory(input_path, output_path, size=200, black_and_white=True)
         t_img.save(output_path + '/' + '%d.png' % count)
 
 if __name__ == '__main__':
+
     transform_directory('Data/Images/Colour unedited/cholesteric', 
                         'Data/Images/Black and white/cholesteric')
     
     transform_directory('Data/Images/Colour unedited/columnar', 
                         'Data/Images/Black and white/columnar')
-    
+
     transform_directory('Data/Images/Colour unedited/nematic', 
                         'Data/Images/Black and white/nematic')
-    
+
     transform_directory('Data/Images/Colour unedited/smectic', 
                         'Data/Images/Black and white/smectic')
     
