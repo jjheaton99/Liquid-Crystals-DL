@@ -20,15 +20,15 @@ train_datagen = ImageDataGenerator(
 valid_datagen = ImageDataGenerator(rescale=1.0/255)
 
 train_gen = train_datagen.flow_from_directory(
-    directory='D:/MPhys project/Liquid-Crystals-DL/data/train',
-    target_size=(224, 224),
+    directory='D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/train',
+    target_size=(200, 200),
     class_mode='categorical',
     batch_size=32,
     shuffle=True)
 n_train = train_gen.n
 
 valid_gen = valid_datagen.flow_from_directory(
-    directory='D:/MPhys project/Liquid-Crystals-DL/data/valid',
+    directory='D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/valid',
     target_size=(200, 200),
     class_mode='categorical',
     batch_size=32,
