@@ -17,7 +17,7 @@ def load_images(path):
         
     return loaded_imgs
 
-def transform_image(image, size=200, black_and_white=True):
+def transform_image(image, as_array=False, size=200, black_and_white=True):
     img = np.array(image)
 
     height = np.shape(img)[0]
@@ -40,6 +40,9 @@ def transform_image(image, size=200, black_and_white=True):
     img = resize(img, (size, size), anti_aliasing=False)
     img *= 255
     img = img.astype(np.uint8)
+    
+    if as_array:
+        return img
     
     return Image.fromarray(img)
 
