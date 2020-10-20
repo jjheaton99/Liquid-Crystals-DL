@@ -6,7 +6,7 @@ config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 
 import os
-os.environ["PATH"] += os.pathsep + 'C:/Users/jj_he/Anaconda3/envs/tf/Library/bin/graphviz'
+os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,12 +14,13 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 from keras.preprocessing.image import ImageDataGenerator
-from keras.layers import Input, Flatten, Conv2D, MaxPooling2D, Dense, Dropout, BatchNormalization, GlobalAveragePooling2D
+from keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, BatchNormalization, GlobalAveragePooling2D
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.models import Model
+
 from keras.utils.vis_utils import plot_model
 
-#--set up the generators--------------------------
+#set up the data generators
 BATCH_SIZE = 32
 
 train_datagen = ImageDataGenerator(
@@ -46,7 +47,6 @@ valid_gen = valid_datagen.flow_from_directory(
     batch_size=BATCH_SIZE,
     shuffle=True)
 n_valid = valid_gen.n
-#--------------------------------------------------
 
 def plot_loss_acc_history(history):
     fig, axis = plt.subplots(2)
@@ -80,8 +80,7 @@ learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                            patience=10,
                                            verbose=1,
                                            min_lr=1e-5)
-
-
+"""
 model = tf.keras.models.Sequential([
     Conv2D(16, (3, 3), activation='relu', input_shape=INPUT_SHAPE),
     BatchNormalization(),
@@ -131,12 +130,12 @@ model = tf.keras.models.Sequential([
     Dropout(0.5),
     Dense(NUM_CLASSES)
     ])
-"""
+
 #model = keras.models.load_model('checkpoints')
 
 model.summary()
 
-plot_model(model, to_file='model.png', show_shapes=True)
+plot_model(model, to_file='v2.png', show_shapes=True)
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),

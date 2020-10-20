@@ -52,7 +52,7 @@ def transform_directory(input_path, output_path, size=200, black_and_white=True)
     
     for image in imgs:
         count += 1
-        t_img = transform_image(image, size, black_and_white)
+        t_img = transform_image(image, False, size, black_and_white)
         t_img.save(output_path + '/' + '%d.png' % count)
 
 if __name__ == '__main__':
