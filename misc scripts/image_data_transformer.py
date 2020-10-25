@@ -60,8 +60,8 @@ if __name__ == '__main__':
     transform_directory('Data/Images/Colour unedited/cholesteric', 
                         'Data/Images/Black and white/cholesteric')
     
-    transform_directory('Data/Images/Colour unedited/columnar', 
-                        'Data/Images/Black and white/columnar')
+    #transform_directory('Data/Images/Colour unedited/columnar', 
+    #                    'Data/Images/Black and white/columnar')
 
     transform_directory('Data/Images/Colour unedited/nematic', 
                         'Data/Images/Black and white/nematic')
@@ -69,5 +69,5 @@ if __name__ == '__main__':
     transform_directory('Data/Images/Colour unedited/smectic', 
                         'Data/Images/Black and white/smectic')
     
-    transform_directory('Data/Images/Colour unedited/twist_grain_boundary', 
-                        'Data/Images/Black and white/twist_grain_boundary')
+    #transform_directory('Data/Images/Colour unedited/twist_grain_boundary', 
+    #                    'Data/Images/Black and white/twist_grain_boundary')

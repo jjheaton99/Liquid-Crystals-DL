@@ -4,7 +4,7 @@ import numpy as np
 
 from PIL import Image
 
-def generate_image(size, max_brightness=30):
+def generate_image(size, max_brightness=10):
     img = np.zeros((size, size))
     for i in range(size):
         for j in range(size):
@@ -12,11 +12,11 @@ def generate_image(size, max_brightness=30):
         
     return img
 
-def create_and_save_images(path, size=200, max_brightness=30, quantity=500):
+def create_and_save_images(path, size=200, max_brightness=10, quantity=500):
     for count in range(quantity):
         img = Image.fromarray(generate_image(size, max_brightness))
         img = img.convert('L')
         img.save(path + '/' + '%d.png' % count)
 
 if __name__ == '__main__':
-    create_and_save_images('D:/MPhys project/Liquid-Crystals-DL/Data/Images/Black and white/isotropic')
+    create_and_save_images('D:/MPhys project/Liquid-Crystals-DL/Data/Images/Black and white/isotropic', max_brightness=30)

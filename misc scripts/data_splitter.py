@@ -6,19 +6,27 @@ from image_data_transformer import load_images
 
 def make_class_dirs(class_folders, output_path):
     for class_name in class_folders:
-        os.mkdir(output_path + '/' + class_name)
+        folder = output_path + '/' + class_name
+        if not os.path.isdir(folder):
+            os.mkdir(output_path + '/' + class_name)
 
 def create_and_save_sets(input_path, output_path, val_fraction=0.2, test_fraction=0.1):
     class_folders = os.listdir(input_path)
+    train_folder = output_path + '/train'
+    val_folder = output_path + '/valid'
+    test_folder = output_path + '/test'
     
-    os.mkdir(output_path + '/train')
-    make_class_dirs(class_folders, output_path + '/train')
+    if not os.path.isdir(train_folder):
+        os.mkdir(train_folder)
+    make_class_dirs(class_folders, train_folder)
     
-    os.mkdir(output_path + '/valid')
-    make_class_dirs(class_folders, output_path + '/valid')
+    if not os.path.isdir(val_folder):
+        os.mkdir(val_folder)
+    make_class_dirs(class_folders, val_folder)
         
-    os.mkdir(output_path + '/test')
-    make_class_dirs(class_folders, output_path + '/test')
+    if not os.path.isdir(test_folder):
+        os.mkdir(test_folder)
+    make_class_dirs(class_folders, test_folder)
     
     for class_name in class_folders:
         train_imgs = load_images(input_path + '/' + class_name)
