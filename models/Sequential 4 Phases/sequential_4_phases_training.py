@@ -1,19 +1,16 @@
 import os
 os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 
-import numpy as np
 import matplotlib.pyplot as plt
 
-from PIL import Image
-
 import tensorflow as tf
-from tensorflow import keras
 from keras.preprocessing.image import ImageDataGenerator
-from keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, BatchNormalization, GlobalAveragePooling2D
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from keras.models import Model
 
 from keras.utils.vis_utils import plot_model
+
+from v1 import model_v1
+from v2 import model_v2
 
 #set up the data generators
 BATCH_SIZE = 32
@@ -47,6 +44,8 @@ valid_gen = valid_datagen.flow_from_directory(
     shuffle=True)
 n_valid = valid_gen.n
 
+#takes training history and plots figure 
+#displaying training and validation losses and accuracies
 def plot_loss_acc_history(history):
     fig, axis = plt.subplots(2)
     fig.suptitle('Sequential model training losses and accuracies')
@@ -65,9 +64,6 @@ def plot_loss_acc_history(history):
 
     plt.show()
 
-INPUT_SHAPE = (200, 200, 1)
-NUM_CLASSES = 4
-
 TRAIN_STEP_SIZE = n_train//train_gen.batch_size
 VALID_STEP_SIZE = n_valid//valid_gen.batch_size
 
@@ -80,58 +76,7 @@ learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                            verbose=1,
                                            min_lr=1e-5)
 
-"""
-#model v1
-model = tf.keras.models.Sequential([
-    Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE),
-    BatchNormalization(),
-    MaxPooling2D(pool_size=(2,2), padding='same'),
-    
-    Conv2D(64, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),      
-    MaxPooling2D(pool_size=(2,2), padding='same'),
-    
-    Conv2D(128, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    GlobalAveragePooling2D(),
-    
-    Dense(256, activation='relu'),
-    BatchNormalization(),
-    Dropout(0.5),
-    Dense(128, activation='relu'),
-    BatchNormalization(),
-    Dropout(0.5),
-    Dense(NUM_CLASSES)
-    ])
-"""
-#model v2
-model = tf.keras.models.Sequential([
-    Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE),
-    BatchNormalization(),
-    Conv2D(32, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),   
-    MaxPooling2D(pool_size=(2,2), padding='same'),
-    
-    Conv2D(64, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    Conv2D(128, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),       
-    MaxPooling2D(pool_size=(2,2), padding='same'),
-    
-    Conv2D(256, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    Conv2D(512, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    GlobalAveragePooling2D(),
-    
-    Dense(1024, activation='relu'),
-    BatchNormalization(),
-    Dropout(0.5),
-    Dense(512, activation='relu'),
-    BatchNormalization(),
-    Dropout(0.5),
-    Dense(NUM_CLASSES)
-    ])
+model = model_v2
 
 if __name__ == '__main__':
     model.summary()
@@ -142,7 +87,7 @@ if __name__ == '__main__':
         optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
         loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
         metrics='accuracy')
-    
+
     history = model.fit(
               x=train_gen,
               steps_per_epoch=TRAIN_STEP_SIZE,

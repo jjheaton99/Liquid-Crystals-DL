@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 import sys
 sys.path.insert(1, 'D:/MPhys project/Liquid-Crystals-DL/misc scripts')
@@ -7,37 +8,36 @@ from image_data_transformer import transform_image
 from confusion_matrix_plotter import display_confusion_matrix
 
 import tensorflow as tf
-from keras.layers.experimental.preprocessing import Rescaling
-from keras.preprocessing import image_dataset_from_directory
+from keras.preprocessing.image import ImageDataGenerator
 
 from PIL import Image
 
-BATCH_SIZE = 32
+test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/test'
+#counts all files in subdirectories in test folder
+BATCH_SIZE = sum(len(files) for _, _, files in os.walk(test_dir))
 
-test_data = image_dataset_from_directory(
-    directory='D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/test',
-    label_mode='categorical',
+test_datagen = ImageDataGenerator(rescale=1.0/255)
+
+test_gen = test_datagen.flow_from_directory(
+    directory=test_dir,
+    target_size=(200, 200),
     color_mode='grayscale',
+    class_mode='categorical',
     batch_size=BATCH_SIZE,
-    image_size=(200, 200),
     shuffle=False)
 
-y_true = np.argmax(np.concatenate([labels for data, labels in test_data], axis=0), axis=1)
-
-TEST_STEP_SIZE = np.size(y_true)//BATCH_SIZE
-
-rescale = tf.keras.models.Sequential([Rescaling(1/255.0)])
-test_data = test_data.map(lambda x, y : (rescale(x), y))
+test_batch = test_gen.next()
+y_true = np.argmax(test_batch[1], axis=1)
 
 model = tf.keras.models.load_model('checkpoints/v2', compile=True)
 
 #evaluate for total test set accuracy
 model.evaluate(
-    test_data,
-    steps=TEST_STEP_SIZE,
+    test_gen,
+    steps=1,
     verbose=2)
 
-y_pred = model.predict_classes(test_data)
+y_pred = model.predict_classes(test_batch[0])
 
 class_names = ['cholesteric', 
                'isotropic', 
