@@ -80,7 +80,7 @@ model = model_v2
 
 if __name__ == '__main__':
     model.summary()
-    
+
     plot_model(model, to_file='plots/v2.png', show_shapes=True)
 
     model.compile(
