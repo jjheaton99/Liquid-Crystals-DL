@@ -22,11 +22,12 @@ class WGAN_GP():
 #for the base class from which this is adapted
     def __init__(self, load_dir='', load_saved_models=True, batch_size=32):
         self.batch_size = batch_size
-        self.img_width = 200
-        self.img_height = 200
+        self.img_width = 256
+        self.img_height = 256
         self.channels = 1
         self.img_shape = (self.img_width, self.img_height, self.channels)
         self.latent_dim = 128
+        self.history=[[], [], []]
         
         self.n_train_critic = 5
         optimiser = RMSprop(0.00005)
@@ -104,15 +105,15 @@ class WGAN_GP():
     
     def build_generator(self):
         model = Sequential([
-            Dense(256 * 25 * 25, activation='relu', input_dim=self.latent_dim),
-            Reshape((25, 25, 256)),
+            Dense(256 * 32 * 32, activation='relu', input_dim=self.latent_dim),
+            Reshape((32, 32, 256)),
             UpSampling2D(),
             
-            Conv2D(128, kernel_size=(4, 4), activation='relu', padding='same'),
+            Conv2D(128, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
             BatchNormalization(momentum=0.8),
             UpSampling2D(),
             
-            Conv2D(64, kernel_size=(4, 4), activation='relu', padding='same'),
+            Conv2D(64, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
             BatchNormalization(momentum=0.8),
             UpSampling2D(),
             
@@ -164,22 +165,24 @@ class WGAN_GP():
         
         return Model(img, validity)
     
-    def train(self, epochs, train_data, checkpoint_interval=100, 
-              sample_interval=100, num_samples=10, save_dir='', verbose=True):
+    def train(self, epochs, train_data, checkpoint_interval=100, sample_interval=100, 
+              num_samples=10, history_plot_interval=0, save_dir='', verbose=True):
         valid = -np.ones((self.batch_size, 1))
         fake = np.ones((self.batch_size, 1))
         dummy = np.zeros((self.batch_size, 1))
         
-        losses_history = [[], []]
+        plot_history = False
+        if history_plot_interval != 0:
+            plot_history = True
         
-        count = 1        
+        count = 0        
         for epoch in range(epochs):
             for _ in range(self.n_train_critic):
                 count += 1
                 #resets data generator if whole set has been iterated over
                 if (train_data.n - (count * self.batch_size)) < self.batch_size:
                     train_data.reset()
-                    count = 1
+                    count = 0
                     
                 next_batch = train_data.next()
                 #if else handles cases where data has labels or no labels
@@ -194,19 +197,37 @@ class WGAN_GP():
                 
             generator_loss = self.generator_model.train_on_batch(noise, valid)
             
-            losses_history[0].append(discriminator_loss[0])
-            losses_history[1].append(generator_loss)
+            self.history[0].append(epoch)
+            self.history[1].append(discriminator_loss[0])
+            self.history[2].append(generator_loss)
             
             if epoch % sample_interval == 0:
                 self.sample_images(epoch, num_samples, save_dir)
                 
             if epoch % checkpoint_interval == 0:
                 self.save_models(save_dir)
+                
+            if plot_history:
+                if epoch % history_plot_interval == 0:
+                    plt.close()
+                    self.plot_history()
             
             if verbose:
                 print("epoch %d/%d, D loss: %f, G loss: %f" % (epoch, epochs, discriminator_loss[0], generator_loss))
                 
-        return losses_history
+        return self.history
+    
+    def plot_history(self):
+        fig, axis = plt.subplots(1)
+        fig.suptitle('WGAN-GP training losses')
+        
+        axis.plot(self.history[1], label='critic_loss')
+        axis.plot(self.history[2], label='gen_loss')
+        axis.set_xlabel('Epoch')
+        axis.set_ylabel('Loss')
+        axis.legend(loc='lower left')
+        
+        plt.show()
             
     def sample_images(self, epoch=0, num_samples=10, save_dir=''):
         #check for/create the directory for saving samples
@@ -276,8 +297,8 @@ if __name__ == '__main__':
         horizontal_flip=True)
     
     train_data = train_datagen.flow_from_directory(
-        directory='D:/MPhys project/Liquid-Crystals-DL/data/Images/Black and white/cholesteric',
-        target_size=(200, 200),
+        directory='cholesteric/data',
+        target_size=(256, 256),
         class_mode='categorical',
         color_mode='grayscale',
         batch_size=32,
@@ -285,4 +306,5 @@ if __name__ == '__main__':
     
     wgan_gp = WGAN_GP(load_saved_models=False, batch_size=32)
     
-    wgan_gp.train(epochs=99999999, train_data=train_data, checkpoint_interval=100, sample_interval=50, num_samples=5)
+    wgan_gp.train(epochs=99999999, train_data=train_data, checkpoint_interval=100, 
+                  sample_interval=50, num_samples=10, history_plot_interval=10, save_dir='cholesteric')
