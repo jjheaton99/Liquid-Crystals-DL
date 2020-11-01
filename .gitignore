@@ -1,2 +1,4 @@
 /data
 /models/WGAN-GP/cholesteric
+/models/WGAN-GP/nematic
+/models/WGAN-GP/smectic

@@ -9,19 +9,20 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
 from keras.utils.vis_utils import plot_model
 
-from v1 import model_v1
-from v2 import model_v2
+import sequential_4_phases_v1
+import sequential_4_phases_v2
+import data_binary_classifier
 
 #set up the data generators
 BATCH_SIZE = 32
 
 train_datagen = ImageDataGenerator(
-    rotation_range=30,
-    height_shift_range=0.1,
-    width_shift_range=0.1,
+    #rotation_range=30,
+    #height_shift_range=0.1,
+    #width_shift_range=0.1,
     horizontal_flip=True,
     vertical_flip=True,
-    zoom_range=0.2,
+    #zoom_range=0.2,
     rescale=1.0/255)
 
 valid_datagen = ImageDataGenerator(rescale=1.0/255)
@@ -76,7 +77,7 @@ learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                            verbose=1,
                                            min_lr=1e-5)
 
-model = model_v2
+model = data_binary_classifier.model
 
 if __name__ == '__main__':
     model.summary()

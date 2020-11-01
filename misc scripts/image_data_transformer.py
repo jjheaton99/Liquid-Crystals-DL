@@ -1,3 +1,4 @@
+from os.path import join
 from os import listdir
 
 import numpy as np
@@ -12,7 +13,7 @@ def load_images(path):
     loaded_imgs = []
     
     for image in img_list:
-        img = Image.open(path + '/' + image)
+        img = Image.open(join(path, image))
         loaded_imgs.append(img)
         
     return loaded_imgs
@@ -53,12 +54,12 @@ def transform_directory(input_path, output_path, size=200, black_and_white=True)
     for image in imgs:
         count += 1
         t_img = transform_image(image, False, size, black_and_white)
-        t_img.save(output_path + '/' + '%d.png' % count)
+        t_img.save(join(output_path, '%d.png' % count))
 
 if __name__ == '__main__':
 
-    transform_directory('D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/cholesteric',
-                        'D:/MPhys project/Liquid-Crystals-DL/models/WGAN-GP/data/cholesteric',
+    transform_directory('D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic',
+                        'D:/MPhys project/Liquid-Crystals-DL/models/WGAN-GP/smectic/data/data',
                         size=256)    
 
     #transform_directory('Data/Images/Colour unedited/cholesteric', 

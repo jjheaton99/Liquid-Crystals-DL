@@ -76,6 +76,7 @@ def predict_image(filename, model=model, show=False):
         
     return (pred_class[0], probs[0][pred_class[0]])
 
-predict_image('test_image_nematic.jpg')
-predict_image('test_image_cholesteric.jpg')
-predict_image('test_image_smectic.jpg')
+#predict_image('random tests/test_image_nematic.jpg')
+#predict_image('random tests/test_image_cholesteric.jpg')
+#predict_image('random tests/test_image_smectic.jpg')
+predict_image('random tests/wgan_sample.jpg')

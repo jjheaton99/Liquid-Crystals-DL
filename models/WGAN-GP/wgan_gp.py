@@ -36,11 +36,11 @@ class WGAN_GP():
         if load_saved_models:
             models_loaded = self.load_models(load_dir)           
             if models_loaded:
-                print("models loaded successfully")
+                print("Models loaded successfully")
 
         if not models_loaded:
             if load_saved_models:
-                print("failed to load models, building new ones")
+                print("Failed to load models, building new ones")
             self.generator = self.build_generator()        
             self.critic = self.build_critic()
         
@@ -104,6 +104,7 @@ class WGAN_GP():
         return K.mean(gradient_penalty)
     
     def build_generator(self):
+        """
         model = Sequential([
             Dense(256 * 32 * 32, activation='relu', input_dim=self.latent_dim),
             Reshape((32, 32, 256)),
@@ -114,6 +115,28 @@ class WGAN_GP():
             UpSampling2D(),
             
             Conv2D(64, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
+            BatchNormalization(momentum=0.8),
+            UpSampling2D(),
+            
+            Conv2D(self.channels, kernel_size=(4, 4), activation='tanh', padding='same')
+        ])
+        """
+        model = Sequential([
+            Dense(1024, activation='relu', input_dim=self.latent_dim),
+            BatchNormalization(),
+            Dense(128 * 16 * 16, activation='relu'),
+            Reshape((16, 16, 128)),
+            UpSampling2D(),
+            
+            Conv2D(64, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
+            BatchNormalization(momentum=0.8),
+            UpSampling2D(),
+            
+            Conv2D(32, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
+            BatchNormalization(momentum=0.8),
+            UpSampling2D(),
+            
+            Conv2D(16, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
             BatchNormalization(momentum=0.8),
             UpSampling2D(),
             
@@ -247,6 +270,7 @@ class WGAN_GP():
         
         for sample in range(num_samples):
             save_img(join(sample_dir, 'epoch%d_sample%d.jpg' % (epoch, sample)), g_img_samples[sample])
+        print('Samples saved to ' + sample_dir)
         
     def save_models(self, save_dir=''):
         #check for/create directories for both models
@@ -296,15 +320,20 @@ if __name__ == '__main__':
         vertical_flip=True,
         horizontal_flip=True)
     
+    BATCH_SIZE = 32
+    phase='cholesteric'
+    
     train_data = train_datagen.flow_from_directory(
-        directory='cholesteric/data',
+        directory=phase+'/data',
         target_size=(256, 256),
         class_mode='categorical',
         color_mode='grayscale',
-        batch_size=32,
+        batch_size=BATCH_SIZE,
         shuffle=True)
     
-    wgan_gp = WGAN_GP(load_saved_models=False, batch_size=32)
+    wgan_gp = WGAN_GP(load_dir=phase, load_saved_models=False, batch_size=BATCH_SIZE)
+    
+    #wgan_gp.sample_images(num_samples=100, save_dir='cholesteric/more samples')
     
     wgan_gp.train(epochs=99999999, train_data=train_data, checkpoint_interval=100, 
-                  sample_interval=50, num_samples=10, history_plot_interval=10, save_dir='cholesteric')
+                  sample_interval=1, num_samples=1, history_plot_interval=1000, save_dir=phase)
