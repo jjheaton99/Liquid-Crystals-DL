@@ -321,7 +321,7 @@ if __name__ == '__main__':
         horizontal_flip=True)
     
     BATCH_SIZE = 32
-    phase='cholesteric'
+    phase='nematic'
     
     train_data = train_datagen.flow_from_directory(
         directory=phase+'/data',

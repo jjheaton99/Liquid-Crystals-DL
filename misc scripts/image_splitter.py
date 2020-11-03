@@ -41,8 +41,8 @@ def split_and_save_dir(input_path, output_path, file_name, rows, columns):
             
 if __name__ == '__main__':
     split_and_save_dir(
-        'D:/MPhys project/Liquid-Crystals-DL/data/Images/Jason/5CB/5CB-Green_35.6-35.7C_heating_0.1Cmin/Mixed', 
+        'D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/temp for split', 
         'D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/temp for sort',
-        file_name = 'b',
+        file_name = 't',
         rows=2, 
         columns=3)
