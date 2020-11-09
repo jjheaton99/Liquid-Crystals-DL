@@ -12,15 +12,16 @@ from keras.preprocessing.image import ImageDataGenerator
 
 from PIL import Image
 
-test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/test'
+test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
 #counts all files in subdirectories in test folder
 BATCH_SIZE = sum(len(files) for _, _, files in os.walk(test_dir))
+IMAGE_SIZE = 256
 
 test_datagen = ImageDataGenerator(rescale=1.0/255)
 
 test_gen = test_datagen.flow_from_directory(
     directory=test_dir,
-    target_size=(200, 200),
+    target_size=(IMAGE_SIZE, IMAGE_SIZE),
     color_mode='grayscale',
     class_mode='categorical',
     batch_size=BATCH_SIZE,
@@ -29,13 +30,13 @@ test_gen = test_datagen.flow_from_directory(
 test_batch = test_gen.next()
 y_true = np.argmax(test_batch[1], axis=1)
 
-model = tf.keras.models.load_model('checkpoints/v2', compile=True)
+model = tf.keras.models.load_model('checkpoints/v3_conv_4')
 
 #evaluate for total test set accuracy
-model.evaluate(
-    test_gen,
-    steps=1,
-    verbose=2)
+#model.evaluate(
+ #   test_gen,
+  #  steps=1,
+   # verbose=2)
 
 y_pred = model.predict_classes(test_batch[0])
 
@@ -44,13 +45,16 @@ class_names = ['cholesteric',
                'nematic', 
                'smectic']
 
-display_confusion_matrix(y_true, y_pred, class_names)
+display_confusion_matrix(y_true, y_pred, class_names, title='V3, 4 convolutional layers')
 
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):
     if show:
-        transform_image(Image.open(filename)).show()
-    image = transform_image(Image.open(filename), as_array=True)/255.0
+        transform_image(Image.open(filename), size=IMAGE_SIZE).show()
+    image = transform_image(Image.open(filename), 
+                            as_array=True, 
+                            size=IMAGE_SIZE,
+                            black_and_white=True)/255.0
     #expand to 4D tensor so it fits the batch shape
     image = np.expand_dims(image, axis=2)
     image = np.expand_dims(image, axis=0)
@@ -76,7 +80,9 @@ def predict_image(filename, model=model, show=False):
         
     return (pred_class[0], probs[0][pred_class[0]])
 
-#predict_image('random tests/test_image_nematic.jpg')
-#predict_image('random tests/test_image_cholesteric.jpg')
-#predict_image('random tests/test_image_smectic.jpg')
-predict_image('random tests/wgan_sample.jpg')
+predict_image('random tests/test_image_nematic.jpg')
+print('actual phase: nematic')
+predict_image('random tests/test_image_cholesteric.jpg')
+print('actual phase: cholesteric')
+predict_image('random tests/test_image_smectic.jpg')
+print('actual phase: smectic')
