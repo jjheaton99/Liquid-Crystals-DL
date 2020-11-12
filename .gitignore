@@ -1,4 +1,5 @@
 /data
+/models/Sequential 4 Phases/checkpoints
 /models/WGAN-GP/cholesteric
 /models/WGAN-GP/nematic
 /models/WGAN-GP/smectic

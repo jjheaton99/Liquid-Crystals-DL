@@ -4,6 +4,8 @@ os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 import sys
 sys.path.insert(1, 'D:/MPhys project/Liquid-Crystals-DL/misc scripts')
 
+import numpy as np
+
 import tensorflow as tf
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
@@ -22,12 +24,12 @@ DATASET_NUMBER = 2
 
 #set up the data generators
 train_datagen = ImageDataGenerator(
-    #rotation_range=30,
-    #height_shift_range=0.1,
-    #width_shift_range=0.1,
+    rotation_range=30,
+    height_shift_range=0.1,
+    width_shift_range=0.1,
     horizontal_flip=True,
     vertical_flip=True,
-    #zoom_range=0.2,
+    zoom_range=0.2,
     rescale=1.0/255)
 
 valid_datagen = ImageDataGenerator(rescale=1.0/255)
@@ -53,24 +55,21 @@ n_valid = valid_gen.n
 TRAIN_STEP_SIZE = n_train//train_gen.batch_size
 VALID_STEP_SIZE = n_valid//valid_gen.batch_size
 
-model = v3.conv_4
-model_name = 'v3_conv_4'
+def train_model(model, model_name, train_gen, valid_gen, save_diagram=False):
+    #callbacks
+    early_stop = EarlyStopping(monitor='val_loss', patience=100)
+    model_save = ModelCheckpoint('checkpoints/'+model_name, save_best_only=True)
+    learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
+                                               factor=0.5,
+                                               patience=20,
+                                               verbose=1,
+                                               min_lr=1e-5)
+    
+    model.summary()
 
-#callbacks
-early_stop = EarlyStopping(monitor='val_loss', patience=100)
-model_save = ModelCheckpoint('checkpoints/'+model_name, save_best_only=True)
-learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
-                                           factor=0.5,
-                                           patience=20,
-                                           verbose=1,
-                                           min_lr=1e-5)
-
-model.summary()
-
-plot_model(model, to_file='plots/architectures/'+model_name+'.png', show_shapes=True)
-
-train=True
-if train:
+    if save_diagram:
+        plot_model(model, to_file='plots/architectures/'+model_name+'.png', show_shapes=True)
+    
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
         loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -86,9 +85,22 @@ if train:
               validation_steps=VALID_STEP_SIZE)
     
     best_model = load_model('checkpoints/'+model_name)
-    best_model.evaluate(
-        valid_gen,
-        steps=VALID_STEP_SIZE,
-        verbose=2)
+    accuracy = best_model.evaluate(
+                    valid_gen,
+                    steps=VALID_STEP_SIZE,
+                    verbose=2)[1]
     
     plot_loss_acc_history(history)
+    
+    return accuracy
+    
+accuracies = np.empty(6)
+
+accuracies[0] = train_model(v3.conv_1, 'v3_conv_1', train_gen, valid_gen)
+accuracies[1] = train_model(v3.conv_2, 'v3_conv_2', train_gen, valid_gen)
+accuracies[2] = train_model(v3.conv_3, 'v3_conv_3', train_gen, valid_gen)
+accuracies[3] = train_model(v3.conv_4, 'v3_conv_4', train_gen, valid_gen)
+accuracies[4] = train_model(v3.conv_5, 'v3_conv_5', train_gen, valid_gen)
+accuracies[5] = train_model(v3.conv_6, 'v3_conv_6', train_gen, valid_gen)
+
+print(accuracies)

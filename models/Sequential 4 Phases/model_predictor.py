@@ -14,7 +14,7 @@ from PIL import Image
 
 test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
 #counts all files in subdirectories in test folder
-BATCH_SIZE = sum(len(files) for _, _, files in os.walk(test_dir))
+NUM_IMAGES = sum(len(files) for _, _, files in os.walk(test_dir))
 IMAGE_SIZE = 256
 
 test_datagen = ImageDataGenerator(rescale=1.0/255)
@@ -24,29 +24,57 @@ test_gen = test_datagen.flow_from_directory(
     target_size=(IMAGE_SIZE, IMAGE_SIZE),
     color_mode='grayscale',
     class_mode='categorical',
-    batch_size=BATCH_SIZE,
+    batch_size=NUM_IMAGES,
     shuffle=False)
 
 test_batch = test_gen.next()
-y_true = np.argmax(test_batch[1], axis=1)
+x = test_batch[0]
+y = test_batch[1]
+y_true = np.argmax(y, axis=1)
 
-model = tf.keras.models.load_model('checkpoints/v3_conv_4')
+model = tf.keras.models.load_model('checkpoints/v3 flip augs only/v3_conv_6')
 
 #evaluate for total test set accuracy
-#model.evaluate(
- #   test_gen,
-  #  steps=1,
-   # verbose=2)
+model.evaluate(
+    x,
+    y,
+    batch_size = 1,
+    steps=NUM_IMAGES,
+    verbose=2)
 
 y_pred = model.predict_classes(test_batch[0])
 
-class_names = ['cholesteric', 
-               'isotropic', 
-               'nematic', 
+#sort true and predicted labels into correct phase order 
+#to display in the confusion matrix
+def rearrange_labels(labels):
+    num_labels = np.shape(labels)[0]
+    new_labels = np.empty(num_labels)
+    
+    for index in range(num_labels):
+        if labels[index] == 0:
+            new_labels[index] = 2 
+        elif labels[index] == 1:
+            new_labels[index] = 0
+        elif labels[index] == 2:
+            new_labels[index] = 1
+        elif labels[index] == 3:
+            new_labels[index] = 3
+    
+    return new_labels
+"""
+y_true = rearrange_labels(y_true)
+y_pred = rearrange_labels(y_pred)
+
+class_names = ['isotropic',
+               'nematic',
+               'cholesteric', 
                'smectic']
 
-display_confusion_matrix(y_true, y_pred, class_names, title='V3, 4 convolutional layers')
-
+display_confusion_matrix(y_true, 
+                         y_pred, 
+                         class_names, 
+                         title='1 convolutional layer, all augmentations')
+"""
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):
     if show:
@@ -79,10 +107,11 @@ def predict_image(filename, model=model, show=False):
     print(probs[0][pred_class[0]])
         
     return (pred_class[0], probs[0][pred_class[0]])
-
+"""
 predict_image('random tests/test_image_nematic.jpg')
 print('actual phase: nematic')
 predict_image('random tests/test_image_cholesteric.jpg')
 print('actual phase: cholesteric')
 predict_image('random tests/test_image_smectic.jpg')
 print('actual phase: smectic')
+"""
