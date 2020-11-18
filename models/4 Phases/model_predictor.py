@@ -61,7 +61,7 @@ def rearrange_labels(labels):
             new_labels[index] = 3
     
     return new_labels
-"""
+
 y_true = rearrange_labels(y_true)
 y_pred = rearrange_labels(y_pred)
 
@@ -74,7 +74,7 @@ display_confusion_matrix(y_true,
                          y_pred, 
                          class_names, 
                          title='1 convolutional layer, all augmentations')
-"""
+
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):
     if show:
@@ -114,4 +114,17 @@ predict_image('random tests/test_image_cholesteric.jpg')
 print('actual phase: cholesteric')
 predict_image('random tests/test_image_smectic.jpg')
 print('actual phase: smectic')
+
+accuracies = np.empty(6)
+
+for index in range(6):
+    model = tf.keras.models.load_model('checkpoints/v3 flip augs 128/v3_conv_%d_128' % (index+1))
+    accuracies[index] = model.evaluate(
+        x,
+        y,
+        batch_size = 1,
+        steps=NUM_IMAGES,
+        verbose=2)[1]
+
+print(accuracies)
 """
