@@ -1,4 +1,5 @@
 import os
+from os.path import join
 os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 
 import sys
@@ -247,13 +248,17 @@ def multi_train_all_models(train_dir, valid_dir, test_dir, result_save_dir, num_
                                                 (128, 128), 
                                                 True)
     
-    pd.DataFrame(all_256_accs).to_csv(os.join(result_save_dir, 'all_256_accs.csv'), header=dataframe_cols)
-    pd.DataFrame(flip_256_accs).to_csv(os.join(result_save_dir, 'flip_256_accs.csv'), header=dataframe_cols)
-    pd.DataFrame(all_128_accs).to_csv(os.join(result_save_dir, 'all_128_accs.csv'), header=dataframe_cols)
-    pd.DataFrame(flip_128_accs).to_csv(os.join(result_save_dir, 'flip_128_accs.csv'), header=dataframe_cols)
-    
+    pd.DataFrame(np.transpose(all_256_accs)).to_csv(join(result_save_dir, 'all_256_accs.csv'), 
+                                                    header=dataframe_cols)
+    pd.DataFrame(np.transpose(flip_256_accs)).to_csv(join(result_save_dir, 'flip_256_accs.csv'), 
+                                                     header=dataframe_cols)
+    pd.DataFrame(np.transpose(all_128_accs)).to_csv(join(result_save_dir, 'all_128_accs.csv'), 
+                                                    header=dataframe_cols)
+    pd.DataFrame(np.transpose(flip_128_accs)).to_csv(join(result_save_dir, 'flip_128_accs.csv'), 
+                                                     header=dataframe_cols)
+
 multi_train_all_models(train_dir, 
                        valid_dir, 
                        test_dir, 
                        'D:/MPhys project/Liquid-Crystals-DL/models/4 Phases/multi train results',
-                       num_repeats=1)    
+                       num_repeats=1)
