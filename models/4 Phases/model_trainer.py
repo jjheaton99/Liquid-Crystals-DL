@@ -100,7 +100,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
                               x=train_gen,
                               steps_per_epoch=train_gen.n//train_gen.batch_size,
                               epochs=1000,
-                              verbose=1,
+                              verbose=2,
                               callbacks=[early_stop, model_save, learning_rate_schedule],
                               validation_data=valid_gen,
                               validation_steps=valid_gen.n//valid_gen.batch_size))
@@ -147,103 +147,103 @@ def multi_train_all_models(train_dir, valid_dir, test_dir, result_save_dir, num_
                                                               test_gen)
         
         return val_accs, test_accs
-            
-    all_256_accs[0], all_256_accs[1] = get_accs(v3.conv_1_in_256, 
+    
+    all_256_accs[0], all_256_accs[1] = get_accs(v3.all_256_1, 
                                                 'conv_1_all_256', 
                                                 (256, 256), 
                                                 False)
-    all_256_accs[2], all_256_accs[3] = get_accs(v3.conv_2_in_256, 
+    all_256_accs[2], all_256_accs[3] = get_accs(v3.all_256_2, 
                                                 'conv_2_all_256', 
                                                 (256, 256), 
                                                 False)
-    all_256_accs[4], all_256_accs[5] = get_accs(v3.conv_3_in_256, 
+    all_256_accs[4], all_256_accs[5] = get_accs(v3.all_256_3, 
                                                 'conv_3_all_256', 
                                                 (256, 256), 
                                                 False)
-    all_256_accs[6], all_256_accs[7] = get_accs(v3.conv_4_in_256, 
+    all_256_accs[6], all_256_accs[7] = get_accs(v3.all_256_4, 
                                                 'conv_4_all_256', 
                                                 (256, 256), 
                                                 False)
-    all_256_accs[8], all_256_accs[9] = get_accs(v3.conv_5_in_256, 
+    all_256_accs[8], all_256_accs[9] = get_accs(v3.all_256_5, 
                                                 'conv_5_all_256', 
                                                 (256, 256), 
                                                 False)
-    all_256_accs[10], all_256_accs[11] = get_accs(v3.conv_6_in_256, 
+    all_256_accs[10], all_256_accs[11] = get_accs(v3.all_256_6, 
                                                 'conv_6_all_256', 
                                                 (256, 256), 
                                                 False)
     
-    flip_256_accs[0], flip_256_accs[1] = get_accs(v3.conv_1_in_256, 
+    flip_256_accs[0], flip_256_accs[1] = get_accs(v3.flip_256_1, 
                                                 'conv_1_flip_256', 
                                                 (256, 256), 
                                                 True)
-    flip_256_accs[2], flip_256_accs[3] = get_accs(v3.conv_2_in_256, 
+    flip_256_accs[2], flip_256_accs[3] = get_accs(v3.flip_256_2, 
                                                 'conv_2_flip_256', 
                                                 (256, 256), 
                                                 True)
-    flip_256_accs[4], flip_256_accs[5] = get_accs(v3.conv_3_in_256, 
+    flip_256_accs[4], flip_256_accs[5] = get_accs(v3.flip_256_3, 
                                                 'conv_3_flip_256', 
                                                 (256, 256), 
                                                 True)
-    flip_256_accs[6], flip_256_accs[7] = get_accs(v3.conv_4_in_256, 
+    flip_256_accs[6], flip_256_accs[7] = get_accs(v3.flip_256_4, 
                                                 'conv_4_flip_256', 
                                                 (256, 256), 
                                                 True)
-    flip_256_accs[8], flip_256_accs[9] = get_accs(v3.conv_5_in_256, 
+    flip_256_accs[8], flip_256_accs[9] = get_accs(v3.flip_256_5, 
                                                 'conv_5_flip_256', 
                                                 (256, 256), 
                                                 True)
-    flip_256_accs[10], flip_256_accs[11] = get_accs(v3.conv_6_in_256, 
+    flip_256_accs[10], flip_256_accs[11] = get_accs(v3.flip_256_6, 
                                                 'conv_6_flip_256', 
                                                 (256, 256), 
                                                 True)
     
-    all_128_accs[0], all_128_accs[1] = get_accs(v3.conv_1_in_128, 
+    all_128_accs[0], all_128_accs[1] = get_accs(v3.all_128_1, 
                                                 'conv_1_all_128', 
                                                 (128, 128), 
                                                 False)
-    all_128_accs[2], all_128_accs[3] = get_accs(v3.conv_2_in_128, 
+    all_128_accs[2], all_128_accs[3] = get_accs(v3.all_128_2, 
                                                 'conv_2_all_128', 
                                                 (128, 128), 
                                                 False)
-    all_128_accs[4], all_128_accs[5] = get_accs(v3.conv_3_in_128, 
+    all_128_accs[4], all_128_accs[5] = get_accs(v3.all_128_3, 
                                                 'conv_3_all_128', 
                                                 (128, 128), 
                                                 False)
-    all_128_accs[6], all_128_accs[7] = get_accs(v3.conv_4_in_128, 
+    all_128_accs[6], all_128_accs[7] = get_accs(v3.all_128_4, 
                                                 'conv_4_all_128', 
                                                 (128, 128), 
                                                 False)
-    all_128_accs[8], all_128_accs[9] = get_accs(v3.conv_5_in_128, 
+    all_128_accs[8], all_128_accs[9] = get_accs(v3.all_128_5, 
                                                 'conv_5_all_128', 
                                                 (128, 128), 
                                                 False)
-    all_128_accs[10], all_128_accs[11] = get_accs(v3.conv_6_in_128, 
+    all_128_accs[10], all_128_accs[11] = get_accs(v3.all_128_6, 
                                                 'conv_6_all_128', 
                                                 (128, 128), 
                                                 False)
     
-    flip_128_accs[0], flip_128_accs[1] = get_accs(v3.conv_1_in_128, 
+    flip_128_accs[0], flip_128_accs[1] = get_accs(v3.flip_128_1, 
                                                 'conv_1_flip_128', 
                                                 (128, 128), 
                                                 True)
-    flip_128_accs[2], flip_128_accs[3] = get_accs(v3.conv_2_in_128, 
+    flip_128_accs[2], flip_128_accs[3] = get_accs(v3.flip_128_2, 
                                                 'conv_2_flip_128', 
                                                 (128, 128), 
                                                 True)
-    flip_128_accs[4], flip_128_accs[5] = get_accs(v3.conv_3_in_128, 
+    flip_128_accs[4], flip_128_accs[5] = get_accs(v3.flip_128_3, 
                                                 'conv_3_flip_128', 
                                                 (128, 128), 
                                                 True)
-    flip_128_accs[6], flip_128_accs[7] = get_accs(v3.conv_4_in_128, 
+    flip_128_accs[6], flip_128_accs[7] = get_accs(v3.flip_128_4, 
                                                 'conv_4_flip_128', 
                                                 (128, 128), 
                                                 True)
-    flip_128_accs[8], flip_128_accs[9] = get_accs(v3.conv_5_in_128, 
+    flip_128_accs[8], flip_128_accs[9] = get_accs(v3.flip_128_5, 
                                                 'conv_5_flip_128', 
                                                 (128, 128), 
                                                 True)
-    flip_128_accs[10], flip_128_accs[11] = get_accs(v3.conv_6_in_128, 
+    flip_128_accs[10], flip_128_accs[11] = get_accs(v3.flip_128_6, 
                                                 'conv_6_flip_128', 
                                                 (128, 128), 
                                                 True)
