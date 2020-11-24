@@ -20,13 +20,12 @@ from history_plotter import plot_loss_acc_history
 import v1
 import v2
 import v3
-import inception
 
 train_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
 valid_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
 test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
 
-def create_generators(train_dir, valid_dir, test_dir, batch_size=32, 
+def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_dir, batch_size=32, 
                       image_shape=(256, 256), flip_augs_only=True):
     train_datagen = ImageDataGenerator()
     
@@ -106,7 +105,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
                               validation_steps=valid_gen.n//valid_gen.batch_size))
     
     best_model = load_model('checkpoints/'+model_name)
-    valid_acc = best_model.evaluate(
+    val_acc = best_model.evaluate(
                     valid_gen,
                     steps=valid_gen.n//valid_gen.batch_size,
                     verbose=2)[1]
@@ -116,149 +115,179 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
                     steps=test_gen.n//test_gen.batch_size,
                     verbose=2)[1]
     
-    return valid_acc, test_acc
+    return val_acc, test_acc
 
-def multi_train_all_models(train_dir, valid_dir, test_dir, result_save_dir, num_repeats=3):
-    dataframe_cols = ['val1', 'test1', 
-                      'val2', 'test2', 
-                      'val3', 'test3', 
-                      'val4', 'test4', 
-                      'val5', 'test5', 
-                      'val6', 'test6']
+def evaluate_model(model, valid_gen, test_gen):
+    val = model.evaluate(valid_gen,
+                          steps=valid_gen.n//valid_gen.batch_size,
+                          verbose=2)[1]
     
-    all_256_accs = np.empty((12, num_repeats))
-    flip_256_accs = np.empty((12, num_repeats))
-    all_128_accs = np.empty((12, num_repeats))
-    flip_128_accs = np.empty((12, num_repeats))
+    test = model.evaluate(test_gen,
+                          steps=test_gen.n//test_gen.batch_size,
+                          verbose=2)[1]
     
-    def get_accs(model, model_name, image_shape, flip_augs_only):
-        train_gen, valid_gen, test_gen = create_generators(train_dir, 
-                                                           valid_dir,
-                                                           test_dir,
-                                                           image_shape=image_shape,
-                                                           flip_augs_only=flip_augs_only)
-        
-        val_accs = test_accs = np.empty(num_repeats)
-        for repeat in range(num_repeats):
-            val_accs[repeat], test_accs[repeat] = train_model(model,
-                                                              model_name,
-                                                              train_gen,
-                                                              valid_gen,
-                                                              test_gen)
-        
-        return val_accs, test_accs
-    
-    all_256_accs[0], all_256_accs[1] = get_accs(v3.all_256_1, 
-                                                'conv_1_all_256', 
-                                                (256, 256), 
-                                                False)
-    all_256_accs[2], all_256_accs[3] = get_accs(v3.all_256_2, 
-                                                'conv_2_all_256', 
-                                                (256, 256), 
-                                                False)
-    all_256_accs[4], all_256_accs[5] = get_accs(v3.all_256_3, 
-                                                'conv_3_all_256', 
-                                                (256, 256), 
-                                                False)
-    all_256_accs[6], all_256_accs[7] = get_accs(v3.all_256_4, 
-                                                'conv_4_all_256', 
-                                                (256, 256), 
-                                                False)
-    all_256_accs[8], all_256_accs[9] = get_accs(v3.all_256_5, 
-                                                'conv_5_all_256', 
-                                                (256, 256), 
-                                                False)
-    all_256_accs[10], all_256_accs[11] = get_accs(v3.all_256_6, 
-                                                'conv_6_all_256', 
-                                                (256, 256), 
-                                                False)
-    
-    flip_256_accs[0], flip_256_accs[1] = get_accs(v3.flip_256_1, 
-                                                'conv_1_flip_256', 
-                                                (256, 256), 
-                                                True)
-    flip_256_accs[2], flip_256_accs[3] = get_accs(v3.flip_256_2, 
-                                                'conv_2_flip_256', 
-                                                (256, 256), 
-                                                True)
-    flip_256_accs[4], flip_256_accs[5] = get_accs(v3.flip_256_3, 
-                                                'conv_3_flip_256', 
-                                                (256, 256), 
-                                                True)
-    flip_256_accs[6], flip_256_accs[7] = get_accs(v3.flip_256_4, 
-                                                'conv_4_flip_256', 
-                                                (256, 256), 
-                                                True)
-    flip_256_accs[8], flip_256_accs[9] = get_accs(v3.flip_256_5, 
-                                                'conv_5_flip_256', 
-                                                (256, 256), 
-                                                True)
-    flip_256_accs[10], flip_256_accs[11] = get_accs(v3.flip_256_6, 
-                                                'conv_6_flip_256', 
-                                                (256, 256), 
-                                                True)
-    
-    all_128_accs[0], all_128_accs[1] = get_accs(v3.all_128_1, 
-                                                'conv_1_all_128', 
-                                                (128, 128), 
-                                                False)
-    all_128_accs[2], all_128_accs[3] = get_accs(v3.all_128_2, 
-                                                'conv_2_all_128', 
-                                                (128, 128), 
-                                                False)
-    all_128_accs[4], all_128_accs[5] = get_accs(v3.all_128_3, 
-                                                'conv_3_all_128', 
-                                                (128, 128), 
-                                                False)
-    all_128_accs[6], all_128_accs[7] = get_accs(v3.all_128_4, 
-                                                'conv_4_all_128', 
-                                                (128, 128), 
-                                                False)
-    all_128_accs[8], all_128_accs[9] = get_accs(v3.all_128_5, 
-                                                'conv_5_all_128', 
-                                                (128, 128), 
-                                                False)
-    all_128_accs[10], all_128_accs[11] = get_accs(v3.all_128_6, 
-                                                'conv_6_all_128', 
-                                                (128, 128), 
-                                                False)
-    
-    flip_128_accs[0], flip_128_accs[1] = get_accs(v3.flip_128_1, 
-                                                'conv_1_flip_128', 
-                                                (128, 128), 
-                                                True)
-    flip_128_accs[2], flip_128_accs[3] = get_accs(v3.flip_128_2, 
-                                                'conv_2_flip_128', 
-                                                (128, 128), 
-                                                True)
-    flip_128_accs[4], flip_128_accs[5] = get_accs(v3.flip_128_3, 
-                                                'conv_3_flip_128', 
-                                                (128, 128), 
-                                                True)
-    flip_128_accs[6], flip_128_accs[7] = get_accs(v3.flip_128_4, 
-                                                'conv_4_flip_128', 
-                                                (128, 128), 
-                                                True)
-    flip_128_accs[8], flip_128_accs[9] = get_accs(v3.flip_128_5, 
-                                                'conv_5_flip_128', 
-                                                (128, 128), 
-                                                True)
-    flip_128_accs[10], flip_128_accs[11] = get_accs(v3.flip_128_6, 
-                                                'conv_6_flip_128', 
-                                                (128, 128), 
-                                                True)
-    
-    pd.DataFrame(np.transpose(all_256_accs)).to_csv(join(result_save_dir, 'all_256_accs.csv'), 
-                                                    header=dataframe_cols)
-    pd.DataFrame(np.transpose(flip_256_accs)).to_csv(join(result_save_dir, 'flip_256_accs.csv'), 
-                                                     header=dataframe_cols)
-    pd.DataFrame(np.transpose(all_128_accs)).to_csv(join(result_save_dir, 'all_128_accs.csv'), 
-                                                    header=dataframe_cols)
-    pd.DataFrame(np.transpose(flip_128_accs)).to_csv(join(result_save_dir, 'flip_128_accs.csv'), 
-                                                     header=dataframe_cols)
+    return val, test
 
-multi_train_all_models(train_dir, 
-                       valid_dir, 
-                       test_dir, 
-                       'D:/MPhys project/Liquid-Crystals-DL/models/4 Phases/multi train results',
-                       num_repeats=1)
+def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
+    train_gen_all_256, valid_gen_all_256, test_gen_all_256 = create_generators(image_shape=(256, 256), 
+                                                               flip_augs_only=False)
+    
+    train_gen_flip_256, valid_gen_flip_256, test_gen_flip_256 = create_generators(image_shape=(256, 256), 
+                                                                 flip_augs_only=True)
+    
+    train_gen_all_128, valid_gen_all_128, test_gen_all_128 = create_generators(image_shape=(128, 128), 
+                                                               flip_augs_only=False)
+    
+    train_gen_flip_128, valid_gen_flip_128, test_gen_flip_128 = create_generators(image_shape=(128, 128), 
+                                                                 flip_augs_only=True)
+    
+    all_256_val = np.empty(6)
+    all_256_test = np.empty(6)
+    
+    flip_256_val = np.empty(6)
+    flip_256_test = np.empty(6)
+    
+    all_128_val = np.empty(6)
+    all_128_test = np.empty(6)
+    
+    flip_128_val = np.empty(6)
+    flip_128_test = np.empty(6)
+    
+    all_256_val[0], all_256_test[0] = train_model(v3.all_256_1,
+                                                  'all_256_1',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    all_256_val[1], all_256_test[1] = train_model(v3.all_256_2,
+                                                  'all_256_2',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    all_256_val[2], all_256_test[2] = train_model(v3.all_256_3,
+                                                  'all_256_3',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    all_256_val[3], all_256_test[3] = train_model(v3.all_256_4,
+                                                  'all_256_4',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    all_256_val[4], all_256_test[4] = train_model(v3.all_256_5,
+                                                  'all_256_5',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    all_256_val[5], all_256_test[5] = train_model(v3.all_256_6,
+                                                  'all_256_6',
+                                                  train_gen_all_256,
+                                                  valid_gen_all_256,
+                                                  test_gen_all_256)
+    
+    flip_256_val[0], flip_256_test[0] = train_model(v3.flip_256_1,
+                                                  'flip_256_1',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    flip_256_val[1], flip_256_test[1] = train_model(v3.flip_256_2,
+                                                  'flip_256_2',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    flip_256_val[2], flip_256_test[2] = train_model(v3.flip_256_3,
+                                                  'flip_256_3',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    flip_256_val[3], flip_256_test[3] = train_model(v3.flip_256_4,
+                                                  'flip_256_4',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    flip_256_val[4], flip_256_test[4] = train_model(v3.flip_256_5,
+                                                  'flip_256_5',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    flip_256_val[5], flip_256_test[5] = train_model(v3.flip_256_6,
+                                                  'flip_256_6',
+                                                  train_gen_flip_256,
+                                                  valid_gen_flip_256,
+                                                  test_gen_flip_256)
+    
+    all_128_val[0], all_128_test[0] = train_model(v3.all_128_1,
+                                                  'all_128_1',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    all_128_val[1], all_128_test[1] = train_model(v3.all_128_2,
+                                                  'all_128_2',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    all_128_val[2], all_128_test[2] = train_model(v3.all_128_3,
+                                                  'all_128_3',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    all_128_val[3], all_128_test[3] = train_model(v3.all_128_4,
+                                                  'all_128_4',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    all_128_val[4], all_128_test[4] = train_model(v3.all_128_5,
+                                                  'all_128_5',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    all_128_val[5], all_128_test[5] = train_model(v3.all_128_6,
+                                                  'all_128_6',
+                                                  train_gen_all_128,
+                                                  valid_gen_all_128,
+                                                  test_gen_all_128)
+    
+    flip_128_val[0], flip_128_test[0] = train_model(v3.flip_128_1,
+                                                  'flip_128_1',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)
+    flip_128_val[1], flip_128_test[1] = train_model(v3.flip_128_2,
+                                                  'flip_128_2',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)
+    flip_128_val[2], flip_128_test[2] = train_model(v3.flip_128_3,
+                                                  'flip_128_3',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)
+    flip_128_val[3], flip_128_test[3] = train_model(v3.flip_128_4,
+                                                  'flip_128_4',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)
+    flip_128_val[4], flip_128_test[4] = train_model(v3.flip_128_5,
+                                                  'flip_128_5',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)
+    flip_128_val[5], flip_128_test[5] = train_model(v3.flip_128_6,
+                                                  'flip_128_6',
+                                                  train_gen_flip_128,
+                                                  valid_gen_flip_128,
+                                                  test_gen_flip_128)   
+
+    pd.DataFrame(np.array([np.round(100*all_256_val, 2),
+                           np.round(100*all_256_test, 2),
+                           np.round(100*flip_256_val, 2),
+                           np.round(100*flip_256_test, 2),
+                           np.round(100*all_128_val, 2),
+                           np.round(100*all_128_test, 2),
+                           np.round(100*flip_128_val, 2),
+                           np.round(100*flip_128_test, 2)])).to_csv(join(result_save_dir, 'accs2.csv'))
+                                                                    
+
+train_all_v3_models(train_dir, 
+                    valid_dir, 
+                    test_dir, 
+                    'D:/MPhys project/Liquid-Crystals-DL/models/4 Phases/multi train results')

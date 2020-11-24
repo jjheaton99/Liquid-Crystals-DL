@@ -43,6 +43,6 @@ if __name__ == '__main__':
     split_and_save_dir(
         'D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/temp for split', 
         'D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/temp for sort',
-        file_name = 't',
+        file_name = 'c',
         rows=2, 
         columns=3)

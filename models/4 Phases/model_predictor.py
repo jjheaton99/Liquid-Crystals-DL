@@ -15,7 +15,7 @@ from PIL import Image
 test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
 #counts all files in subdirectories in test folder
 NUM_IMAGES = sum(len(files) for _, _, files in os.walk(test_dir))
-IMAGE_SIZE = 256
+IMAGE_SIZE = 128
 
 test_datagen = ImageDataGenerator(rescale=1.0/255)
 
@@ -32,7 +32,7 @@ x = test_batch[0]
 y = test_batch[1]
 y_true = np.argmax(y, axis=1)
 
-model = tf.keras.models.load_model('checkpoints/v3 flip augs only/v3_conv_6')
+model = tf.keras.models.load_model('checkpoints/conv_1_all_128')
 
 #evaluate for total test set accuracy
 model.evaluate(
