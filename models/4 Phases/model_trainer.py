@@ -152,7 +152,7 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     
     flip_128_val = np.empty(6)
     flip_128_test = np.empty(6)
-    
+
     all_256_val[0], all_256_test[0] = train_model(v3.all_256_1,
                                                   'all_256_1',
                                                   train_gen_all_256,
@@ -214,7 +214,7 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
                                                   train_gen_flip_256,
                                                   valid_gen_flip_256,
                                                   test_gen_flip_256)
-    
+
     all_128_val[0], all_128_test[0] = train_model(v3.all_128_1,
                                                   'all_128_1',
                                                   train_gen_all_128,
@@ -245,7 +245,7 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
                                                   train_gen_all_128,
                                                   valid_gen_all_128,
                                                   test_gen_all_128)
-    
+
     flip_128_val[0], flip_128_test[0] = train_model(v3.flip_128_1,
                                                   'flip_128_1',
                                                   train_gen_flip_128,
@@ -277,17 +277,22 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
                                                   valid_gen_flip_128,
                                                   test_gen_flip_128)   
 
-    pd.DataFrame(np.array([np.round(100*all_256_val, 2),
-                           np.round(100*all_256_test, 2),
-                           np.round(100*flip_256_val, 2),
-                           np.round(100*flip_256_test, 2),
-                           np.round(100*all_128_val, 2),
-                           np.round(100*all_128_test, 2),
-                           np.round(100*flip_128_val, 2),
-                           np.round(100*flip_128_test, 2)])).to_csv(join(result_save_dir, 'accs2.csv'))
-                                                                    
-
+    accs = np.round(100*np.array([#all_256_val,
+                                  #all_256_test,
+                                  #flip_256_val,
+                                  #flip_256_test,
+                                  all_128_val,
+                                  all_128_test
+                                  #flip_128_val,
+                                  #flip_128_test
+                                  ]), 2)
+    
+    print(accs)
+    
+    pd.DataFrame(accs).to_csv(join(result_save_dir, 'accs3.csv'))
+"""
 train_all_v3_models(train_dir, 
                     valid_dir, 
                     test_dir, 
                     'D:/MPhys project/Liquid-Crystals-DL/models/4 Phases/multi train results')
+"""

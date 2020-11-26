@@ -4,48 +4,49 @@ import matplotlib.pyplot as plt
 num_layers = np.array([1, 2, 3, 4, 5, 6])
 
 #validation accuracies
-val_acc_flip = np.array([86.40, 85.59, 94.33, 88.72, 92.65, 97.86])
-val_acc_all = np.array([85.53, 82.46, 85.47, 89.75, 89.75, 93.86])
-val_acc_flip_128 = np.array([94.10, 95.37, 95.14, 87.09, 97.28, 96.06])
+val_all_256 = np.array([86.25, 85.45, 87.48, 88.04, 93.01, 94.23])
+val_all_256_err = np.array([1.54, 2.49, 2.03, 1.76, 3.88, 2.35])
 
-plt.title('Peak validation accuracy of trained model vs number of convolutional layers')
+val_flip_256 = np.array([86.67, 83.43, 92.81, 87.40, 93.61, 92.05])
+val_flip_256_err = np.array([1.68, 2.23, 1.45, 1.08, 1.10, 5.76])
+
+val_all_128 = np.array([86.92, 86.44, 87.08, 91.14, 93.29, 92.86])
+val_all_128_err = np.array([4.14, 2.20, 2.32, 1.71, 2.09, 1.71])
+
+val_flip_128 = np.array([89.93, 91.13, 92.80, 90.84, 95.41, 94.81])
+val_flip_128_err = np.array([3.19, 3.97, 4.26, 3.07, 2.14, 1.42])
+
+plt.title('Validation set accuracy of trained model vs number of convolutional layers')
 plt.xlabel('Number of layers')
 plt.ylabel('Percentage correct predictions')
-plt.plot(num_layers, val_acc_flip, marker='o', color='blue')
-plt.plot(num_layers, val_acc_all, marker='x', color='red')
-plt.plot(num_layers, val_acc_flip_128, marker='+', color='green')
-plt.legend(['flip augmentations only', 'all augmentations', 'flip only, 128 input size'], bbox_to_anchor=(0.3, -0.1))
+plt.errorbar(num_layers, val_all_256, yerr=val_all_256_err, marker='o', color='red')
+plt.errorbar(num_layers, val_flip_256, yerr=val_flip_256_err, marker='s', color='blue')
+plt.errorbar(num_layers, val_all_128, yerr=val_all_128_err,  marker='^', color='green')
+plt.errorbar(num_layers, val_flip_128, yerr=val_flip_128_err,  marker='*', color='black')
+plt.legend(['all 256', 'flip 256', 'all_128', 'flip 128'], bbox_to_anchor=(0.3, -0.1))
 plt.show()
 plt.close()
 
 #test accuracies
-test_acc_flip = np.array([86.71, 85.91, 87.86, 92.10, 90.15, 94.50])
-test_acc_all = np.array([90.15, 95.55, 79.27, 87.06, 82.13, 86.37])
-test_acc_flip_128 = np.array([84.19, 86.03, 90.26, 85.45, 86.25, 80.76])
+test_all_256 = np.array([90.74, 90.26, 78.70, 85.00, 82.12, 88.28])
+test_all_256_err = np.array([0.81, 7.15, 0.45, 1.92, 0.29, 2.42])
 
-plt.title('Peak test accuracy of trained model vs number of convolutional layers')
+test_flip_256 = np.array([91.09, 91.48, 85.65, 86.64, 90.89, 89.49])
+test_flip_256_err = np.array([5.43, 4.21, 3.65, 5.36, 4.57, 5.01])
+
+test_all_128 = np.array([87.46, 87.73, 85.11, 82.41, 78.20, 80.13])
+test_all_128_err = np.array([3.42, 5.62, 7.35, 2.20, 1.68, 7.35])
+
+test_flip_128 = np.array([90.68, 90.10, 90.66, 84.69, 88.74, 83.33])
+test_flip_128_err = np.array([5.53, 3.69, 6.02, 1.80, 2.88, 2.62])
+
+plt.title('Test set accuracy of trained model vs number of convolutional layers')
 plt.xlabel('Number of layers')
 plt.ylabel('Percentage correct predictions')
-plt.plot(num_layers, test_acc_flip, marker='o', color='blue')
-plt.plot(num_layers, test_acc_all, marker='x', color='red')
-plt.plot(num_layers, test_acc_flip_128, marker='+', color='green')
-plt.legend(['flip augmentations only', 'all augmentations', 'flip only, 128 input size'], bbox_to_anchor=(0.3, -0.1))
+plt.errorbar(num_layers, test_all_256, yerr=test_all_256_err, marker='o', color='red')
+plt.errorbar(num_layers, test_flip_256, yerr=test_flip_256_err, marker='s', color='blue')
+plt.errorbar(num_layers, test_all_128, yerr=test_all_128_err,  marker='^', color='green')
+plt.errorbar(num_layers, test_flip_128, yerr=test_flip_128_err,  marker='*', color='black')
+plt.legend(['all 256', 'flip 256', 'all_128', 'flip 128'], bbox_to_anchor=(0.3, -0.1))
 plt.show()
 plt.close()
-
-#training times
-training_time_flip = np.array([3040, 2180, 3040, 2289, 3108, 3990])
-training_time_all = np.array([6210, 5520, 5750, 5474, 6486, 5290])
-training_time_flip_128 = np.array([2736, 2470, 3439, 2261, 3249, 2926])
-
-plt.title('Model training time vs number of convolutional layers')
-plt.xlabel('Number of layers')
-plt.ylabel('Training time (s)')
-plt.plot(num_layers, training_time_flip, marker='o', color='blue')
-plt.plot(num_layers, training_time_all, marker='x', color='red')
-plt.plot(num_layers, training_time_flip_128, marker='+', color='green')
-plt.legend(['flip augmentations only', 'all augmentations', 'flip only, 128 input size'], bbox_to_anchor=(0.3, -0.1))
-plt.show()
-plt.close()
-
-#19s
