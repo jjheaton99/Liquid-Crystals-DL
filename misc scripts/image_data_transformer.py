@@ -81,6 +81,6 @@ def transform_directory(input_path, output_path, nested_dirs=False, size=256, bl
 
 if __name__ == '__main__':
 
-    transform_directory('D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/sorted images', 
-                        'D:/MPhys project/Liquid-Crystals-DL/data/Images/Transformed images/set2',
+    transform_directory('D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic sorted/valid', 
+                        'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid',
                         nested_dirs=True)
