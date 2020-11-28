@@ -2,7 +2,7 @@ import numpy as np
 import os
 
 import sys
-sys.path.insert(1, 'D:/MPhys project/Liquid-Crystals-DL/misc scripts')
+sys.path.insert(1, 'C:/MPhys project/Liquid-Crystals-DL/misc scripts')
 
 from image_data_transformer import transform_image
 from confusion_matrix_plotter import display_confusion_matrix
@@ -96,8 +96,8 @@ def con_mat_smectic(test_dir, model_name, sequential=True, image_size=256, evalu
                              class_names, 
                              title='Smectic classifier')
     
-con_mat_smectic('D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
-                'smectic/flip_256_inception_2',
+con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
+                'smectic/flip_256_inception_3',
                 sequential=False)
 
 """

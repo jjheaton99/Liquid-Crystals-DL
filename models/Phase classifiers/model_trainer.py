@@ -22,13 +22,13 @@ import v2_4_phases
 import v3_4_phases
 import smectic_models
 
-train_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
-valid_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
-test_dir = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
+train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
+valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
+test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
 
-train_dir_smectic = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/train'
-valid_dir_smectic = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid'
-test_dir_smectic = 'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test'
+train_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/train'
+valid_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid'
+test_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test'
 
 def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_dir, batch_size=32, 
                       image_shape=(256, 256), flip_augs_only=True):
