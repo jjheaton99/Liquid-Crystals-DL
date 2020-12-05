@@ -84,7 +84,7 @@ def con_mat_4_phases(test_dir, model_name, sequential=True, image_size=256, eval
                              class_names, 
                              title='1 convolutional layer, all augmentations')
     
-def con_mat_smectic(test_dir, model_name, sequential=True, image_size=256, evaluate=True):
+def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256, evaluate=True):
     y_true, y_pred = get_labels_and_preds(test_dir, model_name, sequential, image_size, evaluate)
     
     class_names = ['fluid smectic',
@@ -94,12 +94,18 @@ def con_mat_smectic(test_dir, model_name, sequential=True, image_size=256, evalu
     display_confusion_matrix(y_true, 
                              y_pred, 
                              class_names, 
-                             title='Smectic classifier')
+                             title=title)
     
 con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
                 'smectic/flip_256_inception_3',
+                title='3 inception blocks',
                 sequential=False)
-
+"""
+con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
+                'smectic/flip_256_4',
+                title='4 convolutional layers',
+                sequential=True)
+"""
 """
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):

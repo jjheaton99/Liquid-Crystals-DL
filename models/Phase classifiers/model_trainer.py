@@ -121,7 +121,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
                     verbose=2)[1]
     
     return val_acc, test_acc
-
+    
 def evaluate_model(model, valid_gen, test_gen):
     val = model.evaluate(valid_gen,
                           steps=valid_gen.n//valid_gen.batch_size,
@@ -294,65 +294,31 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     print(accs)
     
     pd.DataFrame(accs).to_csv(join(result_save_dir, 'accs3.csv'))
-"""
-train_all_v3_models(train_dir, 
-                    valid_dir, 
-                    test_dir, 
-                    'D:/MPhys project/Liquid-Crystals-DL/models/4 Phases/multi train results')
-"""
-"""
-val_accs = np.empty(6)
-test_accs = np.empty(6)
 
-val_accs[0], test_accs[0] = train_model(smectic_models.flip_256_1, 
-                                        'flip_256_1',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-val_accs[1], test_accs[1] = train_model(smectic_models.flip_256_2, 
-                                        'flip_256_2',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-val_accs[2], test_accs[2] = train_model(smectic_models.flip_256_3, 
-                                        'flip_256_3',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-val_accs[3], test_accs[3] = train_model(smectic_models.flip_256_4, 
-                                        'flip_256_4',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-val_accs[4], test_accs[4] = train_model(smectic_models.flip_256_5, 
-                                        'flip_256_5',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-val_accs[5], test_accs[5] = train_model(smectic_models.flip_256_6, 
-                                        'flip_256_6',
-                                        train_gen,
-                                        valid_gen,
-                                        test_gen)
-
-accs = np.round(100*np.array([val_accs,
-                              test_accs]), 2)
-
-print(accs)
-
-pd.DataFrame(accs).to_csv('D:/MPhys project/Liquid-Crystals-DL/models/Phase classifiers/multi train results/smectic/accs1.csv')
-"""
 train_gen, valid_gen, test_gen = create_generators(train_dir_smectic,
                                                    valid_dir_smectic,
                                                    test_dir_smectic)
 
-train_model(smectic_models.flip_256_inception_3,
-            'flip_256_inception_3',
+model_1 = load_model('checkpoints/smectic/flip_256_inception_1')
+print(evaluate_model(model_1,
+                     valid_gen,
+                     test_gen))
+
+model_2 = load_model('checkpoints/smectic/flip_256_inception_2')
+print(evaluate_model(model_2,
+                     valid_gen,
+                     test_gen))
+
+model_3 = load_model('checkpoints/smectic/flip_256_inception_3')
+print(evaluate_model(model_3,
+                     valid_gen,
+                     test_gen))
+
+"""
+train_model(smectic_models.flip_256_inception_1,
+            'flip_256_inception_1',
             train_gen,
             valid_gen,
-            test_gen)
+            test_gen,
+            save_diagram=True)
+"""
