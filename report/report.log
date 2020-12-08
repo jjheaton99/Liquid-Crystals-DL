@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  5 DEC 2020 19:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  7 DEC 2020 21:37
 entering extended mode
 **./report.tex
 (report.tex
@@ -550,32 +550,35 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Try loading font information for U+msb on input line 9.
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
-
-{C:/Users/jj_he/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-[3] (report.bbl
+) (report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [4] (report.aux) ) 
+) [1
+
+{C:/Users/jj_he/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \vbox (273.58347pt too high) has occurred while \output is active []
+
+
+[2] (report.aux) ) 
 Here is how much of TeX's memory you used:
  14856 strings out of 492895
  299445 string characters out of 3123736
- 308543 words of memory out of 3000000
+ 310543 words of memory out of 3000000
  18694 multiletter control sequences out of 15000+200000
  540513 words of font info for 55 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,4n,63p,275b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users
-/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.p
-fb>
-Output written on report.pdf (4 pages, 67162 bytes).
+<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/j
+j_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb
+>
+Output written on report.pdf (2 pages, 65502 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
+ 29 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

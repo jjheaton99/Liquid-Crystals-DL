@@ -81,6 +81,14 @@ def transform_directory(input_path, output_path, nested_dirs=False, size=256, bl
 
 if __name__ == '__main__':
 
-    transform_directory('D:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic sorted/valid', 
-                        'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid',
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic A C sets/train', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/train',
+                        nested_dirs=True)
+
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic A C sets/valid', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/valid',
+                        nested_dirs=True)
+    
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/smectic A C sets/test', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test',
                         nested_dirs=True)

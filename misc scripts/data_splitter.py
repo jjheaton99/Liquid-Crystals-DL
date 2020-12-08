@@ -61,5 +61,5 @@ def create_and_save_sets(input_path, output_path, val_fraction=0.2, test_fractio
             count += 1
 
 if __name__ == '__main__':
-    create_and_save_sets('D:/MPhys project/Liquid-Crystals-DL/data/Images/Black and white', 
-                         'D:/MPhys project/Liquid-Crystals-DL/data/Prepared data')
+    create_and_save_sets('C:/MPhys project/Liquid-Crystals-DL/data/Images/Black and white', 
+                         'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data')

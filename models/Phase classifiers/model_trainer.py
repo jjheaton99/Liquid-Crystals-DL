@@ -3,7 +3,7 @@ from os.path import join
 os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 
 import sys
-sys.path.insert(1, 'D:/MPhys project/Liquid-Crystals-DL/misc scripts')
+sys.path.insert(1, 'C:/MPhys project/Liquid-Crystals-DL/misc scripts')
 
 import numpy as np
 import pandas as pd
@@ -21,6 +21,7 @@ import v1_4_phases
 import v2_4_phases
 import v3_4_phases
 import smectic_models
+import smecticAC_models
 
 train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
 valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
@@ -30,8 +31,12 @@ train_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smec
 valid_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid'
 test_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test'
 
+train_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/train'
+valid_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/valid'
+test_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test'
+
 def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_dir, batch_size=32, 
-                      image_shape=(256, 256), flip_augs_only=True):
+                      image_shape=(256, 256), flip_augs_only=True, binary=False):
     train_datagen = ImageDataGenerator()
     
     if flip_augs_only:
@@ -54,11 +59,16 @@ def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_di
     
     test_datagen = ImageDataGenerator(rescale=1.0/255)
     
+    if binary:
+        class_mode = 'binary'
+    else:
+        class_mode = 'categorical'
+    
     train_gen = train_datagen.flow_from_directory(
         directory=train_dir,
         target_size=image_shape,
         color_mode='grayscale',
-        class_mode='categorical',
+        class_mode=class_mode,
         batch_size=batch_size,
         shuffle=True)
     
@@ -66,7 +76,7 @@ def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_di
         directory=valid_dir,
         target_size=image_shape,
         color_mode='grayscale',
-        class_mode='categorical',
+        class_mode=class_mode,
         batch_size=batch_size,
         shuffle=True)
     
@@ -74,16 +84,17 @@ def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_di
         directory=test_dir,
         target_size=image_shape,
         color_mode='grayscale',
-        class_mode='categorical',
+        class_mode=class_mode,
         batch_size=batch_size,
         shuffle=True)
     
     return train_gen, valid_gen, test_gen
 
-def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=False):
+def train_model(model, model_name, train_gen, valid_gen, test_gen, 
+                save_dir='checkpoints', binary=False, save_diagram=False):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=100)
-    model_save = ModelCheckpoint('checkpoints/'+model_name, save_best_only=True)
+    model_save = ModelCheckpoint(join(save_dir, model_name), save_best_only=True)
     learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                                factor=0.5,
                                                patience=20,
@@ -95,9 +106,14 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
     if save_diagram:
         plot_model(model, to_file='plots/architecture diagrams/'+model_name+'.png', show_shapes=True)
     
+    if binary:
+        loss=tf.keras.losses.BinaryCrossentropy(from_logits=True)
+    else:
+        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True)
+    
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
-        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
+        loss=loss,
         metrics='accuracy')
 
     plot_loss_acc_history(model.fit(
@@ -109,7 +125,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_diagram=
                               validation_data=valid_gen,
                               validation_steps=valid_gen.n//valid_gen.batch_size))
     
-    best_model = load_model('checkpoints/'+model_name)
+    best_model = load_model(join(save_dir, model_name))
     val_acc = best_model.evaluate(
                     valid_gen,
                     steps=valid_gen.n//valid_gen.batch_size,
@@ -295,30 +311,25 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     
     pd.DataFrame(accs).to_csv(join(result_save_dir, 'accs3.csv'))
 
-train_gen, valid_gen, test_gen = create_generators(train_dir_smectic,
-                                                   valid_dir_smectic,
-                                                   test_dir_smectic)
+train_gen, valid_gen, test_gen = create_generators(train_dir_smecticAC,
+                                                   valid_dir_smecticAC,
+                                                   test_dir_smecticAC,
+                                                   binary=True)
 
-model_1 = load_model('checkpoints/smectic/flip_256_inception_1')
-print(evaluate_model(model_1,
-                     valid_gen,
-                     test_gen))
-
-model_2 = load_model('checkpoints/smectic/flip_256_inception_2')
-print(evaluate_model(model_2,
-                     valid_gen,
-                     test_gen))
-
-model_3 = load_model('checkpoints/smectic/flip_256_inception_3')
-print(evaluate_model(model_3,
-                     valid_gen,
-                     test_gen))
-
-"""
-train_model(smectic_models.flip_256_inception_1,
-            'flip_256_inception_1',
+train_model(smecticAC_models.flip_256_inception_2,
+            'flip_256_inception_2',
             train_gen,
             valid_gen,
             test_gen,
-            save_diagram=True)
-"""
+            save_dir='checkpoints/smecticAC',
+            binary=True,
+            save_diagram=False)
+
+train_model(smecticAC_models.flip_256_inception_3,
+            'flip_256_inception_3',
+            train_gen,
+            valid_gen,
+            test_gen,
+            save_dir='checkpoints/smecticAC',
+            binary=True,
+            save_diagram=False)
