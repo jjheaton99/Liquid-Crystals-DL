@@ -1,6 +1,6 @@
 /data
-/models/4 Phases/checkpoints
-/models/4 Phases/multi train results
+/models/Phase classifiers/checkpoints
+/models/Phase classifiers/multi train results
 /models/WGAN-GP/cholesteric
 /models/WGAN-GP/nematic
 /models/WGAN-GP/smectic

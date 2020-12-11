@@ -9,6 +9,150 @@ import inception
 
 INPUT_SHAPE_256 = (256, 256, 1)
 
+flip_256_1 = Sequential([
+    Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
+flip_256_2 = Sequential([
+    Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(32, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),   
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
+flip_256_3 = Sequential([
+    Conv2D(8, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(16, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),   
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(32, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
+flip_256_4 = Sequential([
+    Conv2D(4, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(8, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),   
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(16, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(32, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),       
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
+flip_256_5 = Sequential([
+    Conv2D(2, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(4, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),   
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(8, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(16, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),       
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(32, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
+flip_256_6 = Sequential([
+    Conv2D(1, (3, 3), activation='relu', padding='same', input_shape=INPUT_SHAPE_256),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(2, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),   
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(4, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(8, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),       
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(16, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    MaxPooling2D(pool_size=(2,2), padding='same'),
+    
+    Conv2D(32, (3, 3), activation='relu', padding='same'),
+    BatchNormalization(),
+    GlobalAveragePooling2D(),
+    
+    Dense(32, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(16, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.5),
+    Dense(1)
+    ])
+
 img_input = keras.Input(shape=INPUT_SHAPE_256)
 
 #1 inception block
