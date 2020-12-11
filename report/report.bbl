@@ -1,3 +1,13 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{Sigaki20}
+H.~Y.~D. Sigaki {\em et~al.}, ``Learning physical properties of liquid crystals
+  with deep convolutional neural networks,'' {\em Scientific Reports}, vol.~10,
+  p.~7664, 2020.
+
+\bibitem{Minor20}
+E.~N. Minor {\em et~al.}, ``End-to-end machine learning for experimental
+  physics: using simulated data to train a neural network for object detection
+  in video microscopy,'' {\em Soft Matter}, vol.~16, p.~1751, 2020.
 
 \end{thebibliography}

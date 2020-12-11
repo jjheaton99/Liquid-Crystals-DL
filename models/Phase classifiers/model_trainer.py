@@ -316,15 +316,10 @@ train_gen, valid_gen, test_gen = create_generators(train_dir_smecticAC,
                                                    test_dir_smecticAC,
                                                    binary=True)
 
-train_model(smecticAC_models.flip_256_inception_2,
-            'flip_256_inception_2',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
+model=load_model('checkpoints/smecticAC/flip_256_inception_3')
+evaluate_model(model, valid_gen, test_gen)
 
+"""
 train_model(smecticAC_models.flip_256_inception_3,
             'flip_256_inception_3',
             train_gen,
@@ -333,3 +328,4 @@ train_model(smecticAC_models.flip_256_inception_3,
             save_dir='checkpoints/smecticAC',
             binary=True,
             save_diagram=False)
+"""
