@@ -1,10 +1,46 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 num_layers = np.array([1, 2, 3, 4, 5, 6])
 num_blocks = np.array([1, 2, 3])
 
+inc_val_accs = pd.read_csv('multi train results/smecticAC/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/smecticAC/inc_test_accs.csv').to_numpy()
+seq_val_accs = pd.read_csv('multi train results/smecticAC/seq_val_accs.csv').to_numpy()
+seq_test_accs = pd.read_csv('multi train results/smecticAC/seq_test_accs.csv').to_numpy()
 
+inc_val_mean = inc_val_accs[3][1:]
+inc_val_err = inc_val_accs[4][1:]
+
+inc_test_mean = inc_test_accs[3][1:]
+inc_test_err = inc_test_accs[4][1:]
+
+seq_val_mean = seq_val_accs[3][1:]
+seq_val_err = seq_val_accs[4][1:]
+
+seq_test_mean = seq_test_accs[3][1:]
+seq_test_err = seq_test_accs[4][1:]
+
+plt.title('Mean validation and test set accuracies vs number of inception blocks')
+plt.xlabel('Number of blocks')
+plt.ylabel('Percentage correct predictions')
+plt.ylim(85, 100)
+plt.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', color='red')
+plt.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', color='blue')
+plt.legend(['validation', 'test'], loc='lower right')
+plt.show()
+plt.close()
+
+plt.title('Mean validation and test set accuracies vs number of convolutional layers')
+plt.xlabel('Number of layers')
+plt.ylabel('Percentage correct predictions')
+plt.ylim(85, 100)
+plt.errorbar(num_layers, seq_val_mean, yerr=seq_val_err, marker='o', color='red')
+plt.errorbar(num_layers, seq_test_mean, yerr=seq_test_err, marker='s', color='blue')
+plt.legend(['validation', 'test'], loc='lower right')
+plt.show()
+plt.close()
 
 """
 #validation accuracies

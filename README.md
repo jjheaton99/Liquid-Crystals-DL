@@ -1,2 +1,2 @@
 # Liquid-Crystals-DL
-Using deep learning to classify liquid crystal textures.
+MPhys final year project, using convoluational neural networks to classify liquid crystal textures. Please see mphys_lab_book for project record and details.
