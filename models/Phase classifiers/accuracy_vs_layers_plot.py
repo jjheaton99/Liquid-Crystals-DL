@@ -2,7 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 num_layers = np.array([1, 2, 3, 4, 5, 6])
+num_blocks = np.array([1, 2, 3])
 
+
+
+"""
 #validation accuracies
 val_all_256 = np.array([86.25, 85.45, 87.48, 88.04, 93.01, 94.23])
 val_all_256_err = np.array([1.54, 2.49, 2.03, 1.76, 3.88, 2.35])
@@ -54,3 +58,4 @@ plt.errorbar(num_layers, test_flip_128, yerr=test_flip_128_err,  marker='*', col
 plt.legend(['all 256', 'flip 256', 'all 128', 'flip 128'], loc='lower left')
 plt.show()
 plt.close()
+"""
