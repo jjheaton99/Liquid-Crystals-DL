@@ -1,5 +1,26 @@
 \begin{thebibliography}{1}
 
+\bibitem{Carleo19}
+G.~Carleo {\em et~al.}, ``Machine learning and the physical sciences,'' {\em
+  Rev. Mod. Phys}, vol.~91, p.~045002, 2019.
+
+\bibitem{Goodfellow16}
+I.~Goodfellow, Y.~Bengio, and A.~Courville, {\em Deep Learning}.
+\newblock MIT Press, 2016.
+
+\bibitem{LeCun89}
+Y.~LeCun {\em et~al.}, ``Backpropagation applied to handwritten zip code
+  recognition,'' {\em Neural Computation}, vol.~1, no.~4, pp.~541--551, 1989.
+
+\bibitem{ILSVRC15}
+O.~Russakovsky {\em et~al.}, ``Imagenet large scale visual recognition
+  challenge,'' {\em International Journal of Computer Vision (IJCV)}, vol.~115,
+  no.~3, pp.~211--252, 2015.
+
+\bibitem{Dierking03}
+I.~Dierking, {\em Textures of Liquid Crystals}.
+\newblock WILEY-VCH, 2003.
+
 \bibitem{Sigaki20}
 H.~Y.~D. Sigaki {\em et~al.}, ``Learning physical properties of liquid crystals
   with deep convolutional neural networks,'' {\em Scientific Reports}, vol.~10,

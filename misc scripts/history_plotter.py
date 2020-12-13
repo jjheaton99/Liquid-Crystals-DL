@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 
 #takes training history and plots figure 
 #displaying training and validation losses and accuracies
-def plot_loss_acc_history(history):
+def plot_loss_acc_history(history, title='Training losses and accuracies'):
     fig, axis = plt.subplots(2)
-    fig.suptitle('Sequential model training losses and accuracies')
+    fig.suptitle(title)
     
     axis[0].plot(history.history['loss'], label='loss')
     axis[0].plot(history.history['val_loss'], label='val_loss')

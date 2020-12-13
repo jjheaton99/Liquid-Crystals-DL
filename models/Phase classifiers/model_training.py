@@ -23,19 +23,7 @@ import v3_4_phases
 import smectic_models
 import smecticAC_models
 
-train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
-valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
-test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
-
-train_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/train'
-valid_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid'
-test_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test'
-
-train_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/train'
-valid_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/valid'
-test_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test'
-
-def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_dir, batch_size=32, 
+def create_generators(train_dir, valid_dir, test_dir, batch_size=32, 
                       image_shape=(256, 256), flip_augs_only=True, binary=False):
     train_datagen = ImageDataGenerator()
     
@@ -92,7 +80,7 @@ def create_generators(train_dir=train_dir, valid_dir=valid_dir, test_dir=test_di
 
 def train_model(model, model_name, train_gen, valid_gen, test_gen, 
                 save_dir='checkpoints', binary=False, save_diagram=False,
-                save_history=True):
+                save_history=True, plot_title='Training history'):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=100)
     model_save = ModelCheckpoint(join(save_dir, model_name), save_best_only=True)
@@ -126,7 +114,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
                     validation_data=valid_gen,
                     validation_steps=valid_gen.n//valid_gen.batch_size)
     
-    plot_loss_acc_history(history)
+    plot_loss_acc_history(history, plot_title)
 
     if save_history:
         pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name+'.csv'))
@@ -316,89 +304,3 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     print(accs)
     
     pd.DataFrame(accs).to_csv(join(result_save_dir, 'accs3.csv'))
-
-train_gen, valid_gen, test_gen = create_generators(train_dir_smecticAC,
-                                                   valid_dir_smecticAC,
-                                                   test_dir_smecticAC,
-                                                   binary=True)
-
-train_model(smecticAC_models.flip_256_inception_1,
-            'flip_256_inception_1_3',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_inception_2,
-            'flip_256_inception_2_3',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_inception_3,
-            'flip_256_inception_3_3',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_1,
-            'flip_256_1_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_2,
-            'flip_256_2_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_3,
-            'flip_256_3_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_4,
-            'flip_256_4_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_5,
-            'flip_256_5_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
-
-train_model(smecticAC_models.flip_256_6,
-            'flip_256_6_1',
-            train_gen,
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/smecticAC',
-            binary=True,
-            save_diagram=False)
