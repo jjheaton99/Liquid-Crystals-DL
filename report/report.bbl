@@ -35,4 +35,8 @@ E.~N. Minor {\em et~al.}, ``End-to-end machine learning for experimental
 D.~Demus {\em et~al.}, {\em Physical Properties of Liquid Crystals}.
 \newblock WILEY-VCH, 1999.
 
+\bibitem{Murphy12}
+K.~Murphy, {\em Machine Learning: A Probabilistic Perspective}.
+\newblock MIT Press, 2012.
+
 \end{thebibliography}
