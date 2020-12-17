@@ -10,6 +10,7 @@
 \usepackage{siunitx}
 \usepackage{authblk}
 \usepackage{url}
+\usepackage{appendix}
 
 \bibliographystyle{ieeetr}
 
@@ -56,7 +57,7 @@ A machine learning model is a computer algorithm which automatically improves it
 
 A supervised model can be usually be expressed as a function of inputs and a set of parameters $\boldsymbol\theta$ such that $\hat{y}=f(\bm{x};\boldsymbol\theta)$. Training involves optimisation of the parameters by minimisation of a cost function $J(\boldsymbol\theta)$, which measures the deviation of the predictions of the model from the true labels. The most common optimisation algorithms involve computing the gradient of $J(\boldsymbol\theta)$ with respect to $\boldsymbol\theta$ \cite{Goodfellow16}. 
 
-The capacity of a model is akin to its complexity. The number of trainable parameters can give a fast indication of capacity. However, it also depends on the model's functional form. The parameters controlling the capacity of the model, as well as certain other training settings, are known as hyperparameters. If the capacity is too small, the model will tend to "underfit" the training set, resulting in poor performance even when optimised well. On the other hand, too high a capacity will result in "overfitting", with high performance on the training set, but the model may not generalise well to new unseen data. Methods for reducing overfitting are known as regularisation. Before training begins, the entire dataset is often split into training, validation, and test sets, containing $N_{\mathrm{train}}$, $N_{\mathrm{valid}}$ and $N_{\mathrm{test}}$ examples respectively. The training set, as defined previously, is used to optimise the parameters. The model's performance is then evaluated on the validation set. A poor performance on both the training and validation sets is indicative of underfitting, whereas a high performance on the training set and low on the validation set suggests overfitting. The validation set can therefore be used to tune the hyperparameters of the model before retraining. This can be repeated until the model fits optimally. The final model is then evaluated on the as-of-yet unseen test set to determine its overall efficacy \cite{Goodfellow16}.
+The capacity of a model is akin to its complexity. The number of trainable parameters can give a fast indication of capacity. However, it also depends on the model's functional form. The parameters controlling the capacity of the model, as well as certain other training settings, are known as hyperparameters. If the capacity is too small, the model will tend to "underfit" the training set, resulting in poor performance even when optimised well. On the other hand, too high a capacity will result in "overfitting", with high performance on the training set, but the model may have a high generalisation error, which is the model's error rate when evaluating it on new, unseen data. Before training begins, the entire dataset is often split into training, validation, and test sets, containing $N_{\mathrm{train}}$, $N_{\mathrm{valid}}$ and $N_{\mathrm{test}}$ examples respectively. The training set, as defined previously, is used to optimise the parameters. The model's performance is then evaluated on the validation set. A poor performance on both the training and validation sets is indicative of underfitting, whereas a high performance on the training set and low on the validation set suggests overfitting. The validation set can therefore be used to tune the hyperparameters of the model before retraining. This can be repeated until the model fits optimally. The final model is then evaluated on the as-of-yet unseen test set to provide an estimate of its generalisation error. Methods used to reduce generalisation error, such as reducing model capacity, are known as regularisation. \cite{Goodfellow16}.
 %=========================================================================================
 \section{Feedforward neural networks}
 A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works. The inputs are "fed forward" through a series of connected "hidden units" that represent individual neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model. A schematic of an example network is presented in Figure 2. 
@@ -103,16 +104,13 @@ A(h)=\mathrm{max}(0,h).
 In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}.
 
 \section{Neural network training}
-%cost function
-%back prop for gradients
-%optimisation algorithms
-Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution. A single update step is generally carried out by calculating the model output, followed by the derivative of the cost function with respect to the model weight parameters, for each example in the training set. An optimisation algorithm then uses the gradients to update the parameters. Second order optimisation algorithms also utilise the second derivative of the cost function. Generally, the cost function is the expectation value of the loss of all examples in the training set,
+Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters. This algorithm is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model. Generally, the cost function is the expectation value of the loss of all examples in the training set,
 \begin{equation}
-J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(\bm{f}(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
+J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
 \end{equation}
 where the loss is the cross-entropy between the model's output probabilities and the input's true class label,
 \begin{equation}
-L(\bm{f}(\bm{x};\boldsymbol\theta),\bm{y})=L(\hat{\bm{y}},\bm{y})=-\sum_{u=1}^Cy_u\mathrm{log}(\hat{y}_u).
+L(f(\bm{x};\boldsymbol\theta),\bm{y})=L(\hat{\bm{y}},\bm{y})=-\sum_{u=1}^Cy_u\mathrm{log}(\hat{y}_u).
 \end{equation}
 When training a classifier model, the softmax activation function of the final layer can be included in the loss function, to give the categorical cross-entropy,
 \begin{equation}
@@ -129,9 +127,28 @@ L_{BCE}(\hat{y},y)=
 \right..
 \end{equation}
 
+Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a small batch of training data with $m$ examples, giving
+\begin{equation}
+\hat{\bm{g}}=\frac{1}{m}\bm\nabla_{\bm\theta}\sum_{i=1}^mL(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)}).
+\end{equation}
+Methods that use this random batch sampling are known as stochastic methods. Typically parameter update steps are performed batch by batch, with no duplicate example selections, until the whole training set has been seen by the model. After this all examples are again available for selection. Such a cycle is known as an epoch of training, with $\mathrm{floor}(N_{\mathrm{train}}/m)$ update steps. 
+
+Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm in which the parameters are updated in the opposite direction of $\hat{\bm{g}}$,
+\begin{equation}
+\bm\theta\leftarrow\bm\theta-\epsilon\hat{\bm{g}}
+\end{equation}
+where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters. 
 
 \section{Neural network regularisation}
-a
+%Augmentation
+%Early stopping
+%Dropout
+Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, and dropout.
+
+Augmentation involves altering training examples in specific stochastic ways, in order to increase the effective size of the dataset, which reduces the chance of overfitting. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, the transformations must produces images that could still feasibly be a member of the original dataset.
+
+With early stopping, a model performance measure, typically the cost function evaluated on a random batch from the validation set, is monitored during training. If after 
+
 %=========================================================================================
 \section{Convolutional neural networks}
 a
@@ -175,5 +192,14 @@ a
 %=========================================================================================
 
 \bibliography{report}
+
+\appendix
+\appendixpage
+\section{Backpropagation}
+\section{Adam optimiser}
+Before the first iteration, the biased first and second moment estimate variables $\bm{s}$ and $\bm{r}$ are initialised to zero. At the start of an iteration, a batch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation 13. $\bm{s}$ is updated as
+\begin{equation}
+\bm{s}
+\end{equation}        
 
 \end{document}
