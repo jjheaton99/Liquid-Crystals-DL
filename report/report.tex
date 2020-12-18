@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={6.6in, 9in}]{geometry}
 
 %\setlength{\parskip}{3pt}
 
@@ -101,7 +101,7 @@ where in this situation $\boldsymbol\theta_D$ is a $W_{D-1}$ dimensional vector.
 \begin{equation}
 A(h)=\mathrm{max}(0,h).
 \end{equation}
-In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}.
+In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}. Another advantage of neural networks is that they can automatically learn to extract useful higher-level features from the raw input data.
 
 \section{Neural network training}
 Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters. This algorithm is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model. Generally, the cost function is the expectation value of the loss of all examples in the training set,
@@ -127,11 +127,11 @@ L_{BCE}(\hat{y},y)=
 \right..
 \end{equation}
 
-Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a small batch of training data with $m$ examples, giving
+Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a small batch of $m$ examples from the training data, giving
 \begin{equation}
 \hat{\bm{g}}=\frac{1}{m}\bm\nabla_{\bm\theta}\sum_{i=1}^mL(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)}).
 \end{equation}
-Methods that use this random batch sampling are known as stochastic methods. Typically parameter update steps are performed batch by batch, with no duplicate example selections, until the whole training set has been seen by the model. After this all examples are again available for selection. Such a cycle is known as an epoch of training, with $\mathrm{floor}(N_{\mathrm{train}}/m)$ update steps. 
+In general the performance loss from the difference between $\hat{\bm{g}}$ and the exact gradient $\bm{g}$ is outweighed by the greatly decreased training step computation time. Optimisation methods that use this random batch sampling are known as stochastic methods. Typically parameter update steps are performed batch by batch, with no duplicate example selections, until the whole training set has been seen by the model. After this all examples are again available for selection. Such a cycle is known as an epoch of training, with $\mathrm{floor}(N_{\mathrm{train}}/m)$ update steps.
 
 Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm in which the parameters are updated in the opposite direction of $\hat{\bm{g}}$,
 \begin{equation}
@@ -140,14 +140,13 @@ Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm 
 where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters. 
 
 \section{Neural network regularisation}
-%Augmentation
-%Early stopping
-%Dropout
 Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, and dropout.
 
 Augmentation involves altering training examples in specific stochastic ways, in order to increase the effective size of the dataset, which reduces the chance of overfitting. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, the transformations must produces images that could still feasibly be a member of the original dataset.
 
-With early stopping, a model performance measure, typically the cost function evaluated on a random batch from the validation set, is monitored during training. If after 
+If a model is trained for too many epochs, the performance on the training set may still be improving, but the generalisation error will start to increase due to overfitting. Early stopping aims to prevent this. A model performance measure, typically the cost function evaluated on a random batch from the validation set, is monitored during training. If after a specified number of epochs the performance has not improved by more than a tolerance value, the training will be stopped. The number of epochs allowed for improvement is called the patience hyperparameter.
+
+When using dropout, at each training step hidden units are randomly chosen to not be included in the step, by multiplying their output by zero. The probability for a unit with dropout to not be included is equal to the dropout rate hyperparameter, which is often set to $\frac{1}{2}$. When applied applied to certain individual layers or to all hidden units, dropout simulates the training of many sub-models that all share parameters, encouraging each hidden unit to learn more general and useful features. This improves regularisation by increasing the final model's robustness to noise \cite{Srivastava2014}.
 
 %=========================================================================================
 \section{Convolutional neural networks}

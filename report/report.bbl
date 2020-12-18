@@ -43,4 +43,9 @@ K.~Murphy, {\em Machine Learning: A Probabilistic Perspective}.
 K.~Hornik, M.~Stinchcombe, and H.~White, ``Multilayer feedforward networks are
   universal approximators,'' {\em Neural Networks}, vol.~2, pp.~359--366, 1989.
 
+\bibitem{Srivastava2014}
+N.~Srivastava {\em et~al.}, ``Dropout: a simple way to prevent neural networks
+  from overfitting,'' {\em J. Mach. Learn. Res.}, vol.~15, pp.~1929--1958,
+  2014.
+
 \end{thebibliography}
