@@ -103,7 +103,7 @@ A(h)=\mathrm{max}(0,h).
 \end{equation}
 In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}. Another advantage of neural networks is that they can automatically learn to extract useful higher-level features from the raw input data.
 
-\section{Neural network training}
+\subsection{Neural network training}
 Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters. This algorithm is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model. Generally, the cost function is the expectation value of the loss of all examples in the training set,
 \begin{equation}
 J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
@@ -139,10 +139,10 @@ Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm 
 \end{equation}
 where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters. 
 
-\section{Neural network regularisation}
+\subsection{Neural network regularisation}
 Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, and dropout.
 
-Augmentation involves altering training examples in specific stochastic ways, in order to increase the effective size of the dataset, which reduces the chance of overfitting. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, the transformations must produces images that could still feasibly be a member of the original dataset.
+Augmentation involves adding extra examples to the training set that are altered versions of the originals, increasing the effective overall number of training examples and reducing the chance of overfitting. The same effect can also be achieved by performing specific random transformations on each example as they are selected for each training batch. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, this must produces images that could still feasibly be a member of the original dataset.
 
 If a model is trained for too many epochs, the performance on the training set may still be improving, but the generalisation error will start to increase due to overfitting. Early stopping aims to prevent this. A model performance measure, typically the cost function evaluated on a random batch from the validation set, is monitored during training. If after a specified number of epochs the performance has not improved by more than a tolerance value, the training will be stopped. The number of epochs allowed for improvement is called the patience hyperparameter.
 
@@ -150,11 +150,23 @@ When using dropout, at each training step hidden units are randomly chosen to no
 
 %=========================================================================================
 \section{Convolutional neural networks}
-a
+CNNs are neural networks in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data.
 \subsection{Convolutional layers}
-a
+For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with a value corresponding to the brightness of the pixel at that location, whereas colour images have three channels, corresponding to the red, green and blue values for the pixel. The input is convolved with $N_K$ kernels, which are tensors $\bm{K}^{(d)}$ with width $W_K<W_I$, height $H_K<H_I$ and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$ and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(l)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. This overall operation is given by
+\begin{equation}
+h_{ijk}=\sum_{m=1}^{H_K}\sum_{n=1}^{W_K}I_{(i-m)(j-n)r}K_{mnr}^{(d)}
+\end{equation}
+with $r=k\,\mathrm{mod}\,D_I$ and $d=\lceil\frac{k}{D_I}\rceil$. Similarly to standard fully connected, or dense, hidden layers, an activation function is applied to every element of $\bm{h}$. 
+
+Using more than one kernel allows a convolutional layer to extract more features from its input, at the cost of increased computation time and memory usage. The trainable parameters are the elements of the kernels. The kernels can individually learn different features to extract from the input, with the size of the features being related to the height and width dimensions of the kernels. The usage of kernels in convolutional layers is a form of parameter sharing, which is when parameters are used for more than one operation in a model. Compared to a dense layer, many less parameters are needed, resulting in greatly reduced memory consumption, and often improved regularisation. 
+
+At the edges of the input, we have to consider the type of padding to use. Valid padding is when the kernel is kept completely within the bounds of the input, which results in the output having a smaller width and height than the input depending on the kernel size. The case we have discussed in which the width and height of the output are equal to the input corresponds to same padding, where each pixel is visited by the kernel the same number of times, resulting in it overlapping the boundary of the input at the furthest points. Any kernel parameters outside the input region are multiplied by zero.
+
+Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation 15 corresponds to a stride of 1 in both directions. Strides greater than one result in dimensionality reduction from input to output.
 \subsection{Pooling layers}
 a
+%=========================================================================================
+\section{Model training configurations}
 %=========================================================================================
 \section{4-phase classifier models}
 a
