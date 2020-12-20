@@ -89,4 +89,20 @@ N.~Srivastava {\em et~al.}, ``Dropout: a simple way to prevent neural networks
   from overfitting,'' {\em J. Mach. Learn. Res.}, vol.~15, pp.~1929--1958,
   2014.
 
+\bibitem{Shrestha19}
+A.~Shrestha and A.~Mahmood, ``Review of deep learning algorithms and
+  architectures,'' {\em IEEE Access}, vol.~7, pp.~53040--53065, 2019.
+
+\bibitem{Bengio93}
+Y.~Bengio, Y.~Le~Cun, and D.~Henderson, ``Globally trained handwritten word
+  recognizer using spatial representation, convolutional neural networks and
+  hidden markov models,'' in {\em Proceedings of the 6th International
+  Conference on Neural Information Processing Systems}, p.~937–944, Morgan
+  Kaufmann Publishers Inc., 1993.
+
+\bibitem{Aghdam17}
+H.~H. Aghdam and E.~J. Heravi, {\em Guide to Convolutional Neural Networks: A
+  Practical Application to Traffic-Sign Detection and Classification}.
+\newblock Springer Publishing Company, Incorporated, 1st~ed., 2017.
+
 \end{thebibliography}
