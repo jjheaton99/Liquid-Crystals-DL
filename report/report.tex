@@ -17,8 +17,9 @@
 \begin{document}
 
 \title{Can liquid crystal phases be identified via machine learning?}
-\author{Joshua Heaton}
-\affil{School of Physics and Astronomy, The University of Manchester\\}
+\author{Joshua Heaton 10133722}
+\affil{School of Physics and Astronomy, The University of Manchester}
+\affil{MPhys project report}
 \date{\today}
 
 \maketitle
@@ -60,11 +61,11 @@ A supervised model can be usually be expressed as a function of inputs and a set
 The capacity of a model is akin to its complexity. The number of trainable parameters can give a fast indication of capacity. However, it also depends on the model's functional form. The parameters controlling the capacity of the model, as well as certain other training settings, are known as hyperparameters. If the capacity is too small, the model will tend to "underfit" the training set, resulting in poor performance even when optimised well. On the other hand, too high a capacity will result in "overfitting", with high performance on the training set, but the model may have a high generalisation error, which is the model's error rate when evaluating it on new, unseen data. Before training begins, the entire dataset is often split into training, validation, and test sets, containing $N_{\mathrm{train}}$, $N_{\mathrm{valid}}$ and $N_{\mathrm{test}}$ examples respectively. The training set, as defined previously, is used to optimise the parameters. The model's performance is then evaluated on the validation set. A poor performance on both the training and validation sets is indicative of underfitting, whereas a high performance on the training set and low on the validation set suggests overfitting. The validation set can therefore be used to tune the hyperparameters of the model before retraining. This can be repeated until the model fits optimally. The final model is then evaluated on the as-of-yet unseen test set to provide an estimate of its generalisation error. Methods used to reduce generalisation error, such as reducing model capacity, are known as regularisation. \cite{Goodfellow16}.
 %=========================================================================================
 \section{Feedforward neural networks}
-A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works. The inputs are "fed forward" through a series of connected "hidden units" that represent individual neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model. A schematic of an example network is presented in Figure 2. 
+A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works. The inputs are "fed forward" through a series of connected "hidden units", akin to neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model. A schematic of an example network is presented in Figure 2. 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4in]{images/feedforward_nn.png}
+\includegraphics[width=3.5in]{images/feedforward_nn.png}
 \caption{Diagram of a feedforward fully-connected neural network with three input values, $D=3$, $W_1=W_2=4$ and one output unit.}
 \end{figure}
 
@@ -150,9 +151,9 @@ When using dropout, at each training step hidden units are randomly chosen to no
 
 %=========================================================================================
 \section{Convolutional neural networks}
-CNNs are neural networks in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data.
+CNNs are neural networks in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data. CNNs are trained in the same way as standard fully connected neural networks.
 \subsection{Convolutional layers}
-For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with a value corresponding to the brightness of the pixel at that location, whereas colour images have three channels, corresponding to the red, green and blue values for the pixel. The input is convolved with $N_K$ kernels, which are tensors $\bm{K}^{(d)}$ with width $W_K<W_I$, height $H_K<H_I$ and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$ and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(l)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. This overall operation is given by
+For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with a value corresponding to the brightness of the pixel at that location, whereas colour images have three channels, corresponding to the red, green and blue values for the pixel. The input is convolved with $N_K$ kernels, which are tensors $\bm{K}^{(d)}$ with width $W_K<W_I$, height $H_K<H_I$ and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$ and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(l)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. Having more than one kernel increases the number of channels in the next layer. This overall operation is given by
 \begin{equation}
 h_{ijk}=\sum_{m=1}^{H_K}\sum_{n=1}^{W_K}I_{(i-m)(j-n)r}K_{mnr}^{(d)}
 \end{equation}
@@ -162,44 +163,48 @@ Using more than one kernel allows a convolutional layer to extract more features
 
 At the edges of the input, we have to consider the type of padding to use. Valid padding is when the kernel is kept completely within the bounds of the input, which results in the output having a smaller width and height than the input depending on the kernel size. The case we have discussed in which the width and height of the output are equal to the input corresponds to same padding, where each pixel is visited by the kernel the same number of times, resulting in it overlapping the boundary of the input at the furthest points. Any kernel parameters outside the input region are multiplied by zero.
 
-Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation 15 corresponds to a stride of 1 in both directions. Strides greater than one result in dimensionality reduction from input to output.
+Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation 15 corresponds to a stride of one in both directions. Strides greater than one result in dimensionality reduction from input to output, with less feature extraction. However, this reduces computational cost for the layer.
+
 \subsection{Pooling layers}
-a
+Convolutional layers are often directly followed by pooling. A pooling layer takes rectangles of a specific size, called the pool size, from the output of the previous layer. It outputs single values as a function of the values in each rectangle, similarly to how kernels work in convolutional layers. However, the function used by a pooling layer does not contain any trainable parameters, and each channel is processed individually. Padding and stride are also defined for pooling layers, in the same way as for convolutional layers. As an example, a pooling layer with pool size and strides of $2 \times 2$, valid padding, and input with dimensions $10 \times 10 \times 3$ will produce an output with dimensions $5 \times 5 \times 3$. There are a variety of pooling functions, such as max pooling, where the outputs are the maximum values in each rectangle, and average pooling, where the outputs are the means of the rectangles. Global pooling layers are a special case with a pool size equal to the width and height of the input, resulting in one output value for each of the input channels. The output is therefore a vector, suitable to be fed into a dense layer.
+
+Pooling layers are utilised for two key reasons. Firstly, they can reduce the dimensions of the network between convolutional layers, decreasing computational cost. Secondly, they can make the CNN partially invariant to translations of features in the input.
 %=========================================================================================
 \section{Model training configurations}
+All CNN models in this project have been implemented using the TensorFlow machine learning library with Keras high-level API, and were trained using NVIDIA CUDA on an NVIDIA RTX 2060 graphics processing unit. For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs was used.
 %=========================================================================================
 \section{4-phase classifier models}
-a
+
 \subsection{Dataset preparation}
-a
+
 \subsection{Model architectures and training configuration}
-a
+
 \subsection{Results}
-a
-%=========================================================================================
-\section{Smectic phase classifier models}
-a
-\subsection{Dataset preparation}
-a
-\subsection{Model architectures and training configuration}
-a
-\subsection{Results}
-a
+
 %=========================================================================================
 \section{Smectic A and C binary classifier models}
-a
+
 \subsection{Dataset preparation}
-a
+
 \subsection{Model architectures and training configuration}
-a
+
 \subsection{Results}
-a
+
+%=========================================================================================
+\section{General smectic phase classifier models}
+
+\subsection{Dataset preparation}
+
+\subsection{Model architectures and training configuration}
+
+\subsection{Results}
+
 %=========================================================================================
 \section{Conclusions}
-a
+
 %=========================================================================================
 \section{Going forward}
-a
+
 %=========================================================================================
 
 \bibliography{report}

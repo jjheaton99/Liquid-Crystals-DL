@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  19 DEC 2020 17:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  20 DEC 2020 00:02
 entering extended mode
 **./report.tex
 (report.tex
@@ -635,15 +635,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <images/texture_samples.png, id=14, 771.88374pt x 257.96375pt>
 File: images/texture_samples.png Graphic file (type png)
 <use images/texture_samples.png>
-Package pdftex.def Info: images/texture_samples.png  used on input line 51.
+Package pdftex.def Info: images/texture_samples.png  used on input line 52.
 (pdftex.def)             Requested size: 433.62pt x 144.9153pt.
 
 [2 <./images/texture_samples.png>]
 <images/feedforward_nn.png, id=25, 688.5725pt x 540.0175pt>
 File: images/feedforward_nn.png Graphic file (type png)
 <use images/feedforward_nn.png>
-Package pdftex.def Info: images/feedforward_nn.png  used on input line 67.
-(pdftex.def)             Requested size: 289.07999pt x 226.71516pt.
+Package pdftex.def Info: images/feedforward_nn.png  used on input line 68.
+(pdftex.def)             Requested size: 252.94499pt x 198.36958pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -681,7 +681,7 @@ pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Us
 ers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
 onts/cm/cmti12.pfb>
-Output written on report.pdf (11 pages, 782475 bytes).
+Output written on report.pdf (11 pages, 785340 bytes).
 PDF statistics:
  119 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
