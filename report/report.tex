@@ -182,6 +182,8 @@ Pooling layers are utilised for two key reasons. Firstly, they can reduce the di
 All CNN models in this project have been implemented using the TensorFlow machine learning library with Keras high-level API, and were trained using NVIDIA CUDA with cuDNN on an NVIDIA RTX 2060 graphics processing unit (GPU). GPUs are typically utilised for training deep models due to their ability to perform thousands of tensor calculations in parallel, resulting in greatly decreased model training time compared with using a standard CPU \cite{Shi16, Goodfellow16}. Any hyperparameters corresponding to model tensor dimensions, specifically batch size, image input size, and model layer dimensions have been chosen as multiples of powers of two. This results in more efficient usage of GPU memory \cite{Goodfellow16}. For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs was used.
 
 We will define sequential neural network model architectures as models without branching layers, and branching architectures as the opposite, in which the outputs of certain layers are shared between multiple subsequent layers.
+
+Dataset augmentations were implemented automatically during training using the image data generator function in Keras. Batches of images are loaded from the training directory, and specified transformations are applied randomly to each image before being used for training. The original image remains unchanged in the root directory. We will define flip augmentations as random flipping of images vertically and horizontally, and all augmentations as flip augmentations along with random rotations by up to $30^\circ$, image width and height shifting by up to $10\%$, and uniform rescaling by up to $20\%$.
 \subsection{Image data preparation}
 Liquid crystal texture image data was obtained by extracting images frame by frame from polarised microscopy videos, using the VLC Media Player software. A majority of the videos displayed more than one liquid crystal phase. Phase labels were assigned to each image based on the phase the video was displaying at the time the image was extracted. Depending on the pixel dimensions of the images, they were further split into smaller images with the same phase labels. Excess pixels were then cropped so that the images were square, with dimensions larger than the model input dimensions, which were square for every model. The images were then resized to the input dimensions of the model, and converted from three-channel RGB colour mode to one-channel grayscale, with pixel brightness values in the range $[0,1]$. We have made the assumption that liquid crystal texture identification is independent of colour.
 
@@ -189,7 +191,7 @@ Texture images of the same phase from the same video can be very similar. Theref
 %=========================================================================================
 \section{4-phase classifier models}
 \subsection{Dataset construction}
-The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task, and investigate specifically sequential architectures . The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The number of images in all prepared sets is presented in Table 1.
+The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task, and investigate sequential architectures, input size and dataset augmentations. The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The quantities of images in all prepared sets are presented in Table 1.
 \begin{table}[h]
 \begin{center}
 \caption{Dataset distribution for 4-phase classifier models}
@@ -206,9 +208,9 @@ The first set of models were created to test the viability of CNNs in the liquid
 \end{tabular}
 \end{center}
 \end{table}
-All images were prepared as in Section 6.2, aside from the isotropic phase. 
-\subsection{Model architectures and training configuration}
-
+All images were prepared as in Section 6.2, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel from the uniform distribution $[0,0.1]$.
+\subsection{Model architectures and training configurations}
+Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as two dataset augmentation settings were tested. 
 \subsection{Results}
 
 %=========================================================================================
