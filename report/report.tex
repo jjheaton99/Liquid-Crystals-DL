@@ -11,6 +11,7 @@
 \usepackage{authblk}
 \usepackage{url}
 \usepackage{appendix}
+\usepackage{booktabs}
 
 \bibliographystyle{ieeetr}
 
@@ -59,9 +60,12 @@ A machine learning model is a computer algorithm which automatically improves it
 A supervised model can be usually be expressed as a function of inputs and a set of parameters $\boldsymbol\theta$ such that $\hat{y}=f(\bm{x};\boldsymbol\theta)$. Training involves optimisation of the parameters by minimisation of a cost function $J(\boldsymbol\theta)$, which measures the deviation of the predictions of the model from the true labels. The most common optimisation algorithms involve computing the gradient of $J(\boldsymbol\theta)$ with respect to $\boldsymbol\theta$ \cite{Goodfellow16}. 
 
 The capacity of a model is akin to its complexity. The number of trainable parameters can give a fast indication of capacity. However, it also depends on the model's functional form. The parameters controlling the capacity of the model, as well as certain other training settings, are known as hyperparameters \cite{Goodfellow16}. If the capacity is too small, the model will tend to "underfit" the training set, resulting in poor performance even when optimised well. On the other hand, too high a capacity will result in "overfitting", with high performance on the training set, but the model may have a high generalisation error, which is the model's error rate when evaluating it on new, unseen data \cite{Murphy12, Goodfellow16}. Before training begins, the entire dataset is often split into training, validation, and test sets, containing $N_{\mathrm{train}}$, $N_{\mathrm{valid}}$ and $N_{\mathrm{test}}$ examples respectively. The training set, as defined previously, is used to optimise the parameters. The model's performance is then evaluated on the validation set. A poor performance on both the training and validation sets is indicative of underfitting, whereas a high performance on the training set and low on the validation set suggests overfitting. The validation set can therefore be used to tune the hyperparameters of the model before retraining. This can be repeated until the model fits optimally \cite{Murphy12, Goodfellow16}. The final model is then evaluated on the as-of-yet unseen test set to provide an estimate of its generalisation error \cite{Murphy12}. Methods used to reduce generalisation error, such as reducing model capacity, are known as regularisation. \cite{Goodfellow16}.
+
+Data leakage, in the case of supervised learning, is when there are examples in the validation or test sets with a high degree of similarity to those in the training set. The model will easily produce the correct output when evaluated on the leaked examples, especially when overfitting has occurred. This can result in a false indication of low generalisation error. Therefore, data leakage must be avoided in order to produce a reliable model \cite{Kaufman12}.
 %=========================================================================================
 \section{Feedforward neural networks}
-A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works \cite{Minsky69}. The inputs are "fed forward" through a series of connected "hidden units", akin to neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer \cite{Rumelhart86}. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model \cite{Haykin98}. A schematic of an example network is presented in Figure 2. 
+\subsection{Forward propagation}
+A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works \cite{Minsky69}. The inputs are forward propagated through a series of connected hidden units, akin to neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer \cite{Rumelhart86}. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model \cite{Haykin98}. A schematic of an example network is presented in Figure 2. 
 
 \begin{figure}[h]
 \centering
@@ -106,7 +110,7 @@ where in this situation $\boldsymbol\theta_D$ is a $W_{D-1}$ dimensional vector.
 
 In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}. Another advantage of neural networks is that they can automatically learn to extract useful higher-level features from the raw input data \cite{Haykin98}.
 
-\subsection{Neural network training}
+\subsection{Training}
 Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution \cite{Goodfellow16}. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost \cite{Goodfellow16}. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters \cite{Haykin98}. Backpropagation is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model \cite{Goodfellow16}. Generally, the cost function is the expectation value of the loss of all examples in the training set,
 \begin{equation}
 J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
@@ -142,7 +146,7 @@ Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm 
 \end{equation}
 where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update \cite{Amari93}. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration \cite{Goodfellow16}. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error \cite{Goodfellow16}. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters \cite{Kingma14}. 
 
-\subsection{Neural network regularisation}
+\subsection{Regularisation}
 Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set \cite{Goodfellow16}. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, and dropout.
 
 Augmentation involves adding extra examples to the training set that are altered versions of the originals, increasing the effective overall number of training examples and improving generalisation. The same effect can also be achieved by performing specific random transformations on each example as they are selected for each training batch. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, this must produces images that could still feasibly be a member of the original dataset \cite{Goodfellow16}.
@@ -153,8 +157,9 @@ When using dropout, at each training step hidden units are randomly chosen to no
 
 %=========================================================================================
 \section{Convolutional neural networks}
-CNNs are a type of feedforward neural network in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration \cite{Goodfellow16}. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data \cite{Shrestha19}. CNNs are trained in the same way as standard fully connected neural networks, with slight modifications to the backpropagation algorithm \cite{Bengio93}.
 \subsection{Convolutional layers}
+CNNs are a type of feedforward neural network in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration \cite{Goodfellow16}. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data \cite{Shrestha19}. CNNs are trained in the same way as standard fully connected neural networks, with slight modifications to the backpropagation algorithm \cite{Bengio93}.
+
 For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with a value corresponding to the brightness of the pixel at that location, whereas colour images have three channels, corresponding to the red, green and blue values for the pixel \cite{Aghdam17, Goodfellow16}. The input is convolved with $N_K$ kernels, which are tensors $\bm{K}^{(d)}$ with width $W_K<W_I$, height $H_K<H_I$ and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$ and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(l)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. Having more than one kernel increases the number of channels in the next layer. This overall operation is given by
 \begin{equation}
 h_{ijk}=\sum_{m=1}^{H_K}\sum_{n=1}^{W_K}I_{(i-m)(j-n)r}K_{mnr}^{(d)}
@@ -172,21 +177,43 @@ Convolutional layers are often directly followed by pooling. A pooling layer tak
 
 Pooling layers are utilised for two key reasons. Firstly, they can reduce the dimensions of the network between convolutional layers, decreasing computational cost. Secondly, they can make the CNN partially invariant to translations of features in the input \cite{Aghdam17, Goodfellow16}.
 %=========================================================================================
-\section{Project model training set-up}
-All CNN models in this project have been implemented using the TensorFlow machine learning library with Keras high-level API, and were trained using NVIDIA CUDA on an NVIDIA RTX 2060 graphics processing unit. For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs was used.
+\section{Model training set-up}
+\subsection{Universal training configurations}
+All CNN models in this project have been implemented using the TensorFlow machine learning library with Keras high-level API, and were trained using NVIDIA CUDA with cuDNN on an NVIDIA RTX 2060 graphics processing unit (GPU). GPUs are typically utilised for training deep models due to their ability to perform thousands of tensor calculations in parallel, resulting in greatly decreased model training time compared with using a standard CPU \cite{Shi16, Goodfellow16}. Any hyperparameters corresponding to model tensor dimensions, specifically batch size, image input size, and model layer dimensions have been chosen as multiples of powers of two. This results in more efficient usage of GPU memory \cite{Goodfellow16}. For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs was used.
+
+We will define sequential neural network model architectures as models without branching layers, and branching architectures as the opposite, in which the outputs of certain layers are shared between multiple subsequent layers.
+\subsection{Image data preparation}
+Liquid crystal texture image data was obtained by extracting images frame by frame from polarised microscopy videos, using the VLC Media Player software. A majority of the videos displayed more than one liquid crystal phase. Phase labels were assigned to each image based on the phase the video was displaying at the time the image was extracted. Depending on the pixel dimensions of the images, they were further split into smaller images with the same phase labels. Excess pixels were then cropped so that the images were square, with dimensions larger than the model input dimensions, which were square for every model. The images were then resized to the input dimensions of the model, and converted from three-channel RGB colour mode to one-channel grayscale, with pixel brightness values in the range $[0,1]$. We have made the assumption that liquid crystal texture identification is independent of colour.
+
+Texture images of the same phase from the same video can be very similar. Therefore, in order to prevent data leakage, these were not shared between any of the training, validation or test sets for a specific model. Conversion to grayscale could have also helped to prevent data leakage because different videos of the same liquid crystal compound have similar colours.
 %=========================================================================================
 \section{4-phase classifier models}
-
-\subsection{Dataset preparation}
-
+\subsection{Dataset construction}
+The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task, and investigate specifically sequential architectures . The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The number of images in all prepared sets is presented in Table 1.
+\begin{table}[h]
+\begin{center}
+\caption{Dataset distribution for 4-phase classifier models}
+\begin{tabular}{l|c|c|c|c|c|c}
+\toprule
+& \textbf{Isotropic} & \textbf{Nematic} & \textbf{Cholesteric} & \textbf{Smectic} & \textbf{Totals} & \textbf{\% of total}\\
+\midrule
+\textbf{Training} & 1500 & 1691 & 1549 & 1689 & 6429 & 71.16\\
+\textbf{Validation} & 400 & 471 & 405 & 457 & 1733 & 19.18\\
+\textbf{Test} & 200 & 208 & 178 & 287 & 873 & 9.66\\
+\midrule
+\textbf{Totals} & 2100 & 2370 & 2132 & 2433 & 9035\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+All images were prepared as in Section 6.2, aside from the isotropic phase. 
 \subsection{Model architectures and training configuration}
 
 \subsection{Results}
 
 %=========================================================================================
 \section{Smectic A and C binary classifier models}
-
-\subsection{Dataset preparation}
+\subsection{Dataset distribution}
 
 \subsection{Model architectures and training configuration}
 
@@ -194,8 +221,7 @@ All CNN models in this project have been implemented using the TensorFlow machin
 
 %=========================================================================================
 \section{General smectic phase classifier models}
-
-\subsection{Dataset preparation}
+\subsection{Dataset distribution}
 
 \subsection{Model architectures and training configuration}
 

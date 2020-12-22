@@ -39,6 +39,11 @@ D.~Demus {\em et~al.}, {\em Physical Properties of Liquid Crystals}.
 K.~Murphy, {\em Machine Learning: A Probabilistic Perspective}.
 \newblock MIT Press, 2012.
 
+\bibitem{Kaufman12}
+S.~Kaufman {\em et~al.}, ``Leakage in data mining: Formulation, detection, and
+  avoidance,'' {\em ACM Trans. Knowl. Discov. Data}, vol.~6, pp.~556--563,
+  2012.
+
 \bibitem{Minsky69}
 M.~Minsky and S.~A. Papert, {\em Perceptrons: An Introduction to Computational
   Geometry}.
@@ -104,5 +109,10 @@ Y.~Bengio, Y.~Le~Cun, and D.~Henderson, ``Globally trained handwritten word
 H.~H. Aghdam and E.~J. Heravi, {\em Guide to Convolutional Neural Networks: A
   Practical Application to Traffic-Sign Detection and Classification}.
 \newblock Springer Publishing Company, Incorporated, 1st~ed., 2017.
+
+\bibitem{Shi16}
+S.~Shi {\em et~al.}, ``Benchmarking state-of-the-art deep learning software
+  tools,'' in {\em 2016 7th International Conference on Cloud Computing and Big
+  Data (CCBD)}, pp.~99--104, 2016.
 
 \end{thebibliography}
