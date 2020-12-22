@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  22 DEC 2020 17:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  22 DEC 2020 22:44
 entering extended mode
 **./report.tex
 (report.tex
@@ -439,21 +439,47 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count286
 \@lastruleclass=\count287
 \@thisrulewidth=\dimen180
+)
+("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\subcaption
+.sty"
+Package: subcaption 2018/05/13 v1.2 Sub-captions (AR)
+
+("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption.st
+y"
+Package: caption 2019/08/29 v3.3b Customizing captions (AR)
+
+("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption3.s
+ty"
+Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen181
+\captionmargin@=\dimen182
+\captionwidth=\dimen183
+\caption@tempdima=\dimen184
+\caption@indent=\dimen185
+\caption@parindent=\dimen186
+\caption@hangindent=\dimen187
+)
+\c@caption@flags=\count288
+\c@ContinuedFloat=\count289
+)
+\c@subfigure=\count290
+\c@subtable=\count291
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -493,16 +519,16 @@ LaTeX Font Info:    ... okay on input line 18.
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
 df.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count288
-\scratchdimen=\dimen181
+\scratchcounter=\count292
+\scratchdimen=\dimen188
 \scratchbox=\box57
-\nofMPsegments=\count289
-\nofMParguments=\count290
+\nofMPsegments=\count293
+\nofMParguments=\count294
 \everyMPshowfont=\toks22
-\MPscratchCnt=\count291
-\MPscratchDim=\dimen182
-\MPnumerator=\count292
-\makeMPintoPDFobject=\count293
+\MPscratchCnt=\count295
+\MPscratchDim=\dimen189
+\MPnumerator=\count296
+\makeMPintoPDFobject=\count297
 \everyMPtoPDFconversion=\toks23
 )
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-
@@ -642,12 +668,14 @@ Dictionary: translator-basic-dictionary, Language: English
 breviations.cfg"
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 18.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 19.
 
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 18.
+LaTeX Font Info:    Try loading font information for U+msb on input line 19.
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
@@ -656,51 +684,85 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <images/texture_samples.png, id=14, 771.88374pt x 257.96375pt>
 File: images/texture_samples.png Graphic file (type png)
 <use images/texture_samples.png>
-Package pdftex.def Info: images/texture_samples.png  used on input line 53.
+Package pdftex.def Info: images/texture_samples.png  used on input line 54.
 (pdftex.def)             Requested size: 433.62pt x 144.9153pt.
 
 [2 <./images/texture_samples.png>] [3]
 <images/feedforward_nn.png, id=28, 688.5725pt x 540.0175pt>
 File: images/feedforward_nn.png Graphic file (type png)
 <use images/feedforward_nn.png>
-Package pdftex.def Info: images/feedforward_nn.png  used on input line 72.
+Package pdftex.def Info: images/feedforward_nn.png  used on input line 73.
 (pdftex.def)             Requested size: 252.94499pt x 198.36958pt.
  [4 <./images/feedforward_nn.png>]
-[5] [6] [7] [8] [9] (report.bbl [10] [11]) [12] [13] (report.aux) ) 
+[5] [6] [7] [8] [9]
+<images/v3_conv_3_diagram.png, id=57, 1011.78pt x 816.04875pt>
+File: images/v3_conv_3_diagram.png Graphic file (type png)
+<use images/v3_conv_3_diagram.png>
+Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 223.
+(pdftex.def)             Requested size: 476.98244pt x 384.71344pt.
+ [10]
+<images/val_accs_2.png, id=61, 468.75125pt x 279.0425pt>
+File: images/val_accs_2.png Graphic file (type png)
+<use images/val_accs_2.png>
+Package pdftex.def Info: images/val_accs_2.png  used on input line 231.
+(pdftex.def)             Requested size: 468.75009pt x 279.04181pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 232.
+
+
+("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 232.
+<images/test_accs_2.png, id=62, 432.61626pt x 279.0425pt>
+File: images/test_accs_2.png Graphic file (type png)
+<use images/test_accs_2.png>
+Package pdftex.def Info: images/test_accs_2.png  used on input line 236.
+(pdftex.def)             Requested size: 432.6152pt x 279.04181pt.
+
+[11 <./images/v3_conv_3_diagram.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(report.bbl [12 <./images/val_accs_2.png>]
+Overfull \vbox (12.02853pt too high) has occurred while \output is active []
+
+
+[13 <./images/test_accs_2.png>] [14]) [15] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 15698 strings out of 492895
- 311681 string characters out of 3123736
- 332724 words of memory out of 3000000
- 19496 multiletter control sequences out of 15000+200000
+ 16893 strings out of 492895
+ 333405 string characters out of 3123736
+ 355814 words of memory out of 3000000
+ 20676 multiletter control sequences out of 15000+200000
  544235 words of font info for 67 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,63p,1744b,527s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj
-_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pf
-b><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/jj_he/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_
-he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmmi8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmmib10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cmextra/cmmib8.pfb><C:/Users/jj_he/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj
-_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppD
-ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (14 pages, 798031 bytes).
+ 42i,8n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/jj_he/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/User
+s/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10
+.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmbx8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/j
+j_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb
+><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmmib10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cmextra/cmmib8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/
+jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb
+><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (16 pages, 887664 bytes).
 PDF statistics:
- 129 PDF objects out of 1000 (max. 8388607)
+ 141 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
