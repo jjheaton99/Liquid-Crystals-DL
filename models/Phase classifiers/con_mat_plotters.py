@@ -98,7 +98,7 @@ def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256
 
 con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
                  'multi train 1st run/conv_2_flip_256',
-                 title='Test set confusion matrix, 2 convolutional layers,\n flip augmentations, 256 x 256 input size')
+                 title='Test set confusion matrix, 2 convolutional layers, flip\n augmentations, 256 x 256 input size, 94.33% accuracy')
 
 """    
 con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
