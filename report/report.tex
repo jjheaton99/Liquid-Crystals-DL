@@ -201,7 +201,7 @@ Texture images of the same phase from the same video can be very similar. Theref
 The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task, and investigate sequential architectures, input size and dataset augmentations. The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The quantities of images in all prepared sets are presented in Table 1.
 \begin{table}[h]
 \begin{center}
-\caption{Dataset distribution for 4-phase classifier models}
+\caption{Dataset distribution for 4-phase classifier models.}
 \begin{tabular}{l|c|c|c|c|c|c}
 \toprule
 & \textbf{Isotropic} & \textbf{Nematic} & \textbf{Cholesteric} & \textbf{Smectic} & \textbf{Totals} & \textbf{\% of total}\\
@@ -225,25 +225,39 @@ A total of 24 models were trained on the 4-phase dataset. Two input image sizes,
 \end{figure}
 For each model, after early stopping, the parameters with the highest validation accuracy during training were saved as the final model.
 \subsection{Results}
-The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy. The final results are displayed in Figures 4 and 5.
+The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 4.
 \begin{figure}[h]
 	\centering
-    \includegraphics[scale=1]{images/val_accs_2.png}
-    \caption{•}
-\end{figure} 
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=1]{images/test_accs_2.png}
+    \includegraphics[width=6.6in]{images/4-phase_graphs.png}
     \caption{•}
 \end{figure} 
 %=========================================================================================
 \section{Smectic A and C binary classifier models}
 \subsection{Dataset distribution}
-
+\begin{table}[h]
+\begin{center}
+\caption{Dataset distribution for smectic A and C classifier models.}
+\begin{tabular}{l|c|c|c|c}
+\toprule
+& \textbf{Smectic A} & \textbf{Smectic C} & \textbf{Totals} & \textbf{\% of total}\\
+\midrule
+\textbf{Training} & 719 & 1067 & 1786 & 70.17\\
+\textbf{Validation} & 174 & 183 & 357 & 14.03\\
+\textbf{Test} & 204 & 198 & 402 & 15.80\\
+\midrule
+\textbf{Totals} & 1097 & 1448 & 2545\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 \subsection{Model architectures and training configuration}
 
 \subsection{Results}
-
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=6.6in]{images/smecticAC_graphs.png}
+    \caption{•}
+\end{figure} 
 %=========================================================================================
 \section{General smectic phase classifier models}
 \subsection{Dataset distribution}
