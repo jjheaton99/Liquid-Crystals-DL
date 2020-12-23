@@ -12,6 +12,7 @@
 \usepackage{url}
 \usepackage{appendix}
 \usepackage{booktabs}
+\usepackage[font=small]{caption}
 \usepackage{subcaption}
 
 \bibliographystyle{ieeetr}
@@ -220,7 +221,7 @@ All images were prepared as in Section 6.2, aside from the isotropic phase, whic
 A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The first convolutional layer in each model has 32 channels, with the number of channels doubling with each successive convolutional layer. Each convolutional layer has kernel size $3 \times 3$ and same padding, and is followed by max pooling with pool size and strides of $2 \times 2$ and same padding, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer. As an example, an architectural diagram of one of the models is displayed in Figure 3.
 \begin{figure}[h]
 \centering
-\includegraphics[width=6.6in]{images/v3_conv_3_diagram.png}
+\includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
 \caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
 \end{figure}
 For each model, after early stopping, the parameters with the highest validation accuracy during training were saved as the final model.
@@ -229,7 +230,13 @@ The final accuracy of a trained model will vary with each training attempt due t
 \begin{figure}[h]
 	\centering
     \includegraphics[width=6.6in]{images/4-phase_graphs.png}
-    \caption{•}
+    \caption{Plots of the mean accuracies for the 4-phase models.}
+\end{figure} 
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=4in]{images/confusion_matrix.png}
+    \caption{Confusion matrix}
 \end{figure} 
 %=========================================================================================
 \section{Smectic A and C binary classifier models}
@@ -251,11 +258,16 @@ The final accuracy of a trained model will vary with each training attempt due t
 \end{center}
 \end{table}
 \subsection{Model architectures and training configuration}
+\begin{figure}[h]
+\centering
+\includegraphics[width=6.6in]{images/inception_block.png}
+\caption{Architectural diagram of an inception block.}
+\end{figure}
 
 \subsection{Results}
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=6.6in]{images/smecticAC_graphs.png}
+    \includegraphics[width=5.6678in]{images/smecticAC_graphs.png}
     \caption{•}
 \end{figure} 
 %=========================================================================================

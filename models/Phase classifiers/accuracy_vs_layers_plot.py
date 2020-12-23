@@ -1,29 +1,30 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.transforms import ScaledTranslation
-import matplotlib.ticker
+from matplotlib.ticker import MaxNLocator
+from matplotlib import gridspec
 import pandas as pd
 
 plt.rcParams['axes.titley'] = 1.05
-plt.rcParams['axes.titlesize'] = 18
-plt.rcParams['axes.labelsize'] = 15
-plt.rcParams['xtick.labelsize'] = 15
-plt.rcParams['ytick.labelsize'] = 15
-plt.rcParams['legend.fontsize'] = 14
+plt.rcParams['axes.titlesize'] = 16
+plt.rcParams['axes.labelsize'] = 14
+plt.rcParams['xtick.labelsize'] = 14
+plt.rcParams['ytick.labelsize'] = 14
+plt.rcParams['legend.fontsize'] = 12
 
 num_layers = np.array([1, 2, 3, 4, 5, 6])
-num_blocks = np.array([1, 2, 3])
+num_blocks = np.array([0.85, 1, 2, 3, 3.15])
 
 inc_val_accs = pd.read_csv('multi train results/smecticAC/inc_val_accs.csv').to_numpy()
 inc_test_accs = pd.read_csv('multi train results/smecticAC/inc_test_accs.csv').to_numpy()
 seq_val_accs = pd.read_csv('multi train results/smecticAC/seq_val_accs.csv').to_numpy()
 seq_test_accs = pd.read_csv('multi train results/smecticAC/seq_test_accs.csv').to_numpy()
 
-inc_val_mean = inc_val_accs[3][1:]
-inc_val_err = inc_val_accs[4][1:]
+inc_val_mean = np.append(np.insert(inc_val_accs[3][1:], 0, 0), 0)
+inc_val_err = np.append(np.insert(inc_val_accs[4][1:], 0, 0), 0)
 
-inc_test_mean = inc_test_accs[3][1:]
-inc_test_err = inc_test_accs[4][1:]
+inc_test_mean = np.append(np.insert(inc_test_accs[3][1:], 0, 0), 0)
+inc_test_err = np.append(np.insert(inc_test_accs[4][1:], 0, 0), 0)
 
 seq_val_mean = seq_val_accs[3][1:]
 seq_val_err = seq_val_accs[4][1:]
@@ -31,33 +32,35 @@ seq_val_err = seq_val_accs[4][1:]
 seq_test_mean = seq_test_accs[3][1:]
 seq_test_err = seq_test_accs[4][1:]
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for smectic \n A and C inception models')
-ax.set_xlabel('Number of inception blocks')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(85, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower right')
-locator = matplotlib.ticker.MultipleLocator(1)
-plt.gca().xaxis.set_major_locator(locator)
-formatter = matplotlib.ticker.StrMethodFormatter("{x:.0f}")
-plt.gca().xaxis.set_major_formatter(formatter)
-plt.show()
-plt.close()
+fig = plt.figure(figsize=(8, 4.5))
+fig.suptitle('Mean accuracies for smectic A and C models', fontsize=19)
+spec = gridspec.GridSpec(ncols=2, nrows=1,
+                         width_ratios=[2, 1])
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for smectic \n A and C sequential models')
-ax.set_xlabel('Number of convolutional layers')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(85, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_layers, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_layers, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower right')
+ax1 = fig.add_subplot(spec[1])
+ax1.set_title('Inception models')
+ax1.set_xlabel('Number of inception blocks')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(85, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.legend(['validation', 'test'], loc='lower right')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+ax2 = fig.add_subplot(spec[0])
+ax2.set_title('Sequential models')
+ax2.set_xlabel('Number of convolutional layers')
+ax2.set_ylabel('Mean accuracy in percent')
+ax2.set_ylim(85, 100)
+trans1 = ax2.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax2.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax2.errorbar(num_layers, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
+ax2.errorbar(num_layers, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
+ax2.legend(['validation', 'test'], loc='lower right')
+
+plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
 
@@ -87,55 +90,50 @@ test_all_128_err = np.array([3.42, 5.62, 7.35, 2.20, 1.68, 7.35])
 test_flip_128 = np.array([90.68, 90.10, 90.66, 84.69, 88.74, 83.33])
 test_flip_128_err = np.array([5.53, 3.69, 6.02, 1.80, 2.88, 2.62])
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for 4-phase \n sequential models, all \n augmentations, 256 x 256 input size')
-ax.set_xlabel('Number of convolutional layers')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(70, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_layers, val_all_256, yerr=val_all_256_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_layers, test_all_256, yerr=test_all_256_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower left')
-plt.show()
-plt.close()
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, figsize=(9.5, 8))
+fig.suptitle('Mean accuracies for 4-phase sequential models', fontsize=19)
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for 4-phase \n sequential models, flip \n augmentations, 256 x 256 input size')
-ax.set_xlabel('Number of convolutional layers')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(70, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_layers, val_flip_256, yerr=val_flip_256_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_layers, test_flip_256, yerr=test_flip_256_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower left')
-plt.show()
-plt.close()
+ax1.set_title('All augmentations, 256 x 256 input size')
+ax1.set_xlabel('Number of convolutional layers')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(70, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(num_layers, val_all_256, yerr=val_all_256_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(num_layers, test_all_256, yerr=test_all_256_err, marker='s', linestyle='none', transform=trans2)
+ax1.legend(['validation', 'test'], loc='lower left')
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for 4-phase \n sequential models, all \n augmentations, 128 x 128 input size')
-ax.set_xlabel('Number of convolutional layers')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(70, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_layers, val_all_128, yerr=val_all_128_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_layers, test_all_128, yerr=test_all_128_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower left')
-plt.show()
-plt.close()
+ax2.set_title('Flip augmentations, 256 x 256 input size')
+ax2.set_xlabel('Number of convolutional layers')
+ax2.set_ylabel('Mean accuracy in percent')
+ax2.set_ylim(70, 100)
+trans1 = ax2.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax2.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax2.errorbar(num_layers, val_flip_256, yerr=val_flip_256_err, marker='o', linestyle='none', transform=trans1)
+ax2.errorbar(num_layers, test_flip_256, yerr=test_flip_256_err, marker='s', linestyle='none', transform=trans2)
+ax2.legend(['validation', 'test'], loc='lower left')
 
-fig, ax = plt.subplots()
-ax.set_title('Mean accuracies for 4-phase \n sequential models, flip \n augmentations, 128 x 128 input size')
-ax.set_xlabel('Number of convolutional layers')
-ax.set_ylabel('Mean accuracy in percent')
-ax.set_ylim(70, 100)
-trans1 = ax.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
-trans2 = ax.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax.errorbar(num_layers, val_flip_128, yerr=val_flip_128_err, marker='o', linestyle='none', transform=trans1)
-ax.errorbar(num_layers, test_flip_128, yerr=test_flip_128_err, marker='s', linestyle='none', transform=trans2)
-ax.legend(['validation', 'test'], loc='lower left')
+ax3.set_title('All augmentations, 128 x 128 input size')
+ax3.set_xlabel('Number of convolutional layers')
+ax3.set_ylabel('Mean accuracy in percent')
+ax3.set_ylim(70, 100)
+trans1 = ax3.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax3.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax3.errorbar(num_layers, val_all_128, yerr=val_all_128_err, marker='o', linestyle='none', transform=trans1)
+ax3.errorbar(num_layers, test_all_128, yerr=test_all_128_err, marker='s', linestyle='none', transform=trans2)
+ax3.legend(['validation', 'test'], loc='lower left')
+
+ax4.set_title('Flip augmentations, 128 x 128 input size')
+ax4.set_xlabel('Number of convolutional layers')
+ax4.set_ylabel('Mean accuracy in percent')
+ax4.set_ylim(70, 100)
+trans1 = ax4.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax4.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax4.errorbar(num_layers, val_flip_128, yerr=val_flip_128_err, marker='o', linestyle='none', transform=trans1)
+ax4.errorbar(num_layers, test_flip_128, yerr=test_flip_128_err, marker='s', linestyle='none', transform=trans2)
+ax4.legend(['validation', 'test'], loc='lower left')
+
+plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
 

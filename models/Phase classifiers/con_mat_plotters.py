@@ -50,7 +50,7 @@ def get_labels_and_preds(test_dir, model_name, sequential, image_size=256, evalu
 
     return y_true, y_pred    
 
-def con_mat_4_phases(test_dir, model_name, sequential=True, image_size=256, evaluate=True):
+def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', sequential=True, image_size=256, evaluate=True):
     y_true, y_pred = get_labels_and_preds(test_dir, model_name, sequential, image_size, evaluate)
     
     #sort true and predicted labels into correct phase order 
@@ -82,7 +82,7 @@ def con_mat_4_phases(test_dir, model_name, sequential=True, image_size=256, eval
     display_confusion_matrix(y_true, 
                              y_pred, 
                              class_names, 
-                             title='1 convolutional layer, all augmentations')
+                             title=title)
     
 def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256, evaluate=True):
     y_true, y_pred = get_labels_and_preds(test_dir, model_name, sequential, image_size, evaluate)
@@ -95,12 +95,17 @@ def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256
                              y_pred, 
                              class_names, 
                              title=title)
-    
+
+con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
+                 'multi train 1st run/conv_2_flip_256',
+                 title='Test set confusion matrix, 2 convolutional layers,\n flip augmentations, 256 x 256 input size')
+
+"""    
 con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
                 'smectic/flip_256_inception_3',
                 title='3 inception blocks',
                 sequential=False)
-"""
+
 con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
                 'smectic/flip_256_4',
                 title='4 convolutional layers',

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  23 DEC 2020 15:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  23 DEC 2020 18:00
 entering extended mode
 **./report.tex
 (report.tex
@@ -440,10 +440,6 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@lastruleclass=\count287
 \@thisrulewidth=\dimen180
 )
-("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\subcaption
-.sty"
-Package: subcaption 2018/05/13 v1.2 Sub-captions (AR)
-
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\caption.st
 y"
 Package: caption 2019/08/29 v3.3b Customizing captions (AR)
@@ -463,23 +459,26 @@ Package caption3 Info: TeX engine: e-TeX on input line 64.
 \c@caption@flags=\count288
 \c@ContinuedFloat=\count289
 )
+("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/caption\subcaption
+.sty"
+Package: subcaption 2018/05/13 v1.2 Sub-captions (AR)
 \c@subfigure=\count290
 \c@subtable=\count291
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -670,12 +669,12 @@ File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 19.
+LaTeX Font Info:    Try loading font information for U+msa on input line 20.
 
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 19.
+LaTeX Font Info:    Try loading font information for U+msb on input line 20.
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
@@ -684,82 +683,106 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <images/texture_samples.png, id=14, 771.88374pt x 257.96375pt>
 File: images/texture_samples.png Graphic file (type png)
 <use images/texture_samples.png>
-Package pdftex.def Info: images/texture_samples.png  used on input line 54.
+Package pdftex.def Info: images/texture_samples.png  used on input line 55.
 (pdftex.def)             Requested size: 433.62pt x 144.9153pt.
 
 [2 <./images/texture_samples.png>] [3]
 <images/feedforward_nn.png, id=28, 688.5725pt x 540.0175pt>
 File: images/feedforward_nn.png Graphic file (type png)
 <use images/feedforward_nn.png>
-Package pdftex.def Info: images/feedforward_nn.png  used on input line 73.
+Package pdftex.def Info: images/feedforward_nn.png  used on input line 74.
 (pdftex.def)             Requested size: 252.94499pt x 198.36958pt.
  [4 <./images/feedforward_nn.png>]
 [5] [6] [7] [8] [9]
-<images/v3_conv_3_diagram.png, id=57, 1011.78pt x 816.04875pt>
+<images/v3_conv_3_diagram.png, id=58, 1011.78pt x 879.285pt>
 File: images/v3_conv_3_diagram.png Graphic file (type png)
 <use images/v3_conv_3_diagram.png>
-Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 223.
-(pdftex.def)             Requested size: 476.98244pt x 384.71344pt.
+Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 224.
+(pdftex.def)             Requested size: 403.35384pt x 350.54051pt.
  [10]
-<images/4-phase_graphs.png, id=61, 823.075pt x 724.7075pt>
+<images/4-phase_graphs.png, id=62, 710.655pt x 570.13pt>
 File: images/4-phase_graphs.png Graphic file (type png)
 <use images/4-phase_graphs.png>
-Package pdftex.def Info: images/4-phase_graphs.png  used on input line 231.
-(pdftex.def)             Requested size: 476.98244pt x 419.97679pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 232.
+Package pdftex.def Info: images/4-phase_graphs.png  used on input line 232.
+(pdftex.def)             Requested size: 476.98244pt x 382.67238pt.
+ [11 <./images/v3_conv_3_diagram.png>]
+<images/confusion_matrix.png, id=67, 310.15875pt x 300.12125pt>
+File: images/confusion_matrix.png Graphic file (type png)
+<use images/confusion_matrix.png>
+Package pdftex.def Info: images/confusion_matrix.png  used on input line 238.
+(pdftex.def)             Requested size: 289.07999pt x 279.72353pt.
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/inception_block.png, id=68, 1196.47pt x 787.94376pt>
+File: images/inception_block.png Graphic file (type png)
+<use images/inception_block.png>
+Package pdftex.def Info: images/inception_block.png  used on input line 263.
+(pdftex.def)             Requested size: 476.98244pt x 314.12592pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/smecticAC_graphs.png, id=69, 610.28pt x 322.20375pt>
+File: images/smecticAC_graphs.png Graphic file (type png)
+<use images/smecticAC_graphs.png>
+Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 270.
+(pdftex.def)             Requested size: 409.61197pt x 216.26869pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 271.
 
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 232.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 271.
 
-[11 <./images/v3_conv_3_diagram.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/smecticAC_graphs.png, id=66, 860.21375pt x 342.27875pt>
-File: images/smecticAC_graphs.png Graphic file (type png)
-<use images/smecticAC_graphs.png>
-Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 258.
-(pdftex.def)             Requested size: 476.98244pt x 189.79459pt.
-[12 <./images/4-phase_graphs.png>] (report.bbl [13 <./images/smecticAC_graphs.p
-ng>] [14]) [15] [16] (report.aux) ) 
+(report.bbl [12 <./images/4-phase_graphs.png>]
+Overfull \vbox (148.24pt too high) has occurred while \output is active []
+
+
+[13 <./images/confusion_matrix.png>] [14 <./images/inception_block.png>]
+[15 <./images/smecticAC_graphs.png>]) [16] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 16893 strings out of 492895
- 333450 string characters out of 3123736
- 355814 words of memory out of 3000000
- 20676 multiletter control sequences out of 15000+200000
- 544235 words of font info for 67 fonts, out of 3000000 for 9000
+ 16913 strings out of 492895
+ 333900 string characters out of 3123736
+ 355804 words of memory out of 3000000
+ 20693 multiletter control sequences out of 15000+200000
+ 546569 words of font info for 76 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,8n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj_he/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/jj_he/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/A
-ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/
-Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-bx8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_he/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jj_he/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Use
-rs/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/
-cmmib8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jj_he/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/
-jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
+ 41i,8n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/jj_he/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/User
+s/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10
+.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmbx8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jj_he/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/
+jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pf
+b><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmmi8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmmib10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cmextra/cmmib8.pfb><C:/Users/jj_he/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users
+/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.p
 fb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (17 pages, 923264 bytes).
+s/cm/cmr6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (17 pages, 985540 bytes).
 PDF statistics:
- 144 PDF objects out of 1000 (max. 8388607)
+ 152 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
