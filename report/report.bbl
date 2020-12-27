@@ -115,4 +115,9 @@ S.~Shi {\em et~al.}, ``Benchmarking state-of-the-art deep learning software
   tools,'' in {\em 2016 7th International Conference on Cloud Computing and Big
   Data (CCBD)}, pp.~99--104, 2016.
 
+\bibitem{Szegedy2015}
+C.~Szegedy {\em et~al.}, ``Going deeper with convolutions,'' in {\em
+  Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, 2015.
+
 \end{thebibliography}
