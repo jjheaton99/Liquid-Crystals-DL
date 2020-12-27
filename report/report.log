@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  23 DEC 2020 23:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  27 DEC 2020 15:03
 entering extended mode
 **./report.tex
 (report.tex
@@ -706,36 +706,39 @@ File: images/4-phase_graphs.png Graphic file (type png)
 Package pdftex.def Info: images/4-phase_graphs.png  used on input line 232.
 (pdftex.def)             Requested size: 476.98244pt x 382.67238pt.
  [11 <./images/v3_conv_3_diagram.png>] [12 <./images/4-phase_graphs.png>]
-<images/confusion_matrix.png, id=72, 351.3125pt x 300.12125pt>
+<images/confusion_matrix.png, id=72, 489.83pt x 279.0425pt>
 File: images/confusion_matrix.png Graphic file (type png)
 <use images/confusion_matrix.png>
 Package pdftex.def Info: images/confusion_matrix.png  used on input line 258.
-(pdftex.def)             Requested size: 289.07999pt x 246.9757pt.
+(pdftex.def)             Requested size: 397.48499pt x 226.44044pt.
  [13 <./images/confusion_matrix.png>]
 <images/inception_block.png, id=77, 1196.47pt x 787.94376pt>
 File: images/inception_block.png Graphic file (type png)
 <use images/inception_block.png>
-Package pdftex.def Info: images/inception_block.png  used on input line 283.
+Package pdftex.def Info: images/inception_block.png  used on input line 284.
 (pdftex.def)             Requested size: 476.98244pt x 314.12592pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 <images/smecticAC_graphs.png, id=78, 610.28pt x 322.20375pt>
 File: images/smecticAC_graphs.png Graphic file (type png)
 <use images/smecticAC_graphs.png>
-Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 290.
+Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 291.
 (pdftex.def)             Requested size: 409.61197pt x 216.26869pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 291.
-
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 292.
 
 ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 291.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 292.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(report.bbl [14 <./images/inception_block.png>] [15 <./images/smecticAC_graphs.
-png>] [16]) [17] (report.aux) ) 
+(report.bbl [14] [15 <./images/inception_block.png>] [16 <./images/smecticAC_gr
+aphs.png>]) [17] (report.aux) ) 
 Here is how much of TeX's memory you used:
  16913 strings out of 492895
  333900 string characters out of 3123736
@@ -768,7 +771,7 @@ C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 c/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts
 /type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (18 pages, 989705 bytes).
+Output written on report.pdf (18 pages, 1001416 bytes).
 PDF statistics:
  155 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
