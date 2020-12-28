@@ -218,11 +218,11 @@ The first set of models were created to test the viability of CNNs in the liquid
 \end{table}
 All images were prepared as in Section 6.2, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel from the uniform distribution $[0,0.1]$.
 \subsection{Model architectures and training configurations}
-A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all others layers, doubling the number of channels with each successive convolutional layer. Each convoluational layer has kernel size $3 \times 3$ and same padding, and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer which has a softmax activation function. As an example, an architectural diagram of one of the models is displayed in Figure 3.
+A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all others layers, doubling the number of channels with each successive convolutional layer. Each convoluational layer has kernel size $3 \times 3$ and same padding, and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer which has a softmax activation function. As an example, an architectural diagram of the three-layer model is displayed in Figure 3.
 \begin{figure}[h]
 \centering
 \includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
-\caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
+\caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
 \end{figure}
 \subsection{Results}
 The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 4.
@@ -242,7 +242,6 @@ The final accuracy of a trained model will vary with each training attempt due t
 %best test set accuracy, flip 256 2 layers
 %isotropic always predicted correctly, possible leakage giving false indication of high %accuracy
 %using flip 256 for other models
-
 From Figure 4, we see that in general the validation accuracy has a slight positive correlation with the number of layers, with the opposite for the test accuracy. This trend is not so clear for the case of flip augmentations with $256 \times 256$ input size. The decrease in test set accuracy with higher numbers of layers is suggestive of overfitting, which is to be expected as the model capacity increases greatly with each added convolutional layer. The lower capacity models from this selection are, therefore, a better choice. The high validation accuracies at greater layer counts is potentially because of the fact that the models are saved at the point of highest validation accuracy during training, which can fluctuate to high numbers.
 
 In every case, for the same input size and number of layers, models with flip augmentations have a higher mean test set accuracy than with all augmentations. This suggests that the some of the images produced by the extra augmentations are dissimilar to actual texture images. When applying the rotation, scaling, and translation transformations included in all augmentations, certain edges and corners of the image are extended or distorted to fill the input space. These regions do not contain features identifiable as liquid crystal texture, which could be the cause of the lower performance.
@@ -288,28 +287,35 @@ A different type of CNN architecture was also tested for smectic A and C, inspir
 \includegraphics[width=5in]{images/inception_block.png}
 \caption{Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract different sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceeding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite{Szegedy2015}.}
 \end{figure}
-Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, Each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer, followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, followed by a standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced to a set amount by the $1 \times 1$ kernel layers, and starts at 8 for the first block, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding and a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with two blocks is outlined in Figure 7.
+Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, Each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer, followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, followed by a standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced to a set amount by the $1 \times 1$ kernel layers, and starts at 8 for the first block, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding, and a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is outlined in Figure 7.
+\begin{figure}[!ht]
+	\centering
+    \includegraphics[width=5.393in]{images/inception_model.png}
+    \caption{Architectural diagram of the Inception CNN model with one block. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional, max pooling and Inception block layer. Not to scale.}
+\end{figure} 
 \subsection{Results}
-a
-\begin{figure}[h]
+Similarly to the 4-phase models, all sequential and Inception smectic A and C models were trained three times and the mean validation and test accuracies calculated, with an uncertainty of half the range. These results are shown in Figure 8. 
+\begin{figure}[!htb]
 	\centering
     \includegraphics[width=5.6678in]{images/smecticAC_graphs.png}
-    \caption{•}
+    \caption{Plots of the mean accuracies over three training runs against number of convolutional layers for sequential models, and number of Inception blocks for Inception models, for the smectic A and C models.}
+%no noticeable trends in accuracies for either type
+
 \end{figure} 
 %=========================================================================================
 \section{General smectic phase classifier models}
 \subsection{Dataset distribution}
-
+a
 \subsection{Model architectures and training configuration}
-
+a
 \subsection{Results}
-
+a
 %=========================================================================================
 \section{Conclusions}
-
+a
 %=========================================================================================
 \section{Going forward}
-
+a
 %=========================================================================================
 
 \bibliography{report}

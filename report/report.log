@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  27 DEC 2020 18:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  27 DEC 2020 21:35
 entering extended mode
 **./report.tex
 (report.tex
@@ -709,72 +709,67 @@ Package pdftex.def Info: images/4-phase_graphs.png  used on input line 231.
 <images/confusion_matrix.png, id=72, 489.83pt x 279.0425pt>
 File: images/confusion_matrix.png Graphic file (type png)
 <use images/confusion_matrix.png>
-Package pdftex.def Info: images/confusion_matrix.png  used on input line 257.
+Package pdftex.def Info: images/confusion_matrix.png  used on input line 256.
 (pdftex.def)             Requested size: 397.48499pt x 226.44044pt.
  [13 <./images/confusion_matrix.png>]
 <images/inception_block.png, id=77, 1357.07pt x 839.135pt>
 File: images/inception_block.png Graphic file (type png)
 <use images/inception_block.png>
-Package pdftex.def Info: images/inception_block.png  used on input line 288.
+Package pdftex.def Info: images/inception_block.png  used on input line 287.
 (pdftex.def)             Requested size: 361.34999pt x 223.43245pt.
+<images/inception_model.png, id=78, 977.6525pt x 1179.40625pt>
+File: images/inception_model.png Graphic file (type png)
+<use images/inception_model.png>
+Package pdftex.def Info: images/inception_model.png  used on input line 293.
+(pdftex.def)             Requested size: 389.75249pt x 470.18848pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [14]
-<images/smecticAC_graphs.png, id=81, 610.28pt x 322.20375pt>
+<images/smecticAC_graphs.png, id=82, 610.28pt x 322.20375pt>
 File: images/smecticAC_graphs.png Graphic file (type png)
 <use images/smecticAC_graphs.png>
-Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 296.
+Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 300.
 (pdftex.def)             Requested size: 409.61197pt x 216.26869pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 297.
-
- ("C:\Users\jj_he\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 297.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(report.bbl [15 <./images/inception_block.png>] [16 <./images/smecticAC_graphs.
-png>] [17]) [18] (report.aux) ) 
+ [15 <./images/inception_block.png>] [16 <./images/inception_model.png>]
+(report.bbl [17 <./images/smecticAC_graphs.png>] [18]) [19] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 16914 strings out of 492895
- 333913 string characters out of 3123736
- 357808 words of memory out of 3000000
- 20694 multiletter control sequences out of 15000+200000
+ 16902 strings out of 492895
+ 333722 string characters out of 3123736
+ 358808 words of memory out of 3000000
+ 20684 multiletter control sequences out of 15000+200000
  546569 words of font info for 76 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,8n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/jj_he/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/User
-s/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.
-pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmmi10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_he/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jj
-_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pf
-b><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cmextra/cmmib8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jj
-_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><
-C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (19 pages, 1015132 bytes).
+<C:/U
+sers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmb
+sy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/jj_he/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jj_he/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Us
+ers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmmi6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/jj_he/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><C:/Users/jj_he/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/
+Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+r12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmr6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/jj
+_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmti12.pfb>
+Output written on report.pdf (20 pages, 1069815 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
+ 164 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tensorflow.math import confusion_matrix
 
-def display_confusion_matrix(y_true, y_pred, class_names, title='Confusion Matrix'):
+def display_confusion_matrix(y_true, y_pred, class_names, title='Confusion Matrix', font_scale=1.0):
     con_mat = confusion_matrix(labels=y_true, predictions=y_pred).numpy()
     con_mat_norm = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], decimals=2)
     con_mat_df = pd.DataFrame(con_mat_norm, index=class_names, columns=class_names)
@@ -12,7 +12,7 @@ def display_confusion_matrix(y_true, y_pred, class_names, title='Confusion Matri
     figsize=(len(class_names), len(class_names))
     fig = plt.figure(figsize=figsize)
     plt.suptitle(title, fontsize=16)
-    sns.set(font_scale=1.2)
+    sns.set(font_scale=font_scale)
     sns.heatmap(con_mat_df, annot=True, cmap=plt.cm.Blues, cbar=False, square=True)
     plt.tight_layout()
     plt.ylabel('True phase')
@@ -20,7 +20,7 @@ def display_confusion_matrix(y_true, y_pred, class_names, title='Confusion Matri
     plt.show()
     
 def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, 
-                                 title='Confusion Matrix', sub_title_1='', sub_title_2=''):
+                                 title='Confusion Matrix', sub_title_1='', sub_title_2='', font_scale=1.2):
     con_mat_1 = confusion_matrix(labels=y_true_1, predictions=y_pred_1).numpy()
     con_mat_norm_1 = np.around(con_mat_1.astype('float') / con_mat_1.sum(axis=1)[:, np.newaxis], decimals=2)
     con_mat_df_1 = pd.DataFrame(con_mat_norm_1, index=class_names, columns=class_names)
@@ -32,7 +32,7 @@ def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_n
     fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2)
     fig.suptitle(title, fontsize=16)
     
-    sns.set(font_scale=1.2)
+    sns.set(font_scale=font_scale)
     sns.heatmap(con_mat_df_1, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax1)
     sns.heatmap(con_mat_df_2, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax2)
     

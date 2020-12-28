@@ -12,24 +12,33 @@ from keras.preprocessing.image import ImageDataGenerator
 
 from PIL import Image
 
-def get_labels_and_preds(test_dir, model_name, sequential, image_size=256, evaluate=True):
+def get_labels_and_preds(test_dir, model_name, binary, sequential, image_size=256, evaluate=True):
     #counts all files in subdirectories in test folder
     NUM_IMAGES = sum(len(files) for _, _, files in os.walk(test_dir))
     
     test_datagen = ImageDataGenerator(rescale=1.0/255)
     
+    if binary:
+        class_mode = 'binary'
+    else:
+        class_mode = 'categorical'    
+    
     test_gen = test_datagen.flow_from_directory(
         directory=test_dir,
         target_size=(image_size, image_size),
         color_mode='grayscale',
-        class_mode='categorical',
+        class_mode=class_mode,
         batch_size=NUM_IMAGES,
         shuffle=False)
     
     test_batch = test_gen.next()
     x = test_batch[0]
     y = test_batch[1]
-    y_true = np.argmax(y, axis=1)
+    
+    if binary:
+        y_true=y
+    else:
+        y_true = np.argmax(y, axis=1)
     
     model = tf.keras.models.load_model('checkpoints/'+model_name)
     
@@ -42,7 +51,15 @@ def get_labels_and_preds(test_dir, model_name, sequential, image_size=256, evalu
             steps=NUM_IMAGES,
             verbose=2)
     
-    if sequential:
+    if binary:
+        y_pred = model.predict(x)
+        for index in range(NUM_IMAGES):
+            if y_pred[index] >= 0:
+                y_pred[index] = 1
+            else:
+                y_pred[index] = 0
+        
+    elif sequential:
         y_pred = model.predict_classes(x)
         
     else:
@@ -68,8 +85,9 @@ def rearrange_4_phase_labels(labels):
     
     return new_labels
 
-def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', sequential=True, image_size=256, evaluate=True):
-    y_true, y_pred = get_labels_and_preds(test_dir, model_name, sequential, image_size, evaluate)
+def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', binary=False, 
+                     sequential=True, image_size=256, evaluate=True, font_scale=1.2):
+    y_true, y_pred = get_labels_and_preds(test_dir, model_name, binary, sequential, image_size, evaluate)
     
     y_true = rearrange_4_phase_labels(y_true)
     y_pred = rearrange_4_phase_labels(y_pred)
@@ -82,16 +100,17 @@ def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', sequential=
     display_confusion_matrix(y_true, 
                              y_pred, 
                              class_names, 
-                             title=title)
+                             title=title,
+                             font_scale=font_scale)
     
 def con_mat_4_phases_2(test_dir, model_name_1, model_name_2, title='Confusion Matrix', sub_title_1='', sub_title_2='', 
-                       sequential_1=True, sequential_2=True, image_size_1=256, image_size_2=256, evaluate=True):
-    y_true_1, y_pred_1 = get_labels_and_preds(test_dir, model_name_1, sequential_1, image_size_1, evaluate)
+                       sequential_1=True, sequential_2=True, image_size_1=256, image_size_2=256, evaluate=True, font_scale=1.2):
+    y_true_1, y_pred_1 = get_labels_and_preds(test_dir, model_name_1, False, sequential_1, image_size_1, evaluate)
     
     y_true_1 = rearrange_4_phase_labels(y_true_1)
     y_pred_1 = rearrange_4_phase_labels(y_pred_1)
     
-    y_true_2, y_pred_2 = get_labels_and_preds(test_dir, model_name_2, sequential_2, image_size_2, evaluate)
+    y_true_2, y_pred_2 = get_labels_and_preds(test_dir, model_name_2, False, sequential_2, image_size_2, evaluate)
     
     y_true_2 = rearrange_4_phase_labels(y_true_2)
     y_pred_2 = rearrange_4_phase_labels(y_pred_2)
@@ -108,10 +127,11 @@ def con_mat_4_phases_2(test_dir, model_name_1, model_name_2, title='Confusion Ma
                                  class_names, 
                                  title=title,
                                  sub_title_1=sub_title_1,
-                                 sub_title_2=sub_title_2)
+                                 sub_title_2=sub_title_2,
+                                 font_scale=font_scale)
     
-def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256, evaluate=True):
-    y_true, y_pred = get_labels_and_preds(test_dir, model_name, sequential, image_size, evaluate)
+def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256, evaluate=True, font_scale=1.2):
+    y_true, y_pred = get_labels_and_preds(test_dir, model_name, False, sequential, image_size, evaluate)
     
     class_names = ['fluid smectic',
                    'hexatic',
@@ -120,8 +140,24 @@ def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256
     display_confusion_matrix(y_true, 
                              y_pred, 
                              class_names, 
-                             title=title)
+                             title=title,
+                             font_scale=font_scale)
     
+def con_mat_smecticAC(test_dir, model_name, title, image_size=256, evaluate=True, font_scale=1.2):
+    y_true, y_pred = get_labels_and_preds(test_dir, model_name, True, False, image_size, evaluate)
+    
+    class_names = ['A', 'C']
+    
+    display_confusion_matrix(y_true, 
+                             y_pred, 
+                             class_names, 
+                             title=title,
+                             font_scale=font_scale)
+
+con_mat_smecticAC('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test',
+                  'smecticAC/flip_256_inception_2_3',
+                  'Flip 256 inc 2',
+                  font_scale=1.0)
 """
 con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
                  'multi train 2nd run/all_128_6',
@@ -132,7 +168,6 @@ con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/te
                  'multi train 1st run/conv_2_flip_256',
                  title='Test set confusion matrix, 2 convolutional layers, flip\n augmentations, 256 x 256 input size, 94.33% accuracy',
                  image_size=256)
-"""
 
 con_mat_4_phases_2('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test_no_iso',
                    'multi train 1st run/conv_2_flip_256',
@@ -143,7 +178,6 @@ con_mat_4_phases_2('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/
                    image_size_1=256,
                    image_size_2=128)
 
-"""    
 con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
                 'smectic/flip_256_inception_3',
                 title='3 inception blocks',
