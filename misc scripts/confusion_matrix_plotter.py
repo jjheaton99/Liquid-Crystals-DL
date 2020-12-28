@@ -19,8 +19,8 @@ def display_confusion_matrix(y_true, y_pred, class_names, title='Confusion Matri
     plt.xlabel('Predicted phase')
     plt.show()
     
-def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, 
-                                 title='Confusion Matrix', sub_title_1='', sub_title_2='', font_scale=1.2):
+def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, title='Confusion Matrix', 
+                                 sub_title_1='', sub_title_2='', figsize=(10, 5), font_scale=1.2):
     con_mat_1 = confusion_matrix(labels=y_true_1, predictions=y_pred_1).numpy()
     con_mat_norm_1 = np.around(con_mat_1.astype('float') / con_mat_1.sum(axis=1)[:, np.newaxis], decimals=2)
     con_mat_df_1 = pd.DataFrame(con_mat_norm_1, index=class_names, columns=class_names)
@@ -29,7 +29,7 @@ def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_n
     con_mat_norm_2 = np.around(con_mat_2.astype('float') / con_mat_2.sum(axis=1)[:, np.newaxis], decimals=2)
     con_mat_df_2 = pd.DataFrame(con_mat_norm_2, index=class_names, columns=class_names)
     
-    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2)
+    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=figsize)
     fig.suptitle(title, fontsize=16)
     
     sns.set(font_scale=font_scale)

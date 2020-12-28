@@ -23,6 +23,7 @@
 \author{Joshua Heaton 10133722}
 \affil{School of Physics and Astronomy, The University of Manchester}
 \affil{MPhys project report}
+\affil{Project performed in collaboration with James Harbon}
 \date{\today}
 
 \maketitle
@@ -43,20 +44,22 @@ Liquid crystal phases are in general identified by eye, directly from textures t
 
 This project report will first provide a brief overview of the physics behind liquid crystals and the capturing of their textures by polarised microscopy, as well as an introduction to machine learning, neural networks and CNNs. The details and results of our investigations into phase classification will then be presented, as well as an outlook to further study.
 %=========================================================================================
-\section{Liquid crystal phases}
+\section{Background theory}
+\subsection{Liquid crystal phases}
+\subsubsection{Structure}
 Liquid crystals are substances in a state between that of a fully isotropic liquid and a crystal with a periodic lattice structure \cite{Demus99, Dierking03}. The molecules can have varying positional order, and have orientational order over large sections. The unit vector parallel to the alignment of the molecules is called the director \cite{Demus99, Dierking03}. Other details such as molecular shape and chirality affect the overall structure. These variations in structure result in numerous individual identifiable liquid crystal phases \cite{Demus99, Dierking03}. Thermotropic liquid crystals exhibit phases transitions with changing temperature, whereas lyotropic liquid crystals are dissolved in a solvent with the phase depending on the concentration \cite{Demus99}. This project will be concerned with only thermotropic liquid crystals. 
 
-When cooling a thermotropic liquid crystal starting as an isotropic (Iso) liquid, it will first transition to the nematic phase (N), which has orientational order only. The chiral nematic (cholesteric, N*), phase also has no positional order, and has a periodic variation of the director, resulting in helical structures. Upon further cooling, the smectic (Sm) phase will be reached. This can be split into three categories, going from fluid smectic to hexatic smectic to soft crystal in order of decreasing temperature. The fluid smectic phase has molecules arranged in layers, with no positional order in the plane of each layer. When the director is perpendicular to the layer planes, the phase is smectic A (SmA), with smectic C (SmC) having a director that is tilted by comparison. Hexatic smectic phases have short range positional order within the layer planes with hexagonal intermolecular arrangements interspersed with order-breaking defects. This encompasses the smectic B (SmB), I (SmI), and F (SmF) phases. Semctic B has a director perpendicular to the layer planes, whereas it is tilted towards the vertices of the hexagons for smectic I and towards to the sides of the hexagons for smectic F. The soft crystal phases are defect free within the layers and therefore exhibit long range positional order \cite{Dierking03}.
-
+When cooling a thermotropic liquid crystal starting as an isotropic (Iso) liquid, it will first transition to the nematic phase (N), which has orientational order only. The chiral nematic (cholesteric, N*), phase also has no positional order, and has a periodic variation of the director, resulting in helical structures. Upon further cooling, the smectic (Sm) phase will be reached. This can be split into three categories, going from fluid smectic (FSm) to hexatic smectic (HSm) to soft crystal (SC) in order of decreasing temperature. The fluid smectic phase has molecules arranged in layers, with no positional order in the plane of each layer. When the director is perpendicular to the layer planes, the phase is smectic A (SmA), with smectic C (SmC) having a director that is tilted by comparison. Hexatic smectic phases have short range positional order within the layer planes with hexagonal intermolecular arrangements interspersed with order-breaking defects. This encompasses the smectic B (SmB), I (SmI), and F (SmF) phases. Semctic B has a director perpendicular to the layer planes, whereas it is tilted towards the vertices of the hexagons for smectic I and towards to the sides of the hexagons for smectic F. The soft crystal phases are defect free within the layers and therefore exhibit long range positional order \cite{Dierking03}.
+\subsubsection{Polarised microscopy}
 The liquid crystal texture data used in this project have all been obtained by polarised microscopy captured with a video camera. In brief terms, a polarising microscope works by placing a sample between perpendicularly aligned polarisers. When light is shone through the arrangement the resulting image will be dark, unless the sample rotates the plane of polarisation \cite{Dierking03}. In the case of liquid crystals, the isotropic liquid phase has no optical properties so will produce completely dark textures. The nematic, cholesteric and smectic phases are anisotropic and therefore birefringent, with optical axes depending on their structures. This produces unique textural image features for each phase \cite{Dierking03}. Some example textures taken from our dataset are displayed in Figure 1.
 
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=6in]{images/texture_samples.png}
 \caption{Liquid crystal textures from the dataset, from left to right: nematic phase compound 5CB, cholesteric phase compound D5, and smectic C phase compound M10.}
 \end{figure}
 %=========================================================================================
-\section{General machine learning principles}
+\subsection{General machine learning principles}
 A machine learning model is a computer algorithm which automatically improves its performance in a given task as it gains experience from a dataset \cite{Goodfellow16}. It learns patterns in data and uses these patterns to make probabilistic predictions. The data normally takes the form of a set of $N$ examples, which are usually expressed as vectors, or some other structure of features, $\{\bm{x}^{(i)}\}_{i=1}^N$, containing quantitative information about example $i$ \cite{Murphy12}. In supervised learning the examples are given labels $y^{(i)}$, to form a training set of pairs $\{\bm{x}^{(i)}, y^{(i)}\}_{i=1}^N$, and the model attempts to learn the mapping from a general input $\bm{x}$ to an output $\hat{y}$. One main type of supervised learning is regression, in which the output is a numerical scalar. The other main type is classification, in which the model predicts what the input belongs to out of a selection of classes. In unsupervised learning there are no labels, and the algorithm attempts to learn specific patterns in the dataset such as clusters of similar data points \cite{Murphy12}. The topic of this project is a supervised classification problem.
 
 A supervised model can be usually be expressed as a function of inputs and a set of parameters $\boldsymbol\theta$ such that $\hat{y}=f(\bm{x};\boldsymbol\theta)$. Training involves optimisation of the parameters by minimisation of a cost function $J(\boldsymbol\theta)$, which measures the deviation of the predictions of the model from the true labels. The most common optimisation algorithms involve computing the gradient of $J(\boldsymbol\theta)$ with respect to $\boldsymbol\theta$ \cite{Goodfellow16}. 
@@ -65,11 +68,11 @@ The capacity of a model is akin to its complexity. The number of trainable param
 
 Data leakage, in the case of supervised learning, is when there are examples in the validation or test sets with a high degree of similarity to those in the training set. The model will easily produce the correct output when evaluated on the leaked examples, especially when overfitting has occurred. This can result in a false indication of low generalisation error. Therefore, data leakage must be avoided in order to produce a reliable model \cite{Kaufman12}.
 %=========================================================================================
-\section{Feedforward neural networks}
-\subsection{Forward propagation}
+\subsection{Feedforward neural networks}
+\subsubsection{Forward propagation}
 A neural network is a type of machine learning model that takes inspiration from the current understanding of how the brain works \cite{Minsky69}. The inputs are forward propagated through a series of connected hidden units, akin to neurons in a brain, before reaching the output units. In the most basic form, a fully connected neural network, The units are arranged into layers, with each unit in a layer connected to every unit of the previous layer \cite{Rumelhart86}. We will define the total number of layers, excluding the input layer, as the depth, $D$, of the model, with the width, $W_l$, of layer $l\in[0..D]$ equal to the number of units it contains. $l=0$ is the input layer. The choice of the hyperparameters $D$ and $W_l$ defines the architecture of the model \cite{Haykin98}. A schematic of an example network is presented in Figure 2. 
 
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=3.5in]{images/feedforward_nn.png}
 \caption{Diagram of a feedforward fully-connected neural network with three input values, $D=3$, $W_1=W_2=4$ and one output unit.}
@@ -112,7 +115,7 @@ where in this situation $\boldsymbol\theta_D$ is a $W_{D-1}$ dimensional vector.
 
 In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}. Another advantage of neural networks is that they can automatically learn to extract useful higher-level features from the raw input data \cite{Haykin98}.
 
-\subsection{Training}
+\subsubsection{Training}
 Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution \cite{Goodfellow16}. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost \cite{Goodfellow16}. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters \cite{Haykin98}. Backpropagation is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model \cite{Goodfellow16}. Generally, the cost function is the expectation value of the loss of all examples in the training set,
 \begin{equation}
 J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
@@ -148,7 +151,7 @@ Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm 
 \end{equation}
 where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update \cite{Amari93}. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration \cite{Goodfellow16}. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error \cite{Goodfellow16}. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters \cite{Kingma14}. 
 
-\subsection{Regularisation}
+\subsubsection{Regularisation}
 Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set \cite{Goodfellow16}. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, dropout, and batch normalisation.
 
 Augmentation involves adding extra examples to the training set that are altered versions of the originals, increasing the effective overall number of training examples and improving generalisation. The same effect can also be achieved by performing specific random transformations on each example as they are selected for each training batch. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, this must produces images that could still feasibly be a member of the original dataset \cite{Goodfellow16}.
@@ -157,11 +160,15 @@ If a model is trained for too many epochs, the performance on the training set m
 
 When using dropout, at each training step hidden units are randomly chosen to not be included in the step, by multiplying their output by zero. The probability for a unit with dropout to not be included is equal to the dropout rate hyperparameter, which is often set to $\frac{1}{2}$. When applied applied to certain individual layers or to all hidden units, dropout simulates the training of many sub-models that all share parameters, encouraging each hidden unit to learn more general and useful features. This improves regularisation by increasing the final model's robustness to noise \cite{Srivastava2014}.
 
-Batch normalisation
-
+When a layer has batch normalisation, the output vector $\bm{h}$ for a training batch is changed to $\bm{h'}$ according to
+\begin{equation}
+\bm{h}'=\gamma\frac{\bm{h}-\bm{\mu}}{\bm{\sigma}}+\beta
+\end{equation}
+where $\bm{\mu}$ is the vector of means and $\bm{\sigma}$ is the vector of standard deviations of the outputs over the whole batch, and $\gamma$ and $\beta$ are new parameters learned in conjunction with the layer parameters. This has some desirable effects when applied to each hidden layer of the model. It improves generalisation in a similar way to dropout by introducing a form of noise, and increases model training stability, allowing for greater learning rates to be used which reduces training time.
+Running averages for each $\bm{\mu}$ and $\bm{\sigma}$ are recorded during training and are used when evaluating the trained model on single inputs \cite{Ioffe15}.
 %=========================================================================================
-\section{Convolutional neural networks}
-\subsection{Convolutional layers}
+\subsection{Convolutional neural networks}
+\subsubsection{Convolutional layers}
 CNNs are a type of feedforward neural network in which at least one layer uses the convolution operation to propagate information from the previous layer, instead of the standard fully-connected configuration \cite{Goodfellow16}. They have proven to be extremely effective at processing inputs with a large number of grid-like features, in particular image data \cite{Shrestha19}. CNNs are trained in the same way as standard fully connected neural networks, with slight modifications to the backpropagation algorithm \cite{Bengio93}.
 
 For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with a value corresponding to the brightness of the pixel at that location, whereas colour images have three channels, corresponding to the red, green and blue values for the pixel \cite{Aghdam17, Goodfellow16}. The input is convolved with $N_K$ kernels, which are tensors $\bm{K}^{(d)}$ with width $W_K<W_I$, height $H_K<H_I$ and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$ and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(l)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. Having more than one kernel increases the number of channels in the next layer. This overall operation is given by
@@ -176,13 +183,16 @@ At the edges of the input, we have to consider the type of padding to use. Valid
 
 Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation 15 corresponds to a stride of one in both directions. Strides greater than one result in dimensionality reduction from input to output, with less feature extraction. However, this reduces computational cost for the layer \cite{Aghdam17, Goodfellow16}.
 
-\subsection{Pooling layers}
+\subsubsection{Pooling layers}
 Convolutional layers are often directly followed by pooling. A pooling layer takes rectangles of a specific size, called the pool size, from the output of the previous layer. It outputs single values as a function of the values in each rectangle, similarly to how kernels work in convolutional layers \cite{Aghdam17, Goodfellow16}. However, the function used by a pooling layer does not contain any trainable parameters, and each channel is processed individually \cite{Aghdam17, Goodfellow16}. Padding and stride are also defined for pooling layers, in the same way as for convolutional layers. As an example, a pooling layer with pool size and strides of $2 \times 2$, valid padding, and input with dimensions $10 \times 10 \times 3$ will produce an output with dimensions $5 \times 5 \times 3$ \cite{Aghdam17, Goodfellow16}. There are a variety of pooling functions, such as max pooling, where the outputs are the maximum values in each rectangle, and average pooling, where the outputs are the means of the rectangles \cite{Goodfellow16}. Global pooling layers are a special case with a pool size equal to the width and height of the input, resulting in one output value for each of the input channels. The output is therefore a vector, suitable to be fed into a dense layer \cite{Aghdam17}.
 
 Pooling layers are utilised for two key reasons. Firstly, they can reduce the dimensions of the network between convolutional layers, decreasing computational cost. Secondly, they can make the CNN partially invariant to translations of features in the input \cite{Aghdam17, Goodfellow16}.
 %=========================================================================================
-\section{Model training set-up}
-\subsection{Universal training configurations}
+\section{Project work}
+\subsection{First semester goals}
+In this first semester of the project, the primary aims have been to begin to build and process a substantial dataset of liquid crystal textures, and to begin to investigate the suitability of some basic CNN model architectures and training set-ups applied to simple phase classification tasks. 
+\subsection{Model training set-up}
+\subsubsection{Universal training configurations}
 All CNN models in this project are implemented using the TensorFlow machine learning library with Keras high-level API, and trained using NVIDIA CUDA with cuDNN on an NVIDIA RTX 2060 graphics processing unit (GPU). GPUs are typically utilised for training deep models due to their ability to perform thousands of tensor calculations in parallel, resulting in greatly decreased model training time compared with using a standard CPU \cite{Shi16, Goodfellow16}. Any hyperparameters corresponding to model tensor dimensions, specifically batch size, image input size, and model layer dimensions have been chosen as multiples of powers of two. This results in more efficient usage of GPU memory \cite{Goodfellow16}. 
 
 For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs is used. After early stopping, the parameters with the lowest validation loss during training were saved as the final model. Every convolutional or dense hidden layer in all models has ReLU activations and batch normalisation. Every convolutional layer has strides of $1 \times 1$, and every dense layer has dropout with rate $\frac{1}{2}$.
@@ -192,15 +202,15 @@ We will define sequential neural network model architectures as models without b
 Dataset augmentations are implemented automatically during training using the image data generator function in Keras. Batches of images are loaded from the training directory, and specified transformations are applied randomly to each image before being used for training. The original image remains unchanged in the root directory. We define flip augmentations as random flipping of images vertically and horizontally, and all augmentations as flip augmentations along with random rotations by up to $30^\circ$, image width and height shifting by up to $10\%$, and uniform rescaling by up to $20\%$.
 
 The accuracy metric we use to test our models is the percentage of correct outputs when a model is evaluated on a specific dataset.
-\subsection{Image data preparation}
+\subsubsection{Image data preparation}
 We obtain liquid crystal texture image data by extracting images frame by frame from polarised microscopy videos, using the VLC Media Player software. A majority of the videos display more than one liquid crystal phase. Phase labels are assigned to each image based on the phase the video was displaying at the time the image was extracted. Images extracted at the point of a phase transition are either labelled with the current dominant phase or discarded if it is unclear. Depending on the pixel dimensions of the images, they are further split into smaller images with the same phase labels. Excess pixels are then cropped so that the images are square, with dimensions larger than the model input dimensions, which are square for every model. The images are then resized to the input dimensions of the model, and converted from three-channel RGB colour mode to one-channel grayscale, with pixel brightness values in the range $[0,1]$. We have made the assumption that liquid crystal texture identification is independent of colour.
 
 Texture images of the same phase from the same video can be very similar. Therefore, in order to prevent data leakage, these are not shared between any of the training, validation or test sets for a specific model. Conversion to grayscale could also help to prevent data leakage because different videos of the same liquid crystal compound have similar colours.
 %=========================================================================================
-\section{4-phase classifier models}
-\subsection{Dataset construction}
+\subsection{4-phase classifier models}
+\subsubsection{Dataset construction}
 The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task, and investigate sequential architectures, input size and dataset augmentations. The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The quantities of images in all prepared sets are presented in Table 1.
-\begin{table}[h]
+\begin{table}[!htb]
 \begin{center}
 \caption{Dataset distribution for 4-phase classifier models.}
 \begin{tabular}{l|c|c|c|c|c|c}
@@ -216,17 +226,13 @@ The first set of models were created to test the viability of CNNs in the liquid
 \end{tabular}
 \end{center}
 \end{table}
-All images were prepared as in Section 6.2, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel from the uniform distribution $[0,0.1]$.
-\subsection{Model architectures and training configurations}
-A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all others layers, doubling the number of channels with each successive convolutional layer. Each convoluational layer has kernel size $3 \times 3$ and same padding, and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer which has a softmax activation function. As an example, an architectural diagram of the three-layer model is displayed in Figure 3.
-\begin{figure}[h]
-\centering
-\includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
-\caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
-\end{figure}
-\subsection{Results}
-The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 4.
-\begin{figure}[h]
+The videos used in the construction of this dataset were either downloaded with permission from Vance Williams' YouTube channel and Instagram page \cite{Williams20a, Williams20b}, or provided by project supervisor Ingo Dierking. All images were prepared as in Section 3.2.2, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel from the uniform distribution $[0,0.1]$.
+\subsubsection{Model architectures and training configurations}
+A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all others layers, doubling the number of channels with each successive convolutional layer. Each convoluational layer has kernel size $3 \times 3$ and same padding, and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer which has a softmax activation function. As an example, an architectural diagram of the three-layer model is displayed in Figure 8 in Appendix C.
+
+\subsubsection{Results}
+The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 3.
+\begin{figure}[!htb]
 	\centering
     \includegraphics[width=6.6in]{images/4-phase_graphs.png}
     \caption{Plots of the mean accuracies against number of convolutional layers for the 4-phase models over three training runs.}
@@ -242,26 +248,26 @@ The final accuracy of a trained model will vary with each training attempt due t
 %best test set accuracy, flip 256 2 layers
 %isotropic always predicted correctly, possible leakage giving false indication of high %accuracy
 %using flip 256 for other models
-From Figure 4, we see that in general the validation accuracy has a slight positive correlation with the number of layers, with the opposite for the test accuracy. This trend is not so clear for the case of flip augmentations with $256 \times 256$ input size. The decrease in test set accuracy with higher numbers of layers is suggestive of overfitting, which is to be expected as the model capacity increases greatly with each added convolutional layer. The lower capacity models from this selection are, therefore, a better choice. The high validation accuracies at greater layer counts is potentially because of the fact that the models are saved at the point of highest validation accuracy during training, which can fluctuate to high numbers.
+From the plots, we see that in general the validation accuracy has a slight positive correlation with the number of layers, with the opposite for the test accuracy. This trend is not so clear for the case of flip augmentations with $256 \times 256$ input size. The decrease in test set accuracy with higher numbers of layers is suggestive of overfitting, which is to be expected as the model capacity increases greatly with each added convolutional layer. The lower capacity models from this selection are, therefore, a better choice. The high validation accuracies at greater layer counts is potentially because of the fact that the models are saved at the point of highest validation accuracy during training, which can fluctuate to high numbers. The difference between some of the validation and test accuracies could also be due to the imbalance between the number of samples in each set, with almost double the number of validation samples as test.
 
-In every case, for the same input size and number of layers, models with flip augmentations have a higher mean test set accuracy than with all augmentations. This suggests that the some of the images produced by the extra augmentations are dissimilar to actual texture images. When applying the rotation, scaling, and translation transformations included in all augmentations, certain edges and corners of the image are extended or distorted to fill the input space. These regions do not contain features identifiable as liquid crystal texture, which could be the cause of the lower performance.
+In every case, for the same input size and number of layers, models with flip augmentations have a higher mean test set accuracy than with all augmentations. This suggests that the some of the images produced by the extra augmentations are dissimilar to actual texture images. When applying the rotation, scaling, and translation transformations included in all augmentations, certain edges and corners of the image are extended or distorted to fill the input space. These regions do not contain features identifiable as liquid crystal texture, which could be the cause of the lower performance. In addition, the models with all augmentations took approximately twice as long to train as with flip augmentations, due to the increased computing time in applying the extra transformations.
 
 With the same augmentations and number of layers, 5 in 6 models with an input size of $256 \times 256$ performed better on the test set than $128 \times 128$. Certain textural features could have potentially been lost at the lower resolution, which could explain the lower accuracies observed.
 
-Overall, the models achieved good accuracies on the test set, with 10 out 24 scoring above 90 percent. This demonstrates the viability of CNNs in the liquid crystal phase identification task. However, the textures of the four phases these models were trained to classify are highly distinct and potentially easily identified by the human eye, meaning even the best models would perhaps struggle to compete.
+Overall, the models achieved good accuracies on the test set, with 10 out 24 scoring above 90 percent. This demonstrates the viability of CNNs in the liquid crystal phase identification task. However, the textures of the four phases these models were trained to classify are highly distinct and potentially easily identified by the human eye, meaning even the best models would perhaps struggle to compete. The most straightforward way to improve the results would be through increasing the size of the dataset, and adjusting model capacity appropriately.
 
-The highest accuracy on the test set out of every trained model was 94.33 percent. This was one of the models with two convolutional layers, flip augmentations, and $256 \times 256$ input size. The lowest had 74.42 percent accuracy, with 6 convolutional layers, all augmentations, and $128 \times 128$ input size. Figure 5 displays the test set confusion matrices for these models.
-\begin{figure}[h]
+The highest accuracy on the test set out of every trained model was 94.33 percent. This was one of the models with two convolutional layers, flip augmentations, and $256 \times 256$ input size. The lowest had 74.42 percent accuracy, with 6 convolutional layers, all augmentations, and $128 \times 128$ input size. Figure 4 displays the test set confusion matrices for these models.
+\begin{figure}[!htb]
 	\centering
-    \includegraphics[width=5.5in]{images/confusion_matrix.png}
+    \includegraphics[width=6in]{images/confusion_matrix.png}
     \caption{Test set confusion matrices for the models with highest and lowest overall test accuracies. The value in each square represents the fraction of examples with the true phase label for which the model output was the predicted phase label. We therefore aim for values close to one along the diagonal, which corresponds to correct model outputs.}
 \end{figure} 
 We see that both models, especially the less accurate one, perform the worst on the cholesteric and smectic phases, suggesting that they have a higher degree of similarity between their textural features than the other classes. Both models identify the nematic phase more than 95 percent of the time, and are completely accurate in identifying the isotropic phase and do not miss-label any other phases as isotropic. This high success rate is potentially a result of the uniformity of the generated dark isotropic textures, which do not have highly complex features for the model to learn. Upon removal of the isotropic class from the test set, the most accurate model's accuracy is reduced to 92.57 percent, and the least accurate to 66.86. The isotropic class is, therefore, potentially a source of data leakage. However, it does suggest that the models would easily be trained to identify real isotropic textures. 
 %=========================================================================================
-\section{Smectic A and C binary classifier models}
-\subsection{Dataset distribution}
+\subsection{Smectic A and C binary classifier models}
+\subsubsection{Dataset construction}
 The next set of models were an attempt at the binary classification task of smectic A and C phases, which can have similar textural features due to their structures only differing by a tilt in the director \cite{Dierking03}. The distribution of data for the two classes is displayed in Table 2.
-\begin{table}[h]
+\begin{table}[!htb]
 \begin{center}
 \caption{Dataset distribution for smectic A and C classifier models.}
 \begin{tabular}{l|c|c|c|c}
@@ -277,39 +283,68 @@ The next set of models were an attempt at the binary classification task of smec
 \end{tabular}
 \end{center}
 \end{table}
-All images were again prepared as in Section 6.2.
-\subsection{Model architectures and training configuration}
-Based on the results of Section 7, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
+The validation and test sets are more equally balanced for this set of models. All polarised microscopy videos used in this set were provided by project supervisor Ingo Dierking, and all images were again prepared as in Section 3.2.2.
+\subsubsection{Model architectures and training configuration}
+Based on the results of Section 3.3, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
 
-A different type of CNN architecture was also tested for smectic A and C, inspired by Google's 22 layer GoogLeNet Inception model, the winner of the ILSVRC in 2014 \cite{ILSVRC15}. An Inception model contains branching "Inception blocks", a specific arrangement of convolutional layers depicted in Figure 6 \cite{Szegedy2015}.  
-\begin{figure}[h]
+A different type of CNN architecture was also tested for smectic A and C, inspired by Google's 22 layer GoogLeNet Inception model, the winner of the ILSVRC in 2014 \cite{ILSVRC15}. An Inception model contains branching "Inception blocks", a specific arrangement of convolutional layers depicted in Figure 5 \cite{Szegedy2015}.  
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=5in]{images/inception_block.png}
 \caption{Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract different sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceeding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite{Szegedy2015}.}
 \end{figure}
-Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, Each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer, followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, followed by a standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced to a set amount by the $1 \times 1$ kernel layers, and starts at 8 for the first block, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding, and a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is outlined in Figure 7.
+Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, Each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer, followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, followed by a standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced to a set amount by the $1 \times 1$ kernel layers, and starts at 8 for the first block, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding, and a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is outlined in Figure 9 in Appendix C.
+\subsubsection{Results}
+Similarly to the 4-phase models, all sequential and Inception smectic A and C models were trained three times and the mean validation and test accuracies calculated, with an uncertainty of half the range. These results are shown in Figure 6. 
 \begin{figure}[!ht]
-	\centering
-    \includegraphics[width=5.393in]{images/inception_model.png}
-    \caption{Architectural diagram of the Inception CNN model with one block. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional, max pooling and Inception block layer. Not to scale.}
-\end{figure} 
-\subsection{Results}
-Similarly to the 4-phase models, all sequential and Inception smectic A and C models were trained three times and the mean validation and test accuracies calculated, with an uncertainty of half the range. These results are shown in Figure 8. 
-\begin{figure}[!htb]
 	\centering
     \includegraphics[width=5.6678in]{images/smecticAC_graphs.png}
     \caption{Plots of the mean accuracies over three training runs against number of convolutional layers for sequential models, and number of Inception blocks for Inception models, for the smectic A and C models.}
-%no noticeable trends in accuracies for either type
-
 \end{figure} 
+%no noticeable trends in accuracies for either type
+%overall very good accuracies
+%large error bars, need more trial runs
+%overall inception better than sequential
+We do not observe any noticeable trends in either validation or test accuracy, and most of the models have similar scores on both sets.
+
+All nine models achieved a mean test accuracy above 90 percent, with four above 95. This is a strong performance, demonstrating the viability of CNNs in differentiating similar-looking liquid crystal textures. However, it is a simple binary classification problem, so larger datasets with more phases will be required to test the limits of these types of models. The Inception models have a greater minimum mean test accuracy than the sequential ones, with 94.79 percent compared to 92.71. However, the highest mean test accuracy of 97.05 percent belongs to the sequential model with four convolutional layers. More training will have to be carried out to make confident conclusions about the architecture that performs better overall.
+
+The error bars are very large on some of the data points, due to the small sample size of only three training runs. This error could be reduced to provide a more confident estimation of each model's overall accuracy by increasing the dataset size and performing more training runs. A single training cycle takes a long time, approximately one hour, with the set up used to train these models, which is the limiting factor in producing more results and higher accuracies. Larger models with bigger datasets will also take longer to train.
+
+The single saved model with the highest test accuracy at 99.22 percent was an Inception model with two blocks, and the lowest was a sequential model with one convolutional layer, at 85.42 percent. The confusion matrices for these models are displayed in Figure 7.
+\begin{figure}[!ht]
+	\centering
+    \includegraphics[width=4.174in]{images/confusion_matrix_2.png}
+    \caption{Test set confusion matrices for the smectic A and C models with highest and lowest overall test accuracies.}
+\end{figure} 
+The Inception model only misidentifies 2 percent, or four samples, of the smectic C test set, which is an incredibly good performance. This is likely a fluctuation and may not represent the model's true generalisation error due to the relatively small size of the dataset. The sequential model's inaccuracies mostly stem from misidentifying smectic A as smectic C, which is potentially due to there being more smectic C samples than A in the training set. 
 %=========================================================================================
-\section{General smectic phase classifier models}
-\subsection{Dataset distribution}
-a
-\subsection{Model architectures and training configuration}
-a
-\subsection{Results}
-a
+\subsection{General smectic classifier models}
+\subsubsection{Dataset construction}
+Exactly the same models, aside from the number of output units, as the smectic A and C classifiers were tested in the identification of the fluid smectic, hexatic smectic, and soft crystal phases. The dataset distribution is presented in Table 3.
+\begin{table}[!htb]
+\begin{center}
+\caption{Dataset distribution for general smectic classifier models.}
+\begin{tabular}{l|c|c|c|c|c}
+\toprule
+& \textbf{Fluid smectic} & \textbf{Hexatic smectic} & \textbf{Soft crystal} & \textbf{Totals} & \textbf{\% of total}\\
+\midrule
+\textbf{Training} & 1759 & 486 & 600 & 2845 & 70.67\\
+\textbf{Validation} & 372 & 90 & 144 & 606 & 15.05\\
+\textbf{Test} & 389 & 90 & 96 & 575 & 14.28\\
+\midrule
+\textbf{Totals} & 2520 & 666 & 840 & 4026\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+Again, all videos used in this set were provided by project supervisor Ingo Dierking, and all images for this set were prepared as in Section 3.2.2. The current collection of polarised microscopy videos gives an image dataset that is greatly imbalanced in the favour of the fluid smectic phases. 
+\subsubsection{Model architectures and training configuration}
+The nine models used for the general smectic phase classification have the same architectures and training configurations as those of section 3.4.2, aside from using the categorical cross-entropy loss instead of binary cross-entropy and having three final layer output units instead of one. 
+\subsubsection{Results}
+When training the sequential models on the dataset, despite some trial and error adjustments to the sizes of the hidden layers, every model predicted fluid smectic 100 percent of the time on the test set. This is most likely due to the large imbalance in the dataset. The sequential models are possibly unable to learn enough features from the small sets of hexatic smectic and soft crystal data, collapsing into prediction of fluid smectic every time, which results in an accuracy on the test set of 67.65 percent. This is simply equal to the percentage of fluid smectic examples in the test set.
+
+The Inception models were trained on this set one time each, with some more successful results. The test set accuracies were 72.24, 83.27, and 85.48 percent for one, two and three blocks respectively. The test set confusion matrices for these models are displayed in Figure  
 %=========================================================================================
 \section{Conclusions}
 a
@@ -322,11 +357,24 @@ a
 
 \appendix
 \appendixpage
-\section{Backpropagation}
+\section{Backpropagation algorithm}
 \section{Adam optimiser}
 Before the first iteration, the biased first and second moment estimate variables $\bm{s}$ and $\bm{r}$ are initialised to zero. At the start of an iteration, a batch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation 13. $\bm{s}$ is updated as
 \begin{equation}
 \bm{s}
 \end{equation}        
+\section{Example architecture diagrams}
+Figure x provides a representation of the network architecture of the 4-phase sequential model with three convolutional layers and $256 \times 256$ input size.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
+\caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
+\end{figure}
 
+Figure x provides a representation of the network architecture of the smectic A and C Inception model with one block.
+\begin{figure}[!htb]
+	\centering
+    \includegraphics[width=5.393in]{images/inception_model.png}
+    \caption{Architectural diagram of the Inception CNN model with one block. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional, max pooling and Inception block layer. Not to scale.}
+\end{figure} 
 \end{document}

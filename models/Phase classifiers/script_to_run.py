@@ -23,11 +23,17 @@ train_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/sm
 valid_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/valid'
 test_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test'
 
-train_gen, valid_gen, test_gen = create_generators(train_dir_smecticAC,
-                                                   valid_dir_smecticAC,
-                                                   test_dir_smecticAC,
-                                                   binary=True)
+train_gen, valid_gen, test_gen = create_generators(train_dir_smectic,
+                                                   valid_dir_smectic,
+                                                   test_dir_smectic)
 
+train_model(smectic_models.flip_256_inception_4,
+            'smectic/flip_256_inception_4',
+            train_gen,
+            valid_gen,
+            test_gen)
+
+"""
 inc_val_accs = np.empty((3, 3))
 inc_test_accs = np.empty((3, 3))
 
@@ -216,3 +222,4 @@ pd.DataFrame(data=seq_val_accs,
 pd.DataFrame(data=seq_test_accs,
              index=rows,
              columns=seq_cols).to_csv('multi train results/smecticAC/seq_test_accs.csv')
+"""
