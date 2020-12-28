@@ -27,11 +27,8 @@ train_gen, valid_gen, test_gen = create_generators(train_dir_smectic,
                                                    valid_dir_smectic,
                                                    test_dir_smectic)
 
-train_model(smectic_models.flip_256_inception_4,
-            'smectic/flip_256_inception_4',
-            train_gen,
-            valid_gen,
-            test_gen)
+load_model('checkpoints/v3 flip augs 128/v3_conv_6_128').summary()
+load_model('checkpoints/v3 flip augs 256/v3_conv_6').summary()
 
 """
 inc_val_accs = np.empty((3, 3))

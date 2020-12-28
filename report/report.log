@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  28 DEC 2020 18:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  28 DEC 2020 22:57
 entering extended mode
 **./report.tex
 (report.tex
@@ -723,20 +723,20 @@ File: images/confusion_matrix_2.png Graphic file (type png)
 Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 317.
 
 (pdftex.def)             Requested size: 301.65468pt x 191.7194pt.
- [16 <./images/smecticAC_graphs.png>] [17 <./images/confusion_matrix_2.png>] (r
-eport.bbl
-[18] [19])
-<images/v3_conv_3_diagram.png, id=101, 1011.78pt x 879.285pt>
+ [16 <./images/smecticAC_graphs.png>] [17 <./images/confusion_matrix_2.png>] [1
+8] (report.bbl
+[19] [20])
+<images/v3_conv_3_diagram.png, id=104, 1011.78pt x 879.285pt>
 File: images/v3_conv_3_diagram.png Graphic file (type png)
 <use images/v3_conv_3_diagram.png>
-Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 368.
+Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 386.
 (pdftex.def)             Requested size: 403.35384pt x 350.54051pt.
-<images/inception_model.png, id=102, 977.6525pt x 1179.40625pt>
+<images/inception_model.png, id=105, 977.6525pt x 1179.40625pt>
 File: images/inception_model.png Graphic file (type png)
 <use images/inception_model.png>
-Package pdftex.def Info: images/inception_model.png  used on input line 375.
+Package pdftex.def Info: images/inception_model.png  used on input line 393.
 (pdftex.def)             Requested size: 389.75249pt x 470.18848pt.
- [20] [21 <./images/v3_conv_3_diagram.png>] [22 <./images/inception_model.png>]
+ [21] [22 <./images/v3_conv_3_diagram.png>] [23 <./images/inception_model.png>]
  (report.aux) ) 
 Here is how much of TeX's memory you used:
  16910 strings out of 492895
@@ -772,9 +772,9 @@ lic/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jj_he/AppData/Loca
 l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (23 pages, 1114807 bytes).
+Output written on report.pdf (24 pages, 1118908 bytes).
 PDF statistics:
- 183 PDF objects out of 1000 (max. 8388607)
+ 186 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
