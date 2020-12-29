@@ -1,0 +1,36 @@
+\contentsline {section}{\numberline {1}Introduction}{1}% 
+\contentsline {section}{\numberline {2}Background theory}{1}% 
+\contentsline {subsection}{\numberline {2.1}Liquid crystal phases}{1}% 
+\contentsline {subsubsection}{\numberline {2.1.1}Structure}{1}% 
+\contentsline {subsubsection}{\numberline {2.1.2}Polarised microscopy}{2}% 
+\contentsline {subsection}{\numberline {2.2}General machine learning principles}{3}% 
+\contentsline {subsection}{\numberline {2.3}Feedforward neural networks}{4}% 
+\contentsline {subsubsection}{\numberline {2.3.1}Forward propagation}{4}% 
+\contentsline {subsubsection}{\numberline {2.3.2}Training}{5}% 
+\contentsline {subsubsection}{\numberline {2.3.3}Regularisation}{7}% 
+\contentsline {subsection}{\numberline {2.4}Convolutional neural networks}{8}% 
+\contentsline {subsubsection}{\numberline {2.4.1}Convolutional layers}{8}% 
+\contentsline {subsubsection}{\numberline {2.4.2}Pooling layers}{9}% 
+\contentsline {section}{\numberline {3}Project work}{9}% 
+\contentsline {subsection}{\numberline {3.1}First semester goals}{9}% 
+\contentsline {subsection}{\numberline {3.2}Model training set-up}{9}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Universal training configurations}{9}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Image data preparation}{10}% 
+\contentsline {subsection}{\numberline {3.3}Models I, 4-phase classifiers}{11}% 
+\contentsline {subsubsection}{\numberline {3.3.1}Dataset construction I}{11}% 
+\contentsline {subsubsection}{\numberline {3.3.2}Model architectures and training configurations I}{11}% 
+\contentsline {subsubsection}{\numberline {3.3.3}Results I}{11}% 
+\contentsline {subsection}{\numberline {3.4}Models II, smectic A and C binary classifiers}{13}% 
+\contentsline {subsubsection}{\numberline {3.4.1}Dataset construction II}{13}% 
+\contentsline {subsubsection}{\numberline {3.4.2}Model architectures and training configuration II}{14}% 
+\contentsline {subsubsection}{\numberline {3.4.3}Results II}{16}% 
+\contentsline {subsection}{\numberline {3.5}Models III, general smectic classifiers}{17}% 
+\contentsline {subsubsection}{\numberline {3.5.1}Dataset construction III}{17}% 
+\contentsline {subsubsection}{\numberline {3.5.2}Model architectures and training configuration III}{18}% 
+\contentsline {subsubsection}{\numberline {3.5.3}Results III}{18}% 
+\contentsline {section}{\numberline {4}Conclusions}{18}% 
+\contentsline {section}{\numberline {5}Going forward}{19}% 
+\contentsline {section}{\numberline {A}Training algorithms}{21}% 
+\contentsline {subsection}{\numberline {A.1}Backpropagation}{21}% 
+\contentsline {subsection}{\numberline {A.2}Adam optimiser}{22}% 
+\contentsline {section}{\numberline {B}Example architecture diagrams}{22}% 
