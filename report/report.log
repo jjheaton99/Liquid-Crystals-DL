@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  28 DEC 2020 22:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  29 DEC 2020 17:59
 entering extended mode
 **./report.tex
 (report.tex
@@ -694,30 +694,30 @@ Package pdftex.def Info: images/feedforward_nn.png  used on input line 77.
 (pdftex.def)             Requested size: 252.94499pt x 198.36958pt.
  [4 <./images/feedforward_nn.png>]
 [5] [6] [7] [8] [9] [10]
-<images/4-phase_graphs.png, id=62, 710.655pt x 570.13pt>
+<images/4-phase_graphs.png, id=61, 710.655pt x 570.13pt>
 File: images/4-phase_graphs.png Graphic file (type png)
 <use images/4-phase_graphs.png>
 Package pdftex.def Info: images/4-phase_graphs.png  used on input line 237.
 (pdftex.def)             Requested size: 476.98244pt x 382.67238pt.
  [11] [12 <./images/4-phase_graphs.png>]
-<images/confusion_matrix.png, id=71, 633.36626pt x 406.51875pt>
+<images/confusion_matrix.png, id=70, 633.36626pt x 406.51875pt>
 File: images/confusion_matrix.png Graphic file (type png)
 <use images/confusion_matrix.png>
 Package pdftex.def Info: images/confusion_matrix.png  used on input line 262.
 (pdftex.def)             Requested size: 433.62pt x 278.32098pt.
  [13] [14 <./images/confusion_matrix.png>]
-<images/inception_block.png, id=79, 1357.07pt x 839.135pt>
+<images/inception_block.png, id=78, 1357.07pt x 839.135pt>
 File: images/inception_block.png Graphic file (type png)
 <use images/inception_block.png>
 Package pdftex.def Info: images/inception_block.png  used on input line 293.
 (pdftex.def)             Requested size: 361.34999pt x 223.43245pt.
-<images/smecticAC_graphs.png, id=80, 610.28pt x 322.20375pt>
+<images/smecticAC_graphs.png, id=79, 610.28pt x 322.20375pt>
 File: images/smecticAC_graphs.png Graphic file (type png)
 <use images/smecticAC_graphs.png>
 Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 301.
 (pdftex.def)             Requested size: 409.61197pt x 216.26869pt.
  [15 <./images/inception_block.png>]
-<images/confusion_matrix_2.png, id=85, 440.64626pt x 280.04625pt>
+<images/confusion_matrix_2.png, id=84, 440.64626pt x 280.04625pt>
 File: images/confusion_matrix_2.png Graphic file (type png)
 <use images/confusion_matrix_2.png>
 Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 317.
@@ -725,18 +725,18 @@ Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 317.
 (pdftex.def)             Requested size: 301.65468pt x 191.7194pt.
  [16 <./images/smecticAC_graphs.png>] [17 <./images/confusion_matrix_2.png>] [1
 8] (report.bbl
-[19] [20])
-<images/v3_conv_3_diagram.png, id=104, 1011.78pt x 879.285pt>
+[19] [20]) [21]
+<images/v3_conv_3_diagram.png, id=107, 1011.78pt x 879.285pt>
 File: images/v3_conv_3_diagram.png Graphic file (type png)
 <use images/v3_conv_3_diagram.png>
-Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 386.
+Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 427.
 (pdftex.def)             Requested size: 403.35384pt x 350.54051pt.
-<images/inception_model.png, id=105, 977.6525pt x 1179.40625pt>
+<images/inception_model.png, id=108, 977.6525pt x 1179.40625pt>
 File: images/inception_model.png Graphic file (type png)
 <use images/inception_model.png>
-Package pdftex.def Info: images/inception_model.png  used on input line 393.
+Package pdftex.def Info: images/inception_model.png  used on input line 434.
 (pdftex.def)             Requested size: 389.75249pt x 470.18848pt.
- [21] [22 <./images/v3_conv_3_diagram.png>] [23 <./images/inception_model.png>]
+ [22] [23 <./images/v3_conv_3_diagram.png>] [24 <./images/inception_model.png>]
  (report.aux) ) 
 Here is how much of TeX's memory you used:
  16910 strings out of 492895
@@ -745,34 +745,33 @@ Here is how much of TeX's memory you used:
  20691 multiletter control sequences out of 15000+200000
  546569 words of font info for 76 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,13n,63p,1744b,571s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmbsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cmextra/cmbsy8.pfb><C:/Users/jj_he/AppData/Local/Pr
 ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/App
 Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Us
-ers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx
-8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_he/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/
-jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.
-pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cmextra/cmmib8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/
-jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb
-><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jj_he/AppData/Loca
-l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (24 pages, 1118908 bytes).
+ers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex
+10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_he/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jj_he/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/User
+s/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/c
+mmib8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jj_he/AppDat
+a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/j
+j_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmsy6.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jj_he/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on report.pdf (25 pages, 1120879 bytes).
 PDF statistics:
  186 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

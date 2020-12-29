@@ -29,7 +29,7 @@
 \maketitle
 
 \begin{abstract}
-hi
+In this project, we investigate the application of machine learning models to the challenge of identifying liquid crystal phases directly from their texture images. Branching and sequential convolutional neural networks are applied to three distinct phase classification tasks, utilising training data in the form of liquid crystal texture images extracted from polarised microscopy videos. We obtain high mean test set accuracies, often greater than 90 percent, for sequential models classifying the isotropic, nematic, cholesteric and smectic phases. Sequential and branching models perform very well in the binary classification of the smectic A and smectic C phases, with all models achieving a mean test set accuracy of above 90 percent. Models are also applied to the classification of the fluid smectic, hexatic smectic, and soft crystal phases. Success in this task is limited so far due to a lack of data for the hexatic smectic and soft crystal phases.
 \end{abstract}
 
 \pagenumbering{gobble}
@@ -62,7 +62,7 @@ The liquid crystal texture data used in this project have all been obtained by p
 \subsection{General machine learning principles}
 A machine learning model is a computer algorithm which automatically improves its performance in a given task as it gains experience from a dataset \cite{Goodfellow16}. It learns patterns in data and uses these patterns to make probabilistic predictions. The data normally takes the form of a set of $N$ examples, which are usually expressed as vectors, or some other structure of features, $\{\bm{x}^{(i)}\}_{i=1}^N$, containing quantitative information about example $i$ \cite{Murphy12}. In supervised learning the examples are given labels $y^{(i)}$, to form a training set of pairs $\{\bm{x}^{(i)}, y^{(i)}\}_{i=1}^N$, and the model attempts to learn the mapping from a general input $\bm{x}$ to an output $\hat{y}$. One main type of supervised learning is regression, in which the output is a numerical scalar. The other main type is classification, in which the model predicts what the input belongs to out of a selection of classes. In unsupervised learning there are no labels, and the algorithm attempts to learn specific patterns in the dataset such as clusters of similar data points \cite{Murphy12}. The topic of this project is a supervised classification problem.
 
-A supervised model can be usually be expressed as a function of inputs and a set of parameters $\boldsymbol\theta$ such that $\hat{y}=f(\bm{x};\boldsymbol\theta)$. Training involves optimisation of the parameters by minimisation of a cost function $J(\boldsymbol\theta)$, which measures the deviation of the predictions of the model from the true labels. The most common optimisation algorithms involve computing the gradient of $J(\boldsymbol\theta)$ with respect to $\boldsymbol\theta$ \cite{Goodfellow16}. 
+A supervised model can be usually be expressed as a function of inputs and a set of parameters $\bm\theta$ such that $\hat{y}=f(\bm{x};\bm\theta)$. Training involves optimisation of the parameters by minimisation of a cost function $J(\bm\theta)$, which measures the deviation of the predictions of the model from the true labels. The most common optimisation algorithms involve computing the gradient of $J(\bm\theta)$ with respect to $\bm\theta$ \cite{Goodfellow16}. 
 
 The capacity of a model is akin to its complexity. The number of trainable parameters can give a fast indication of capacity. However, it also depends on the model's functional form. The parameters controlling the capacity of the model, as well as certain other training settings, are known as hyperparameters \cite{Goodfellow16}. If the capacity is too small, the model will tend to "underfit" the training set, resulting in poor performance even when optimised well. On the other hand, too high a capacity will result in "overfitting", with high performance on the training set, but the model may have a high generalisation error, which is the model's error rate when evaluating it on new, unseen data \cite{Murphy12, Goodfellow16}. Before training begins, the entire dataset is often split into training, validation, and test sets, containing $N_{\mathrm{train}}$, $N_{\mathrm{valid}}$ and $N_{\mathrm{test}}$ examples respectively. The training set, as defined previously, is used to optimise the parameters. The model's performance is then evaluated on the validation set. A poor performance on both the training and validation sets is indicative of underfitting, whereas a high performance on the training set and low on the validation set suggests overfitting. The validation set can therefore be used to tune the hyperparameters of the model before retraining. This can be repeated until the model fits optimally \cite{Murphy12, Goodfellow16}. The final model is then evaluated on the as-of-yet unseen test set to provide an estimate of its generalisation error \cite{Murphy12}. Methods used to reduce generalisation error, such as reducing model capacity, are known as regularisation. \cite{Goodfellow16}.
 
@@ -84,45 +84,45 @@ O_{lu}=A(h_{lu})
 \end{equation}
 with
 \begin{equation}
-h_{lu}=b_{lu}+\sum_{v=1}^{W_{l-1}}\theta_{luv}O_{(l-1)v}
+h_{lu}=b_{lu}+\sum_{v=1}^{W_{l-1}}w_{luv}O_{(l-1)v}
 \end{equation}
-for $l > 0$. $\theta_{luv}$ is the weight parameter that hidden unit $u$ of layer $l$ applies to the output of unit $v\in[1..W_{l-1}]$ of the previous layer \cite{Haykin98}. $O_{0u}$, is equivalent to value $x_u$ of the the input vector $\bm{x}$. In matrix form,
+for $l > 0$. $w_{luv}$ is the weight parameter that hidden unit $u$ of layer $l$ applies to the output of unit $v\in[1..W_{l-1}]$ of the previous layer \cite{Haykin98}. $O_{0u}$, is equivalent to value $x_u$ of the the input vector $\bm{x}$. In matrix form,
 \begin{equation}
 \bm{O}_l=A(\bm{h}_l)
 \end{equation}
 with
 \begin{equation}
-\bm{h}_l=\boldsymbol\theta_l\bm{O}_{l-1}+\bm{b}_l
+\bm{h}_l=\bm{w}_l\bm{O}_{l-1}+\bm{b}_l
 \end{equation}
-where $\boldsymbol\theta_l$ is the $W_l \times \left(W_{l-1}\right)$ dimensional matrix of weights for layer $l$, with rows corresponding to the weights of each hidden unit, $\bm{O}_l$ is the vector of outputs for layer $l$, and $\bm{b}_l$ is the vector of bias parameters for layer $l$. For the first layer,
+where $\bm{w}_l$ is the $W_l \times W_{l-1}$ dimensional matrix of weights for layer $l$, with rows corresponding to the weights of each hidden unit, $\bm{O}_l$ is the vector of outputs for layer $l$, and $\bm{b}_l$ is the vector of bias parameters for layer $l$. For the first layer,
 \begin{equation}
-\bm{h}_1=\boldsymbol\theta_1\bm{x}+\bm{b_1}\; \cite{Haykin98}.
+\bm{h}_1=\bm{w}_1\bm{x}+\bm{b}_1\; \cite{Haykin98}.
 \end{equation}
 The activation function is applied element-wise. A highly effective choice of activation function for hidden units, that performs a similar operation to biological neurons, is the rectified linear unit (ReLU),
 \begin{equation}
 A(h)=\mathrm{max}(0,h)\; \cite{Glorot11}.
 \end{equation}
 
-The number of units in the final output layer depends on the type of model. For regression, there will be one unit that outputs a continuous-valued prediction \cite{Goodfellow16}. For classification, the number of final layer units is equal to the number of classes, $C=W_D$, with each one outputting the predicted probability that an input $\bm{x}$ belongs to a particular class. The network is therefore summarised as $\hat{\bm{y}}=f(\bm{x};\boldsymbol\theta)$, with $\hat{\bm{y}}$ being the $C$ dimensional vector of output probabilities. Each example in the dataset is labelled by a vector $\bm{y}$ with a value of one for the component corresponding to the true class, and zero for all other components. The component $y_u$, with $u\in[1..C]$, is equivalent to the Kronecker delta $\delta_{ut}$ where the index $t$ corresponds to the true class \cite{Goodfellow16}. The most common choice of final layer activation function for classification is the softmax function, $\sigma_{SM}(h)$, in which case the components $\hat{y}_u$ of the output probability prediction vector, are given by
+The number of units in the final output layer depends on the type of model. For regression, there will be one unit that outputs a continuous-valued prediction \cite{Goodfellow16}. For classification, the number of final layer units is equal to the number of classes, $C=W_D$, with each one outputting the predicted probability that an input $\bm{x}$ belongs to a particular class. The network is therefore summarised as $\hat{\bm{y}}=f(\bm{x};\bm\theta)$, with $\hat{\bm{y}}$ being the $C$ dimensional vector of output probabilities, and $\bm\theta$ the combined representation of all $\bm{w}_l$ and $\bm{b}_l$. Each example in the dataset is labelled by a vector $\bm{y}$ with a value of one for the component corresponding to the true class, and zero for all other components. The component $y_u$, with $u\in[1..C]$, is equivalent to the Kronecker delta $\delta_{ut}$ where the index $t$ corresponds to the true class \cite{Goodfellow16}. The most common choice of final layer activation function for classification is the softmax function, $\sigma_{SM}(h)$, in which case the components $\hat{y}_u$ of the output probability prediction vector, are given by
 \begin{equation}
 \hat{y}_u=O_{Du}=\frac{e^{h_{Du}}}{\sum_{v=1}^{C}e^{h_{Dv}}}\;\cite{Goodfellow16}.
 \end{equation} 
 When there are just two classes, known as binary classification, only one unit is needed in the output layer. The data labels $y$ are equal to one or zero depending on the class that $\bm{x}$ belongs to \cite{Goodfellow16}. The activation function in this case is generally the logistic sigmoid function, $\sigma(h)$, with
 \begin{equation}
-\hat{y}=O_D=\frac{1}{1+e^{-h_D}}
+\hat{y}=O_D=\frac{1}{1+e^{-h_D}}.
 \end{equation}
-where in this situation $\boldsymbol\theta_D$ is a $W_{D-1}$ dimensional vector. The value of $\hat{y}$ is the predicted probability that $\bm{x}$ belongs to one of the classes, with a probability of $1-\hat{y}$ that it belongs to the other \cite{Goodfellow16}. 
+The value of $\hat{y}$ is the predicted probability that $\bm{x}$ belongs to one of the classes, with a probability of $1-\hat{y}$ that it belongs to the other \cite{Goodfellow16}. 
 
 In 1989 Kurt Hornik \textit{et al.} mathematically proved that feedforward neural networks with multiple layers and non-linear activations can approximate any continuous function given the correct configuration \cite{Hornik89}. Another advantage of neural networks is that they can automatically learn to extract useful higher-level features from the raw input data \cite{Haykin98}.
 
 \subsubsection{Training}
-Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution \cite{Goodfellow16}. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost \cite{Goodfellow16}. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters \cite{Haykin98}. Backpropagation is detailed in Appendix I. The overall goal of training iterations is to reduce the generalisation error of the model \cite{Goodfellow16}. Generally, the cost function is the expectation value of the loss of all examples in the training set,
+Neural network training starts with random initialisation of the weights, for example by drawing values from a normal distribution \cite{Goodfellow16}. A single update step is generally carried out by calculating the model output for each example, followed by the gradient of the cost function with respect to the model weight parameters, $\bm{g}=\bm\nabla_{\bm\theta}J(\bm\theta)$. An iterative optimisation algorithm then uses the gradient to update the parameters to reduce the cost \cite{Goodfellow16}. $\bm{g}$ is obtained using the backpropagation algorithm, which calculates the gradient of $J(\bm\theta)$ with respect to the final outputs, and then recursively applies the chain rule going backwards through the network, calculating the derivatives with respect to the outputs of each hidden unit followed by their parameters \cite{Haykin98}. Backpropagation is detailed in Appendix A. The overall goal of training iterations is to reduce the generalisation error of the model \cite{Goodfellow16}. Generally, the cost function is the expectation value of the loss of all examples in the training set,
 \begin{equation}
-J(\boldsymbol\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})
+J(\bm\theta)=\frac{1}{N_{\mathrm{train}}}\sum_{i=1}^{N_{\mathrm{train}}}L(f(\bm{x}^{(i)};\bm\theta),\bm{y}^{(i)})
 \end{equation}
 where the loss is the cross-entropy between the model's output probabilities and the input's true class label,
 \begin{equation}
-L(f(\bm{x};\boldsymbol\theta),\bm{y})=L(\hat{\bm{y}},\bm{y})=-\sum_{u=1}^Cy_u\mathrm{log}(\hat{y}_u)\; \cite{Goodfellow16}.
+L(f(\bm{x};\bm\theta),\bm{y})=L(\hat{\bm{y}},\bm{y})=-\sum_{u=1}^Cy_u\mathrm{log}(\hat{y}_u)\; \cite{Goodfellow16}.
 \end{equation}
 When training a classifier model, the softmax activation function of the final layer can be included in the loss function, to give the categorical cross-entropy,
 \begin{equation}
@@ -139,32 +139,32 @@ L_{BCE}(\hat{y},y)=
 \right.\;\cite{Richard91}.
 \end{equation}
 
-Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a small batch of $m$ examples from the training data, giving
+Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a "minibatch" of $m$ examples from the training data, giving
 \begin{equation}
-\hat{\bm{g}}=\frac{1}{m}\bm\nabla_{\bm\theta}\sum_{i=1}^mL(f(\bm{x}^{(i)};\boldsymbol\theta),\bm{y}^{(i)})\;\cite{Goodfellow16}.
+\hat{\bm{g}}=\frac{1}{m}\bm\nabla_{\bm\theta}\sum_{i=1}^mL(f(\bm{x}^{(i)};\bm\theta),\bm{y}^{(i)})\;\cite{Goodfellow16}.
 \end{equation}
-In general the performance loss from the difference between $\hat{\bm{g}}$ and the exact gradient $\bm{g}$ is outweighed by the greatly decreased training step computation time \cite{Goodfellow16}. Optimisation methods that use this random batch sampling are known as stochastic methods. Typically parameter update steps are performed batch by batch, with no duplicate example selections, until the whole training set has been seen by the model. After this all examples are again available for selection. Such a cycle is known as an epoch of training, with $\mathrm{floor}(N_{\mathrm{train}}/m)$ update steps \cite{Goodfellow16}.
+In general the performance loss from the difference between $\hat{\bm{g}}$ and the exact gradient $\bm{g}$ is outweighed by the greatly decreased training step computation time \cite{Goodfellow16}. Optimisation methods that use this random minibatch sampling are known as stochastic methods. Typically parameter update steps are performed minibatch by minibatch, with no duplicate example selections, until the whole training set has been seen by the model. After this all examples are again available for selection. Such a cycle is known as an epoch of training, with $\mathrm{floor}(N_{\mathrm{train}}/m)$ update steps \cite{Goodfellow16}.
 
-Stochastic gradient descent (SGD) is a basic batch-based optimisation algorithm in which the parameters are updated in the opposite direction of $\hat{\bm{g}}$,
+Stochastic gradient descent (SGD) is a basic minibatch-based optimisation algorithm in which the parameters are updated in the opposite direction of $\hat{\bm{g}}$,
 \begin{equation}
-\bm\theta\leftarrow\bm\theta-\epsilon\hat{\bm{g}}
+\bm\theta\leftarrow\bm\theta-\alpha\hat{\bm{g}}
 \end{equation}
-where $\epsilon$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update \cite{Amari93}. $\epsilon$ must be chosen carefully because it greatly affects the training stability and duration \cite{Goodfellow16}. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error \cite{Goodfellow16}. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix II. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters \cite{Kingma14}. 
+where $\alpha$ is a hyperparameter called the learning rate, which controls the amount by which the parameters change with each update \cite{Amari93}. $\alpha$ must be chosen carefully because it greatly affects the training stability and duration \cite{Goodfellow16}. For large neural networks the cost function has a highly irregular multi-dimensional form with many local minima, meaning that in general the final model will not find the global minimum. However, a local minimum is often enough to achieve low generalisation error \cite{Goodfellow16}. For all models trained in this project, the Adam optimisation algorithm was used, detailed in Appendix B. This is a type of SGD in which the learning rate at each step is adjusted based on unbiased estimates of the first and second moments of the gradient. This algorithm is less prone to becoming stuck in shallow local minima and is not too sensitive to the choice of its hyperparameters \cite{Kingma14}. 
 
 \subsubsection{Regularisation}
 Neural networks can be prone to overfitting, especially ones with a high capacity or where the dataset is small. Good regularisation is therefore a requirement for models to perform well on the test set \cite{Goodfellow16}. There are a variety of strategies, from which the key ones used in this project are dataset augmentation, early stopping, dropout, and batch normalisation.
 
-Augmentation involves adding extra examples to the training set that are altered versions of the originals, increasing the effective overall number of training examples and improving generalisation. The same effect can also be achieved by performing specific random transformations on each example as they are selected for each training batch. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, this must produces images that could still feasibly be a member of the original dataset \cite{Goodfellow16}.
+Augmentation involves adding extra examples to the training set that are altered versions of the originals, increasing the effective overall number of training examples and improving generalisation. The same effect can also be achieved by performing specific random transformations on each example as they are selected for each training minibatch. For example, image data can undergo random rotations, reflections, translations, magnification and other transformations. Of course, this must produces images that could still feasibly be a member of the original dataset \cite{Goodfellow16}.
 
-If a model is trained for too many epochs, the performance on the training set may still be improving, but the generalisation error will start to increase due to overfitting \cite{Bishop95, Goodfellow16}. Early stopping aims to prevent this. A model performance measure, typically the cost function evaluated on a random batch from the validation set, is monitored during training. If after a specified number of epochs the performance has not improved by more than a tolerance value, the training will be stopped. The number of epochs allowed for improvement is called the patience hyperparameter \cite{Goodfellow16}.
+If a model is trained for too many epochs, the performance on the training set may still be improving, but the generalisation error will start to increase due to overfitting \cite{Bishop95, Goodfellow16}. Early stopping aims to prevent this. A model performance measure, typically the cost function evaluated on a random minibatch from the validation set, is monitored during training. If after a specified number of epochs the performance has not improved by more than a tolerance value, the training will be stopped. The number of epochs allowed for improvement is called the patience hyperparameter \cite{Goodfellow16}.
 
 When using dropout, at each training step hidden units are randomly chosen to not be included in the step, by multiplying their output by zero. The probability for a unit with dropout to not be included is equal to the dropout rate hyperparameter, which is often set to $\frac{1}{2}$. When applied applied to certain individual layers or to all hidden units, dropout simulates the training of many sub-models that all share parameters, encouraging each hidden unit to learn more general and useful features. This improves regularisation by increasing the final model's robustness to noise \cite{Srivastava2014}.
 
-When a layer has batch normalisation, the output vector $\bm{h}$ for a training batch is changed to $\bm{h'}$ according to
+When a layer has batch normalisation, the output vector $\bm{h}$ for a training minibatch is changed to $\bm{h'}$ according to
 \begin{equation}
 \bm{h}'=\gamma\frac{\bm{h}-\bm{\mu}}{\bm{\sigma}}+\beta
 \end{equation}
-where $\bm{\mu}$ is the vector of means and $\bm{\sigma}$ is the vector of standard deviations of the outputs over the whole batch, and $\gamma$ and $\beta$ are new parameters learned in conjunction with the layer parameters. This has some desirable effects when applied to each hidden layer of the model. It improves generalisation in a similar way to dropout by introducing a form of noise, and increases model training stability, allowing for greater learning rates to be used which reduces training time.
+where $\bm{\mu}$ is the vector of means and $\bm{\sigma}$ is the vector of standard deviations of the outputs over the whole minibatch, and $\gamma$ and $\beta$ are new parameters learned in conjunction with the layer parameters. This has some desirable effects when applied to each hidden layer of the model. It improves generalisation in a similar way to dropout by introducing a form of noise, and increases model training stability, allowing for greater learning rates to be used which reduces training time.
 Running averages for each $\bm{\mu}$ and $\bm{\sigma}$ are recorded during training and are used when evaluating the trained model on single inputs \cite{Ioffe15}.
 %=========================================================================================
 \subsection{Convolutional neural networks}
@@ -193,13 +193,13 @@ Pooling layers are utilised for two key reasons. Firstly, they can reduce the di
 In this first semester of the project, the primary aims have been to begin to build and process a substantial dataset of liquid crystal textures, and to begin to investigate the suitability of some basic CNN model architectures and training set-ups applied to simple phase classification tasks. 
 \subsection{Model training set-up}
 \subsubsection{Universal training configurations}
-All CNN models in this project are implemented using the TensorFlow machine learning library with Keras high-level API, and trained using NVIDIA CUDA with cuDNN on an NVIDIA RTX 2060 graphics processing unit (GPU). GPUs are typically utilised for training deep models due to their ability to perform thousands of tensor calculations in parallel, resulting in greatly decreased model training time compared with using a standard CPU \cite{Shi16, Goodfellow16}. Any hyperparameters corresponding to model tensor dimensions, specifically batch size, image input size, and model layer dimensions have been chosen as multiples of powers of two. This results in more efficient usage of GPU memory \cite{Goodfellow16}. 
+All CNN models in this project are implemented using the TensorFlow machine learning library with Keras high-level API, and trained using NVIDIA CUDA with cuDNN on an NVIDIA RTX 2060 graphics processing unit (GPU). GPUs are typically utilised for training deep models due to their ability to perform thousands of tensor calculations in parallel, resulting in greatly decreased model training time compared with using a standard CPU \cite{Shi16, Goodfellow16}. Any hyperparameters corresponding to model tensor dimensions, specifically minibatch size, image input size, and model layer dimensions have been chosen as multiples of powers of two. This results in more efficient usage of GPU memory \cite{Goodfellow16}. 
 
-For every model, a batch size of $m=32$, the Adam optimiser with hyperparameters $\epsilon=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\delta=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs is used. After early stopping, the parameters with the lowest validation loss during training were saved as the final model. Every convolutional or dense hidden layer in all models has ReLU activations and batch normalisation. Every convolutional layer has strides of $1 \times 1$, and every dense layer has dropout with rate $\frac{1}{2}$.
+For every model, a minibatch size of $m=32$, the Adam optimiser with hyperparameters $\alpha=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\epsilon=10^{-7}$ and early stopping  monitored by validation set loss and with a patience of 100 epochs is used. After early stopping, the parameters with the lowest validation loss during training were saved as the final model. Every convolutional or dense hidden layer in all models has ReLU activations and batch normalisation. Every convolutional layer has strides of $1 \times 1$, and every dense layer has dropout with rate $\frac{1}{2}$.
 
 We will define sequential neural network model architectures as models without branching layers, and branching architectures as the opposite, in which the outputs of certain layers are shared between multiple subsequent layers. Also, when referring to kernel size, we quote only the width by the height, with the depth inferred from the number of channels in the layer. We will refer to max pooling with pool size and strides of $2 \times 2$ and same padding as a standard pooling layer.
 
-Dataset augmentations are implemented automatically during training using the image data generator function in Keras. Batches of images are loaded from the training directory, and specified transformations are applied randomly to each image before being used for training. The original image remains unchanged in the root directory. We define flip augmentations as random flipping of images vertically and horizontally, and all augmentations as flip augmentations along with random rotations by up to $30^\circ$, image width and height shifting by up to $10\%$, and uniform rescaling by up to $20\%$.
+Dataset augmentations are implemented automatically during training using the image data generator function in Keras. Minibatches of images are loaded from the training directory, and specified transformations are applied randomly to each image before being used for training. The original image remains unchanged in the root directory. We define flip augmentations as random flipping of images vertically and horizontally, and all augmentations as flip augmentations along with random rotations by up to $30^\circ$, image width and height shifting by up to $10\%$, and uniform rescaling by up to $20\%$.
 
 The accuracy metric we use to test our models is the percentage of correct outputs when a model is evaluated on a specific dataset.
 \subsubsection{Image data preparation}
@@ -231,7 +231,7 @@ The videos used in the construction of this dataset were either downloaded with 
 A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all others layers, doubling the number of channels with each successive convolutional layer. Each convoluational layer has kernel size $3 \times 3$ and same padding, and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by a dense layers with 256 units, then 128 units, and 4 units for the output dense layer which has a softmax activation function. As an example, an architectural diagram of the three-layer model is displayed in Figure 8 in Appendix C.
 
 \subsubsection{Results}
-The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and batch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 3.
+The final accuracy of a trained model will vary with each training attempt due to the stochastic nature of parameter initialisation, data augmentation and minibatch selection. Each of the 24 models were trained three times, and the accuracies calculated for both validation and test sets. The overall validation and test accuracies of a model are taken as the mean of the three attempts, with an uncertainty of half the range in accuracy due to the small sample size. The final results are displayed in Figure 3.
 \begin{figure}[!htb]
 	\centering
     \includegraphics[width=6.6in]{images/4-phase_graphs.png}
@@ -356,7 +356,7 @@ In this beginning half of the project, we have endeavoured to establish a well-f
 
 From the 4-phase model investigations, we draw the conclusion that the flip augmentations are less computationally expensive and time consuming to use, and produce more accurate models than using the all augmentations setting. Also, when comparing the two input sizes of $256 \times 256$ and $128 \times 128$, the former results in higher accuracies with no increase in model training time. In general, the 4-phase models perform well on the test set, showing that CNNs have the potential to be an effective choice of machine learning algorithm type.
 
-The extremely high performance of the smectic A and C binary classifier models further demonstrates the efficacy of CNNs in identifying liquid crystal phases, including ones with fewer distinguishable textural features. The Inception and sequential models both achieve good results. The large deviations in accuracy on repeated training runs of these models shows that final model accuracy can vary greatly, depending on the parameter initialisation values and the randomly selected and augmented training data batches. Increased confidence in average accuracy requires further training runs, which is limited by long training times. 
+The extremely high performance of the smectic A and C binary classifier models further demonstrates the efficacy of CNNs in identifying liquid crystal phases, including ones with fewer distinguishable textural features. The Inception and sequential models both achieve good results. The large deviations in accuracy on repeated training runs of these models shows that final model accuracy can vary greatly, depending on the parameter initialisation values and the randomly selected and augmented training data minibatches. Increased confidence in average accuracy requires further training runs, which is limited by long training times. 
 
 Despite having built a substantial overall collection of texture images, the general smectic phase model investigation highlights the requirement for balanced classes and a large training set in order for models to generalise well. A lack of data in the hexatic smectic and soft crystal phases results in very poor performance, with the sequential models outputting a fluid smectic prediction for every input. The Inception models offer a marginal improvement in this case, however the accuracies on the test set are still lower than would be required of a reliable model.
 %=========================================================================================
@@ -374,20 +374,61 @@ For the second half of this project, there are a variety of potential ways to ex
 \appendix
 \appendixpage
 \section{Backpropagation algorithm}
-\section{Adam optimiser}
-Before the first iteration, the biased first and second moment estimate variables $\bm{s}$ and $\bm{r}$ are initialised to zero. At the start of an iteration, a batch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation 13. $\bm{s}$ is updated as
+For a fully connected feedforward neural network, the backpropagation algorithm is used to compute the gradient of the cost function with respect to all trainable parameters, $\bm{g}=\bm\nabla_{\bm\theta}J$. $\bm{g}$ is composed of the gradients of $J$ with respect to the weights and bias parameters for each layer $l$, $\bm\nabla_{\bm{w}_l}J$ and $\bm\nabla_{\bm{b}_l}J$. Let us define $\bm{\mathcal{G}}$, a vector with variable size that is updated with the gradient of each layer as we move backwards through the network. At the start of backpropagation, we assign the gradient on the final layer outputs to $\bm{\mathcal{G}}$,
 \begin{equation}
-\bm{s}
-\end{equation}        
+\bm{\mathcal{G}}\leftarrow \bm\nabla_{\bm{O}_D}J=\bm\nabla_{\hat{\bm{y}}}J, 
+\end{equation} 
+obtained from the derivative of the loss function $L(\hat{\bm{y}},\bm{y})$ with respect to $\hat{\bm{y}}$. We then perform $D$ steps with layer number $l$ decreasing by one each time. For each step, we first update $\bm{\mathcal{G}}$ by changing it from a gradient on the layer's output to a gradient on the non-activated output by the chain rule,
+\begin{equation}
+\bm{\mathcal{G}}\leftarrow \bm{\nabla}_{\bm{h}_l}J=\bm{\mathcal{G}}\odot A'(\bm{h}_l),
+\end{equation}
+where we have used the element-wise multiplication operator $\odot$. The parameter gradients for the layer are given at this point by
+\begin{align}
+\bm\nabla_{\bm{w}_l}J&=\bm{\mathcal{G}}\bm{O}_{(l-1)}^{\top},\\
+\bm\nabla_{\bm{b}_l}J&=\bm{\mathcal{G}}.
+\end{align}
+To finish the step, the gradient is propagated onto the output of the next lower hidden layer,
+\begin{equation}
+\bm{\mathcal{G}}\leftarrow \bm{\nabla}_{\bm{O}_{(l-1)}}J=\bm{w}_l^{\top}\bm{\mathcal{G}}.
+\end{equation}
+Upon reaching $l=1$, all parameter gradients have been obtained and the algorithm is complete \cite{Rumelhart86, Goodfellow16}.
+
+\section{Adam optimiser}
+The Adam stochastic optimiser algorithm proceeds as follows. Before the first iteration, the biased gradient first and second moment estimate variables, $\bm{s}$ and $\bm{r}$, and the timestep, $t$, are initialised to zero. At the start of each iteration, a minibatch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation 13. $t$ is updated as
+\begin{equation}
+t\leftarrow t+1,
+\end{equation}
+$\bm{s}$ is updated as
+\begin{equation}
+\bm{s}\leftarrow \beta_1\bm{s}+(1-\beta_1)\hat{\bm{g}},
+\end{equation}
+and $\bm{r}$ is updated as
+\begin{equation}
+\bm{r}\leftarrow \beta_2\bm{r}+(1-\beta_2)\hat{\bm{g}}\odot\hat{\bm{g}},
+\end{equation}
+where $\beta_1$ and $\beta_2$ are the first and second moment exponential decay hyperparameters. The bias-corrected first and second moments, $\hat{\bm{s}}$ and $\hat{\bm{r}}$, are then updated as
+\begin{equation}
+\hat{\bm{s}}\leftarrow \frac{\bm{s}}{1-\beta_1^t},
+\end{equation}    
+and
+\begin{equation}
+\hat{\bm{r}}\leftarrow \frac{\bm{r}}{1-\beta_2^t}.
+\end{equation}
+In the final step of the iteration, the parameters of the model are updated as
+\begin{equation}
+\bm{\theta}\leftarrow \bm{\theta}-\alpha\frac{\hat{\bm{s}}}{\sqrt{\hat{\bm{r}}}+\epsilon},
+\end{equation}
+where $\alpha$ is the step size hyperparameter and $\epsilon$ is a small hyperparameter for numerical stability. Iterations are carried out until model training is complete. The recommended defaults for the hyperparameters are $\alpha=0.001$, $\beta_1=0.9$, $\beta_2=0.999$ and $\epsilon=10^{-8}$ \cite{Kingma14}.     
+
 \section{Example architecture diagrams}
-Figure x provides a representation of the network architecture of the 4-phase sequential model with three convolutional layers and $256 \times 256$ input size.
+Figure 8 provides a representation of the network architecture of the 4-phase sequential model with three convolutional layers and $256 \times 256$ input size.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
 \caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
 \end{figure}
 
-Figure x provides a representation of the network architecture of the smectic A and C Inception model with one block.
+Figure 9 provides a representation of the network architecture of the smectic A and C Inception model with one block.
 \begin{figure}[!htb]
 	\centering
     \includegraphics[width=5.393in]{images/inception_model.png}
