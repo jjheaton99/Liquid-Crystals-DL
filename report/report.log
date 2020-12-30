@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  30 DEC 2020 17:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  30 DEC 2020 21:56
 entering extended mode
 **./report.tex
 (report.tex
@@ -795,7 +795,7 @@ Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 324.
 (pdftex.def)             Requested size: 301.65468pt x 191.7194pt.
 
 [16 <./images/smecticAC_graphs.png>] [17 <./images/confusion_matrix_2.png>]
-[18] (report.bbl [19] [20]) [21]
+[18] (report.bbl [19]) [20] [21]
 <images/v3_conv_3_diagram.png, id=109, 1011.78pt x 879.285pt>
 File: images/v3_conv_3_diagram.png Graphic file (type png)
 <use images/v3_conv_3_diagram.png>
@@ -840,7 +840,7 @@ onts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Progra
 ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jj_he/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (26 pages, 1118534 bytes).
+Output written on report.pdf (26 pages, 1118224 bytes).
 PDF statistics:
  185 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
