@@ -118,38 +118,37 @@
 \citation{Goodfellow16}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}Pooling layers}{9}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}Project work}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}First semester goals}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Model training set-up}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Universal training configurations}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Model training set-up}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Universal training configurations and definitions}{9}\protected@file@percent }
 \citation{Williams20a}
 \citation{Williams20b}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Image data preparation}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Image data preparation}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Models I, 4-phase classifiers}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Dataset construction I}{10}\protected@file@percent }
 \citation{Goodfellow16}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Models I, 4-phase classifiers}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Dataset construction I}{11}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Dataset distribution for 4-phase classifier models.\relax }}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Model architectures and training configurations I}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Results I}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Model architectures and training configurations I}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Results I}{11}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Plots of the mean accuracies against number of convolutional layers for the 4-phase models over three training runs.\relax }}{12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Test set confusion matrices for the models with highest and lowest overall test accuracies. The value in each square represents the fraction of examples with the true phase label for which the model output was the predicted phase label. We therefore aim for values close to one along the diagonal, which corresponds to correct model outputs.\relax }}{13}\protected@file@percent }
 \citation{Dierking03}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Models II, smectic A and C binary classifiers}{13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Dataset construction II}{13}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Test set confusion matrices for the models with highest and lowest overall test accuracies. The value in each square represents the fraction of examples with the true phase label for which the model output was the predicted phase label. We therefore aim for values close to one along the diagonal, which corresponds to correct model outputs.\relax }}{14}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Dataset distribution for smectic A and C classifier models.\relax }}{14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Model architectures and training configuration II}{14}\protected@file@percent }
 \citation{ILSVRC15}
 \citation{Szegedy2015}
 \citation{Szegedy2015}
 \citation{Szegedy2015}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Models II, smectic A and C binary classifiers}{14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Dataset construction II}{14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Dataset distribution for smectic A and C classifier models.\relax }}{14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Model architectures and training configuration II}{14}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract different sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceeding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite  {Szegedy2015}.\relax }}{15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Results II}{16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Results II}{15}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Plots of the mean accuracies over three training runs against number of convolutional layers for sequential models, and number of Inception blocks for Inception models, for the smectic A and C models.\relax }}{16}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Test set confusion matrices for the smectic A and C models with highest and lowest overall test accuracies.\relax }}{17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Models III, general smectic classifiers}{17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Dataset construction III}{17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Models III, general smectic classifiers}{17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Dataset construction III}{17}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Dataset distribution for general smectic classifier models.\relax }}{17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Model architectures and training configuration III}{18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Results III}{18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Model architectures and training configuration III}{17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Results III}{18}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Conclusions}{18}\protected@file@percent }
 \bibdata{report}
 \bibcite{Carleo19}{1}
@@ -163,10 +162,10 @@
 \bibcite{Murphy12}{9}
 \bibcite{Kaufman12}{10}
 \bibcite{Minsky69}{11}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Going forward}{19}\protected@file@percent }
 \bibcite{Rumelhart86}{12}
 \bibcite{Haykin98}{13}
 \bibcite{Glorot11}{14}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Going forward}{19}\protected@file@percent }
 \bibcite{Hornik89}{15}
 \bibcite{Kline05}{16}
 \bibcite{Richard91}{17}
@@ -186,8 +185,8 @@
 \citation{Goodfellow16}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Training algorithms}{21}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Backpropagation}{21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adam optimiser}{21}\protected@file@percent }
 \citation{Kingma14}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adam optimiser}{22}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {B}Example architecture diagrams}{22}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times $ height $\times $ channels for each convolutional and max pooling layer. Not to scale.\relax }}{23}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Architectural diagram of the Inception CNN model with one block. The output dimensions are displayed as width $\times $ height $\times $ channels for each convolutional, max pooling and Inception block layer. Not to scale.\relax }}{24}\protected@file@percent }
