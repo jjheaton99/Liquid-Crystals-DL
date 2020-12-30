@@ -1,3 +1,4 @@
+\babel@toc {english}{}
 \contentsline {section}{\numberline {1}Introduction}{1}% 
 \contentsline {section}{\numberline {2}Background theory}{1}% 
 \contentsline {subsection}{\numberline {2.1}Liquid crystal phases}{1}% 

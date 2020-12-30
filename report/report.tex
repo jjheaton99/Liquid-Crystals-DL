@@ -15,6 +15,10 @@
 \usepackage[font=small]{caption}
 \usepackage{subcaption}
 
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
 \bibliographystyle{ieeetr}
 
 \begin{document}
@@ -218,7 +222,7 @@ The first set of models were created to test the viability of CNNs in the liquid
 \caption{Dataset distribution for 4-phase classifier models.}
 \begin{tabular}{l|c|c|c|c|c|c}
 \toprule
-& \textbf{Isotropic} & \textbf{Nematic} & \textbf{Cholesteric} & \textbf{Smectic} & \textbf{Totals} & \textbf{\% of total}\\
+& \textbf{Iso} & \textbf{N} & \textbf{N*} & \textbf{Sm} & \textbf{Totals} & \textbf{\% of total}\\
 \midrule
 \textbf{Training} & 1500 & 1691 & 1549 & 1689 & 6429 & 71.16\\
 \textbf{Validation} & 400 & 471 & 405 & 457 & 1733 & 19.18\\
@@ -275,7 +279,7 @@ The next set of models were an attempt at the binary classification task of smec
 \caption{Dataset distribution for smectic A and C classifier models.}
 \begin{tabular}{l|c|c|c|c}
 \toprule
-& \textbf{Smectic A} & \textbf{Smectic C} & \textbf{Totals} & \textbf{\% of total}\\
+& \textbf{SmA} & \textbf{SmC} & \textbf{Totals} & \textbf{\% of total}\\
 \midrule
 \textbf{Training} & 719 & 1067 & 1786 & 70.17\\
 \textbf{Validation} & 174 & 183 & 357 & 14.03\\
@@ -288,7 +292,7 @@ The next set of models were an attempt at the binary classification task of smec
 \end{table}
 The validation and test sets are more equally balanced for this set of models. All polarised microscopy videos used in this set were provided by project supervisor Ingo Dierking, and all images were again prepared as in Section 3.2.2.
 \subsubsection{Model architectures and training configuration II}
-Based on the results of Section 3.3, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
+Based on the results of Section 3.3, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used, with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
 
 A different type of CNN architecture was also tested for smectic A and C, inspired by Google's 22 layer GoogLeNet Inception model, the winner of the ILSVRC in 2014 \cite{ILSVRC15}. An Inception model contains branching "Inception blocks", a specific arrangement of convolutional layers depicted in Figure 5 \cite{Szegedy2015}.  
 \begin{figure}[!ht]
@@ -296,7 +300,7 @@ A different type of CNN architecture was also tested for smectic A and C, inspir
 \includegraphics[width=5in]{images/inception_block.png}
 \caption{Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract different sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceeding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite{Szegedy2015}.}
 \end{figure}
-Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, Each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer, followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, followed by a standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced to a set amount by the $1 \times 1$ kernel layers, and starts at 8 for the first block, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding, and a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is outlined in Figure 9 in Appendix C.
+Three Inception models were used for smectic A and C, containing one, two and three Inception blocks. Similarly to GoogLeNet, each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels and same padding, followed by a standard pooling layer. This is followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, before another standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced by the $1 \times 1$ kernel layers, and starts at 8 for the first, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding. This is followed by a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer, and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is outlined in Figure 9 in Appendix C.
 \subsubsection{Results II}
 Similarly to the 4-phase models, all sequential and Inception smectic A and C models were trained three times and the mean validation and test accuracies calculated, with an uncertainty of half the range. These results are shown in Figure 6. 
 \begin{figure}[!ht]
@@ -310,9 +314,9 @@ Similarly to the 4-phase models, all sequential and Inception smectic A and C mo
 %overall inception better than sequential
 We do not observe any noticeable trends in either validation or test accuracy, and most of the models have similar scores on both sets.
 
-All nine models achieved a mean test accuracy above 90 percent, with four above 95. This is a strong performance, demonstrating the viability of CNNs in differentiating similar-looking liquid crystal textures. However, it is a simple binary classification problem, so larger datasets with more phases will be required to test the limits of these types of models. The Inception models have a greater minimum mean test accuracy than the sequential ones, with 94.79 percent compared to 92.71. However, the highest mean test accuracy of 97.05 percent belongs to the sequential model with four convolutional layers. More training will have to be carried out to make confident conclusions about the architecture that performs better overall.
+All nine models achieved a mean test accuracy above 90 percent, with four above 95. This is a strong performance, demonstrating the viability of CNNs in differentiating similar-looking liquid crystal textures. However, it is a simple binary classification problem, so larger datasets with more phases will be required to test the limits of these types of models. The Inception models have a greater minimum mean test accuracy than the sequential ones, with 94.79 percent compared to 92.71. However, the highest mean test accuracy of 97.05 percent belongs to the sequential model with four convolutional layers. More training will have to be carried out to draw confident conclusions about the architecture that performs better overall.
 
-The error bars are very large on some of the data points, suggesting that certain models in this task are sensitive to the stochastic properties of training. The error could be reduced to provide a more confident estimation of each model's overall accuracy by increasing the dataset size and performing more training runs. A single training cycle takes a long time, approximately one hour, with the set up used to train these models, which is the limiting factor in producing more results and higher accuracies. Larger models with bigger datasets will also take longer to train.
+The error bars are very large on some of the data points, suggesting that certain models in this task are highly sensitive to the stochastic properties of training. The error could be reduced to provide a more confident estimation of each model's overall accuracy by increasing the dataset size and performing more training runs. A single training cycle takes a long time, approximately one hour, with the set up used to train these models, which is the limiting factor in producing more results and higher accuracies. Larger models with bigger datasets will also take longer to train.
 
 The single saved model with the highest test accuracy at 99.22 percent was an Inception model with two blocks, and the lowest was a sequential model with one convolutional layer, at 85.42 percent. The confusion matrices for these models are displayed in Figure 7.
 \begin{figure}[!ht]
@@ -320,7 +324,7 @@ The single saved model with the highest test accuracy at 99.22 percent was an In
     \includegraphics[width=4.174in]{images/confusion_matrix_2.png}
     \caption{Test set confusion matrices for the smectic A and C models with highest and lowest overall test accuracies.}
 \end{figure} 
-The Inception model only misidentifies 2 percent, or four samples, of the smectic C test set, which is an incredibly good performance. This is likely a fluctuation and may not represent the model's true generalisation error due to the relatively small size of the dataset. The sequential model's inaccuracies mostly stem from misidentifying smectic A as smectic C, which is potentially due to there being more smectic C samples than A in the training set. 
+The Inception model misidentifies two percent, or four samples, of the smectic C test images. This is likely a fluctuation and may not represent the model's true generalisation error, due to the relatively small size of the dataset. The sequential model's inaccuracies mostly stem from misidentifying smectic A as smectic C, which is potentially due to there being more smectic C samples than A in the training set. 
 %=========================================================================================
 \subsection{Models III, general smectic classifiers}
 \subsubsection{Dataset construction III}
@@ -330,7 +334,7 @@ Exactly the same models, aside from the number of output units, as the smectic A
 \caption{Dataset distribution for general smectic classifier models.}
 \begin{tabular}{l|c|c|c|c|c}
 \toprule
-& \textbf{Fluid smectic} & \textbf{Hexatic smectic} & \textbf{Soft crystal} & \textbf{Totals} & \textbf{\% of total}\\
+& \textbf{FSm} & \textbf{HSm} & \textbf{SC} & \textbf{Totals} & \textbf{\% of total}\\
 \midrule
 \textbf{Training} & 1759 & 486 & 600 & 2845 & 70.67\\
 \textbf{Validation} & 372 & 90 & 144 & 606 & 15.05\\
@@ -341,13 +345,13 @@ Exactly the same models, aside from the number of output units, as the smectic A
 \end{tabular}
 \end{center}
 \end{table}
-Again, all videos used in this set were provided by project supervisor Ingo Dierking, and all images for this set were prepared as in Section 3.2.2. The current collection of polarised microscopy videos gives an image dataset that is greatly imbalanced in the favour of the fluid smectic phases. 
+Again, all videos used in this set were provided by project supervisor Ingo Dierking, and all images for this set were prepared as in Section 3.2.2. The current collection of polarised microscopy videos gives an image dataset that is greatly imbalanced in favour of the fluid smectic phases. 
 \subsubsection{Model architectures and training configuration III}
 The nine models used for the general smectic phase classification have the same architectures and training configurations as those of section 3.4.2, aside from using the categorical cross-entropy loss instead of binary cross-entropy and having three final layer output units instead of one. 
 \subsubsection{Results III}
 When training the sequential models on the dataset, despite some trial and error adjustments to the sizes of the hidden layers, every model predicted fluid smectic 100 percent of the time on the test set. This is most likely due to the large imbalance in the dataset. The sequential models are possibly unable to learn enough features from the small sets of hexatic smectic and soft crystal data, collapsing into predictions of fluid smectic every time, which results in an accuracy on the test set of 67.65 percent. This is simply equal to the percentage of fluid smectic examples in the test set.
 
-The Inception models were trained on this set one time each, with some more successful results. The test set accuracies were 72.24, 83.27, and 85.48 percent for one, two and three blocks respectively. The models are still biased towards the fluid smectic class. However, they can identify the other phases, for example the three-block model correctly classifies 62 percent of the hexatic smectic and 83 percent of the soft crystal phases. The Inception models' performance is potentially better than that of the sequential models due to the range of different kernel sizes being able to extract features of varying sizes. More data, especially for the hexatic smectic and soft crystal phases, will be needed to conduct a more concrete investigation.
+The Inception models were trained on this set one time each, with some more successful results. The test set accuracies were 72.24, 83.27, and 85.48 percent for one, two and three blocks respectively. The models are still biased towards the fluid smectic class. However, they can identify the other phases, for example the three-block model correctly classifies 62 percent of the hexatic smectic and 83 percent of the soft crystal phases. The Inception models' performance is potentially better than that of the sequential models due to the range of different kernel sizes, which are able to extract features of varying size. More data, especially for the hexatic smectic and soft crystal phases, will be needed to conduct a more concrete investigation.
 %=========================================================================================
 \section{Conclusions}
 %first half of project set out to establish wether or not machine learning can be used to classify small numbers of basic liquid crystal phases
@@ -355,13 +359,13 @@ The Inception models were trained on this set one time each, with some more succ
 %data limiting factor, need more to improve models and create models that classify more phases
 %from 4-phase, conclude that 256 input and flip augs is good setting
 %overall, promising results with high accuries displayed
-In this beginning half of the project, we have endeavoured to establish a well-formed liquid crystal texture dataset and investigate the viability of machine learning algorithms in identifying the different liquid crystal phases from the dataset. The approach so far has considered deep convolutional neural networks, in three separate phase classification tasks. 
+In this beginning half of the project, we have endeavoured to establish a well-formed liquid crystal texture dataset, and investigate the viability of machine learning algorithms in identifying the different liquid crystal phases from the dataset. The approach so far has considered deep convolutional neural networks, in three separate phase classification tasks. 
 
 From the 4-phase model investigations, we draw the conclusion that the flip augmentations are less computationally expensive and time consuming to use, and produce more accurate models than using the all augmentations setting. Also, when comparing the two input sizes of $256 \times 256$ and $128 \times 128$, the former results in higher accuracies with no increase in model training time. In general, the 4-phase models perform well on the test set, showing that CNNs have the potential to be an effective choice of machine learning algorithm type.
 
 The extremely high performance of the smectic A and C binary classifier models further demonstrates the efficacy of CNNs in identifying liquid crystal phases, including ones with fewer distinguishable textural features. The Inception and sequential models both achieve good results. The large deviations in accuracy on repeated training runs of these models shows that final model accuracy can vary greatly, depending on the parameter initialisation values and the randomly selected and augmented training data minibatches. Increased confidence in average accuracy requires further training runs, which is limited by long training times. 
 
-Despite having built a substantial overall collection of texture images, the general smectic phase model investigation highlights the requirement for balanced classes and a large training set in order for models to generalise well. A lack of data in the hexatic smectic and soft crystal phases results in very poor performance, with the sequential models outputting a fluid smectic prediction for every input. The Inception models offer a marginal improvement in this case, however the accuracies on the test set are still lower than would be required of a reliable model.
+Despite having built a substantial overall collection of texture images, the general smectic phase model investigation highlights the requirement for balanced classes and a large training set in order for models to generalise well. A lack of data in the hexatic smectic and soft crystal phases results in poor performance, with the sequential models outputting a fluid smectic prediction for every input. The Inception models offer a marginal improvement in this case, however the accuracies on the test set are still lower than would be required of a reliable model.
 %=========================================================================================
 \section{Going forward}
 %different architectures
@@ -369,7 +373,7 @@ Despite having built a substantial overall collection of texture images, the gen
 %colour image investigations
 %physical property investigations
 %more data
-For the second half of this project, there are a variety of potential ways to expand upon the current work and take it in different directions. Other types of CNNs with branching architectures could be investigated, as well as larger models trained with more data that can classify a greater number of liquid crystal phases. Entirely different deep learning algorithms could also be investigated, transformer networks in particular. The usage of coloured image inputs could be tested, to determine whether or not this would lead to better generalisation or simply create data leakage. If the data and labels become available, regression models for physical properties of liquid crystals such as cholesteric pitch length could be trained.
+For the second half of this project, there are a variety of potential ways to expand upon the current work and take it in different directions. Other types of CNNs with branching architectures could be investigated, as well as larger models trained with more data that can classify a greater number of liquid crystal phases. Entirely different deep learning algorithms could also be investigated, transformer networks in particular. The usage of coloured image inputs could be tested, to determine whether or not this would lead to better generalisation or simply create data leakage. If the data and labels become available, regression models for physical properties of liquid crystals such as cholesteric pitch length could be investigated.
 %=========================================================================================
 
 \bibliography{report}
@@ -382,11 +386,11 @@ For a fully connected feedforward neural network, the backpropagation algorithm 
 \begin{equation}
 \bm{\mathcal{G}}\leftarrow \bm\nabla_{\bm{O}_D}J=\bm\nabla_{\hat{\bm{y}}}J, 
 \end{equation} 
-obtained from the derivative of the loss function $L(\hat{\bm{y}},\bm{y})$ with respect to $\hat{\bm{y}}$. We then perform $D$ steps with layer number $l$ decreasing by one each time. For each step, we first update $\bm{\mathcal{G}}$ by changing it from a gradient on the layer's output to a gradient on the non-activated output by the chain rule,
+obtained from the derivative of the loss function $L(\hat{\bm{y}},\bm{y})$ with respect to $\hat{\bm{y}}$. We then perform $D$ steps with layer number $l$ decreasing by one each time. For each step, we first update $\bm{\mathcal{G}}$ by changing it from a gradient on the layer's output to a gradient on the non-activated output, by the chain rule,
 \begin{equation}
-\bm{\mathcal{G}}\leftarrow \bm{\nabla}_{\bm{h}_l}J=\bm{\mathcal{G}}\odot A'(\bm{h}_l),
+\bm{\mathcal{G}}\leftarrow \bm{\nabla}_{\bm{h}_l}J=\bm{\mathcal{G}}\odot A'(\bm{h}_l).
 \end{equation}
-where we have used the element-wise multiplication operator $\odot$. The parameter gradients for the layer are given at this point by
+The parameter gradients for the layer are given at this point by
 \begin{align}
 \bm\nabla_{\bm{w}_l}J&=\bm{\mathcal{G}}\bm{O}_{(l-1)}^{\top},\\
 \bm\nabla_{\bm{b}_l}J&=\bm{\mathcal{G}}.
@@ -431,7 +435,6 @@ Figure 8 provides a representation of the network architecture of the 4-phase se
 \includegraphics[width=5.5812in]{images/v3_conv_3_diagram.png}
 \caption{Architectural diagram of the sequential CNN model with input size $256 \times 256$ and three convolutional layers. The output dimensions are displayed as width $\times$ height $\times$ channels for each convolutional and max pooling layer. Not to scale.}
 \end{figure}
-
 Figure 9 provides a representation of the network architecture of the smectic A and C Inception model with one block.
 \begin{figure}[!htb]
 	\centering
