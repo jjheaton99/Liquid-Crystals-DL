@@ -25,8 +25,8 @@
 
 \title{Can liquid crystal phases be identified via machine learning?}
 \author{Joshua Heaton, 10133722}
-\affil{School of Physics and Astronomy, The University of Manchester}
-\affil{MPhys project report}
+\affil{Department of Physics and Astronomy, The University of Manchester}
+\affil{MPhys Project Report}
 \affil{Project performed in collaboration with James Harbon}
 \date{\today}
 
@@ -83,7 +83,7 @@ A neural network is a type of machine learning model that takes inspiration from
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=3.5in]{images/feedforward_nn.png}
-\caption{Diagram of a feedforward fully-connected neural network with three input values, $D=3$, $W_1=W_2=4$, and one output unit.}
+\caption{Adapted from Goodfellow \textit{et al.} \cite{Goodfellow16}. Diagram of a feedforward fully-connected neural network with three input values, $D=3$, $W_1=W_2=4$, and one output unit.}
 \end{figure}
 
 A single hidden unit's output value is calculated by multiplying the output of each of the previous layer's units with a weight parameter, summing these together with a bias parameter, and then passing the result through a non-linear activation function \cite{Rumelhart86}. More formally, the output $O_{lu}$ of hidden unit $u\in[1..W_l]$, of layer $l$, with bias parameter $b_{lu}$ and activation function $A(h)$, is calculated as
@@ -298,7 +298,7 @@ A different type of CNN architecture was also tested for smectic A and C, inspir
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=5in]{images/inception_block.png}
-\caption{Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract differently sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite{Szegedy2015}.}
+\caption{Adapted from Szegedy \textit{et al.} \cite{Szegedy2015}. Architectural diagram of an Inception block. The input is shared between 4 parallel convolution operations, with their outputs being concatenated along the channel axis in the final layer. This results in the output having a number of channels equal to the sum of the number of channels of each concatenated layer. Different kernel sizes in each parallel layer can extract differently sized features from the input, propagating more information through the output of the block. The $1 \times 1$ kernel layers preceding the $3 \times 3$ and $5 \times 5$ ones can be used to reduce the number of channels and, therefore, the computational cost, if necessary. The pooling layer is there to provide some translational invariance \cite{Szegedy2015}.}
 \end{figure}
 Three Inception models were used for smectic A and C, containing one, two, and three Inception blocks. Similar to GoogLeNet, each one starts with a convolutional layer with kernel size $7 \times 7$, 2 channels, and same padding, followed by a standard pooling layer. This is followed by two more convolutional layers, first with kernel size $1 \times 1$, 4 channels and valid padding, and second with kernel size $3 \times 3$, 8 channels and same padding, before another standard pooling layer. This is proceeded by the Inception blocks. The number of channels in each layer in a block is reduced by the $1 \times 1$ kernel layers and starts at 8 for the first, doubling with each successive block. The final inception block is followed by average pooling with pool size and strides of $5 \times 5$ and valid padding. This is followed by a convolutional layer with kernel size $3 \times 3$, a number of channels equal to half that of the output of the final inception block, and same padding. Similarly to the sequential models, it is finished with global average pooling, followed by two dense layers, first with a number of hidden units equal to the channels in the previous convolutional layer and second with half that number, before the final single output unit. As an example, the architecture of the inception model with one block is drawn in Figure 9 in Appendix C.
 \subsubsection{Results II}
