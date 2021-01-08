@@ -4,10 +4,3 @@
 /models/WGAN-GP/cholesteric
 /models/WGAN-GP/nematic
 /models/WGAN-GP/smectic
-**.ris
-**.aux
-**.bbl
-**.blg
-**.dvi
-**.log
-**.synctex.gz

@@ -23,7 +23,7 @@
 
 \begin{document}
 
-\title{Can liquid crystal phases be identified via machine learning?}
+\title{Can machine learning models classify liquid crystal phases?}
 \author{Joshua Heaton, 10133722}
 \affil{Department of Physics and Astronomy, The University of Manchester}
 \affil{MPhys Project Report}
@@ -149,6 +149,7 @@ L_{BCE}(\hat{y},y)=
 
 Calculating the exact derivative of the cost function is extremely computationally expensive in most situations when $N_{\mathrm{train}}$ is large. Instead, an approximation of the gradient, $\hat{\bm{g}}$, is calculated by randomly sampling a "minibatch" of $m$ examples from the training data, giving
 \begin{equation}
+\label{BatchGrad}
 \hat{\bm{g}}=\frac{1}{m}\bm\nabla_{\bm\theta}\sum_{i=1}^mL(f(\bm{x}^{(i)};\bm\theta),\bm{y}^{(i)})\;\cite{Goodfellow16}.
 \end{equation}
 In general, the loss of precision from the difference between $\hat{\bm{g}}$ and the exact gradient $\bm{g}$ is outweighed by the greatly decreased training step computation time \cite{Goodfellow16}. Optimisation methods that use this random minibatch sampling are known as stochastic methods. Typically, a single parameter update step is performed on each minibatch. There are no duplicate example selections until the model has seen the whole training set. After this, all examples are again available for selection. Such a cycle is known as an epoch of training, with $\lfloor N_{\mathrm{train}}/m\rfloor$ update steps \cite{Goodfellow16}.
@@ -180,6 +181,7 @@ CNNs are a type of feedforward neural network with at least one layer using the 
 
 For image-based CNNs, a convolutional layer takes an input tensor $\bm{I}$ with width $W_I$, height $H_I$ and depth $D_I$, where the depth is the number of channels. Grayscale images have one channel, with values corresponding to pixel brightness, whereas colour images have three channels, corresponding to the red, green, and blue values for pixels \cite{Aghdam17, Goodfellow16}. The input is convolved with $N_K$ kernel tensors, $\bm{K}^{(p)}$, with $p\in[1..N_K]$. All kernels have width $W_K<W_I$, height $H_K<H_I$, and depth $D_K=D_I$. This produces a pre-activation output tensor $\bm{\bm{h}}$, which in the most basic case has width $W_h=W_I$, height $H_h=H_I$, and depth $D_h=N_KD_I$. $\bm{I}$ is convolved with each $\bm{K}^{(p)}$ in turn, with each output stacked together depth-wise to give the total output $\bm{h}$. Having more than one kernel increases the number of channels in the next layer. This overall operation is given by
 \begin{equation}
+\label{ConvLayer}
 h_{ijk}=\sum_{m=1}^{H_K}\sum_{n=1}^{W_K}I_{(i-m)(j-n)r}K_{mnr}^{(p)}
 \end{equation}
 with $r=k\,\mathrm{mod}\,D_I$ and $p=\lceil\frac{k}{D_I}\rceil$ \cite{Aghdam17, Goodfellow16}. Similarly to standard fully connected, or dense, hidden layers, a non-linear activation function is applied to every element of $\bm{h}$ \cite{Aghdam17, Goodfellow16}. 
@@ -188,7 +190,7 @@ Using more than one kernel allows a convolutional layer to extract more features
 
 At the edges of the input, we have to consider the type of padding to use. "Valid" padding is when the kernel is kept completely within the input bounds, which results in the output having a smaller width and height than the input depending on the kernel size \cite{Aghdam17, Goodfellow16}. "Same" padding is when the width and height of the output are equal to the input, with each pixel visited by the kernel the same number of times, resulting in it overlapping the boundary of the input at the furthest points. Any kernel parameters outside the input region are multiplied by zero \cite{Aghdam17, Goodfellow16}.
 
-Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation 15 corresponds to a stride of one in both directions. Strides greater than one result in dimensionality reduction from input to output, with less feature extraction. However, this reduces computational cost for the layer \cite{Aghdam17, Goodfellow16}.
+Another adjustable property of convolutional layers is the stride. This is the number of elements by which the kernel is moved with each step. The stride can be different for the horizontal and vertical directions. The basic case of Equation \ref{ConvLayer} corresponds to a stride of one in both directions. Strides greater than one result in dimensionality reduction from input to output, with less feature extraction. However, this reduces computational cost for the layer \cite{Aghdam17, Goodfellow16}.
 
 \subsubsection{Pooling layers}
 Convolutional layers are often directly followed by pooling. A pooling layer takes rectangles of a specific size, called the pool size, from the previous layer's output. It outputs single values as a function of each rectangle of values, similarly to how kernels work in convolutional layers \cite{Aghdam17, Goodfellow16}. However, the function used by a pooling layer does not contain any trainable parameters, and each channel is processed individually \cite{Aghdam17, Goodfellow16}. Padding and stride are also defined for pooling layers, in the same way as for convolutional layers. As an example, a pooling layer with pool size and strides of $2 \times 2$, valid padding, and input with dimensions $10 \times 10 \times 3$ will produce an output with dimensions $5 \times 5 \times 3$ \cite{Aghdam17, Goodfellow16}. There are numerous pooling functions, such as max pooling, where the outputs are the maximum values in each rectangle, and average pooling, where the outputs are the means of the rectangles \cite{Goodfellow16}. Global pooling layers have a pool size equal to the input's width and height, giving one output value for each input channel. The output is a vector suitable to be fed into a dense layer \cite{Aghdam17}.
@@ -210,11 +212,15 @@ Dataset augmentations are implemented automatically during training using the im
 
 The accuracy metric used to test the models is the percentage of outputs matching the true labels when a model is evaluated on a specific dataset.
 \subsubsection{Image data preparation}
+\label{ImgPrep}
 We obtain liquid crystal texture image data by extracting images frame by frame from polarised microscopy videos, using the VLC Media Player software. A majority of the videos display more than one liquid crystal phase. Labels are assigned to each image based on the phase of the video when the image is extracted. Images extracted at the point of a phase transition are either labelled with the current dominant phase or discarded if it is unclear. Depending on the resolution, they are split into smaller sub-images with the appropriate phase labels. Excess pixels are then cropped so that the images are square, with dimensions larger than the model input dimensions, which are square for every model. The images are then scaled down to the input dimensions of the model. Next, they are converted from three-channel RGB colour mode to one-channel grayscale, with pixel brightness values in the range $[0,1]$. We have assumed that individual liquid crystal textural features are identifiable without colour.
 
 Texture images of the same phase from the same video can be very similar. Therefore, to prevent data leakage, these are not shared between the training, validation, or test sets for a specific model. Conversion to grayscale could also help prevent data leakage because different videos of the same liquid crystal compound have similar colours.
+
+The videos used in the construction of this dataset were either downloaded with permission from Vance Williams' YouTube channel and Instagram page \cite{Williams20a, Williams20b} or provided by project supervisor Ingo Dierking. The phases of texture images from Vance Williams' videos are contained in the video descriptions. Each video from Ingo Dierking was provided with temperature range and compound name, with certain unknown phases identified using the articles in \cite{Schacht95} and \cite{Dierking94}.
 %=========================================================================================
 \subsection{Models I, 4-phase classifiers}
+\label{Mods1}
 \subsubsection{Dataset construction I}
 The first set of models were created to test the viability of CNNs in the liquid crystal phase identification task and investigate sequential architectures, input size, and dataset augmentations. The selected phases for classification were isotropic, nematic, cholesteric, and smectic. The quantities of images in all prepared sets are presented in Table 1.
 \begin{table}[!htb]
@@ -233,7 +239,7 @@ The first set of models were created to test the viability of CNNs in the liquid
 \end{tabular}
 \end{center}
 \end{table}
-The videos used in the construction of this dataset were either downloaded with permission from Vance Williams' YouTube channel and Instagram page \cite{Williams20a, Williams20b} or provided by project supervisor Ingo Dierking. All images were prepared as in Section 3.2.2, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel in the range $[0,0.1]$.
+Images for this dataset were from both Vance Williams and Ingo Dierking. All images were prepared as in Section \ref{ImgPrep}, aside from the isotropic phase, which is completely dark under a polarised microscope. Isotropic images were generated as dark noise by randomly selecting the value of each pixel in the range $[0,0.1]$. 
 \subsubsection{Model architectures and training configurations I}
 A total of 24 models were trained on the 4-phase dataset. Two input image sizes, $256 \times 256$ and $128 \times 128$, as well as flip and all augmentations, were tested for six sequential CNNs, with an increasing number of convolutional layers from one to six.  The loss function used for every model is the categorical cross-entropy. After some preliminary trial and error model training, the following settings were decided on. The input is convolved with 32 kernels, resulting in 32 channels for the first convolutional layer of each model. Two kernels are used for all other layers, doubling the number of channels with each successive convolutional layer. Each convolutional layer has kernel size $3 \times 3$ and same padding and is followed by a standard pooling layer, aside from the final convolutional layer which is followed by global average pooling. This is then followed by dense layers with 256 units, then 128 units, and 4 units for the output layer, which has a softmax activation function. As an example, an architectural diagram of the three-layer model is displayed in Figure 8 in Appendix C.
 
@@ -290,9 +296,10 @@ The next set of models were an attempt at the binary classification task of smec
 \end{tabular}
 \end{center}
 \end{table}
-The validation and test sets are more equally balanced for this set of models. All polarised microscopy videos used in this set were provided by project supervisor Ingo Dierking, and all images were again prepared as in Section 3.2.2.
+The validation and test sets are more equally balanced for this set of models. All polarised microscopy videos used in this set were provided by Ingo Dierking, and all images were again prepared as in Section \ref{ImgPrep}.
 \subsubsection{Model architectures and training configuration II}
-Based on the results of Section 3.3, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used, with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
+\label{Arch2}
+Based on the results of Section \ref{Mods1}, flip augmentations and an input size of $256 \times 256$ were used for all smectic A and C models. The binary cross-entropy loss function is used, with one output unit for every model. The same six sequential model configurations as for the 4-phase classification task were tested, with reduced numbers of hidden units to prevent overfitting because the dataset is smaller. In this case, the final convolutional layer for each sequential model has 32 channels, with the number of channels halving with each convolutional layer going backwards through the model. Therefore, the six convolutional layer model has only one channel in its first layer. The number of hidden units in the dense layers is also reduced, with 32 in the first and 16 in the second for all sequential models.
 
 A different type of CNN architecture was also tested for smectic A and C, inspired by Google's 22 layer GoogLeNet Inception model, the winner of the ILSVRC in 2014 \cite{ILSVRC15}. An Inception model contains branching "Inception blocks", a specific arrangement of convolutional layers depicted in Figure 5 \cite{Szegedy2015}.  
 \begin{figure}[!ht]
@@ -345,9 +352,9 @@ The same models as the smectic A and C classifiers, aside from the number of out
 \end{tabular}
 \end{center}
 \end{table}
-Again, all videos used in this set were provided by project supervisor Ingo Dierking, and all images for this set were prepared as in Section 3.2.2. The current collection of polarised microscopy videos gives an image dataset that is greatly imbalanced in favour of the fluid smectic phases. 
+Again, all videos used in this set were provided by Ingo Dierking, and all images were prepared as in Section \ref{ImgPrep}. The current collection of polarised microscopy videos gives an image dataset that is greatly imbalanced in favour of the fluid smectic phases. 
 \subsubsection{Model architectures and training configuration III}
-The nine models used for the general smectic phase classification have the same architectures and training configurations as those of section 3.4.2, aside from using the categorical cross-entropy loss instead of binary cross-entropy and having three final layer output units instead of one. 
+The nine models used for the general smectic phase classification have the same architectures and training configurations as those of Section \ref{Arch2}, aside from using the categorical cross-entropy loss instead of binary cross-entropy and having three final layer output units instead of one. 
 \subsubsection{Results III}
 When training the sequential models on the dataset, despite some trial and error adjustments to the hidden layer sizes, every model predicted fluid smectic 100 percent of the time on the test set. This is most likely due to the large imbalance in the dataset. The sequential models are possibly unable to learn enough features from the small sets of hexatic smectic and soft crystal data, collapsing into predictions of fluid smectic every time, which results in an accuracy on the test set of 67.65 percent. This is simply equal to the percentage of fluid smectic examples in the test set.
 
@@ -402,7 +409,7 @@ To finish the step, the gradient is propagated onto the output of the next lower
 Upon reaching $l=1$, all parameter gradients have been obtained and the algorithm is complete \cite{Rumelhart86, Goodfellow16}.
 
 \subsection{Adam optimiser}
-The Adam stochastic optimiser algorithm proceeds as follows. Before the first iteration, the biased gradient first and second moment estimate variables, $\bm{s}$ and $\bm{r}$, and the timestep, $t$, are initialised to zero. At the start of each iteration, a minibatch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation 13. $t$ is updated as
+The Adam stochastic optimiser algorithm proceeds as follows. Before the first iteration, the biased gradient first and second moment estimate variables, $\bm{s}$ and $\bm{r}$, and the timestep, $t$, are initialised to zero. At the start of each iteration, a minibatch of data is sampled and $\hat{\bm{g}}$ is calculated as in Equation \ref{BatchGrad}. $t$ is updated as
 \begin{equation}
 t\leftarrow t+1,
 \end{equation}

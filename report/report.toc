@@ -24,12 +24,12 @@
 \contentsline {subsubsection}{\numberline {3.3.1}Dataset construction II}{14}% 
 \contentsline {subsubsection}{\numberline {3.3.2}Model architectures and training configuration II}{14}% 
 \contentsline {subsubsection}{\numberline {3.3.3}Results II}{15}% 
-\contentsline {subsection}{\numberline {3.4}Models III, general smectic classifiers}{16}% 
-\contentsline {subsubsection}{\numberline {3.4.1}Dataset construction III}{16}% 
+\contentsline {subsection}{\numberline {3.4}Models III, general smectic classifiers}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.1}Dataset construction III}{17}% 
 \contentsline {subsubsection}{\numberline {3.4.2}Model architectures and training configuration III}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.3}Results III}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.3}Results III}{18}% 
 \contentsline {section}{\numberline {4}Conclusions}{18}% 
-\contentsline {section}{\numberline {5}Going forward}{18}% 
+\contentsline {section}{\numberline {5}Going forward}{19}% 
 \contentsline {section}{\numberline {A}Training algorithms}{21}% 
 \contentsline {subsection}{\numberline {A.1}Backpropagation}{21}% 
 \contentsline {subsection}{\numberline {A.2}Adam optimiser}{21}% 

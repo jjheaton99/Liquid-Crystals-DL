@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  2 JAN 2021 11:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  8 JAN 2021 18:29
 entering extended mode
 **./report.tex
 (report.tex
@@ -766,53 +766,53 @@ Package pdftex.def Info: images/feedforward_nn.png  used on input line 85.
 <images/4-phase_graphs.png, id=64, 710.655pt x 570.13pt>
 File: images/4-phase_graphs.png Graphic file (type png)
 <use images/4-phase_graphs.png>
-Package pdftex.def Info: images/4-phase_graphs.png  used on input line 244.
+Package pdftex.def Info: images/4-phase_graphs.png  used on input line 250.
 (pdftex.def)             Requested size: 476.98244pt x 382.67238pt.
  [11] [12 <./images/4-phase_graphs.png>]
 <images/confusion_matrix.png, id=73, 633.36626pt x 406.51875pt>
 File: images/confusion_matrix.png Graphic file (type png)
 <use images/confusion_matrix.png>
-Package pdftex.def Info: images/confusion_matrix.png  used on input line 269.
+Package pdftex.def Info: images/confusion_matrix.png  used on input line 275.
 (pdftex.def)             Requested size: 433.62pt x 278.32098pt.
 [13 <./images/confusion_matrix.png>]
 <images/inception_block.png, id=78, 1357.07pt x 839.135pt>
 File: images/inception_block.png Graphic file (type png)
 <use images/inception_block.png>
-Package pdftex.def Info: images/inception_block.png  used on input line 300.
+Package pdftex.def Info: images/inception_block.png  used on input line 307.
 (pdftex.def)             Requested size: 361.34999pt x 223.43245pt.
  [14]
 <images/smecticAC_graphs.png, id=82, 610.28pt x 322.20375pt>
 File: images/smecticAC_graphs.png Graphic file (type png)
 <use images/smecticAC_graphs.png>
-Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 308.
+Package pdftex.def Info: images/smecticAC_graphs.png  used on input line 315.
 (pdftex.def)             Requested size: 409.61197pt x 216.26869pt.
  [15 <./images/inception_block.png>]
 <images/confusion_matrix_2.png, id=87, 440.64626pt x 280.04625pt>
 File: images/confusion_matrix_2.png Graphic file (type png)
 <use images/confusion_matrix_2.png>
-Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 324.
+Package pdftex.def Info: images/confusion_matrix_2.png  used on input line 331.
 
 (pdftex.def)             Requested size: 301.65468pt x 191.7194pt.
 
 [16 <./images/smecticAC_graphs.png>] [17 <./images/confusion_matrix_2.png>]
-[18] (report.bbl [19]) [20] [21]
+[18] (report.bbl [19] [20]) [21]
 <images/v3_conv_3_diagram.png, id=110, 1011.78pt x 879.285pt>
 File: images/v3_conv_3_diagram.png Graphic file (type png)
 <use images/v3_conv_3_diagram.png>
-Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 435.
+Package pdftex.def Info: images/v3_conv_3_diagram.png  used on input line 442.
 (pdftex.def)             Requested size: 403.35384pt x 350.54051pt.
 <images/inception_model.png, id=111, 977.6525pt x 1179.40625pt>
 File: images/inception_model.png Graphic file (type png)
 <use images/inception_model.png>
-Package pdftex.def Info: images/inception_model.png  used on input line 441.
+Package pdftex.def Info: images/inception_model.png  used on input line 448.
 (pdftex.def)             Requested size: 389.75249pt x 470.18848pt.
  [22] [23 <./images/v3_conv_3_diagram.png>]
 [24 <./images/inception_model.png>] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 18336 strings out of 492895
- 354938 string characters out of 3123736
- 400082 words of memory out of 3000000
- 22081 multiletter control sequences out of 15000+200000
+ 18343 strings out of 492895
+ 355006 string characters out of 3123736
+ 401147 words of memory out of 3000000
+ 22088 multiletter control sequences out of 15000+200000
  546915 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,13n,63p,1704b,574s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -842,7 +842,7 @@ ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jj_he/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/
 jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
 fb>
-Output written on report.pdf (26 pages, 1128081 bytes).
+Output written on report.pdf (26 pages, 1128212 bytes).
 PDF statistics:
  189 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
