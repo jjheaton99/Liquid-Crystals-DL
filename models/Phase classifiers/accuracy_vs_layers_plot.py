@@ -33,12 +33,13 @@ seq_test_mean = seq_test_accs[3][1:]
 seq_test_err = seq_test_accs[4][1:]
 
 fig = plt.figure(figsize=(8, 4.5))
-fig.suptitle('Mean accuracies for smectic A and C models', fontsize=19)
+#fig.suptitle('Mean accuracies for smectic A and C models', fontsize=19)
 spec = gridspec.GridSpec(ncols=2, nrows=1,
                          width_ratios=[2, 1])
 
 ax1 = fig.add_subplot(spec[1])
-ax1.set_title('Inception models')
+#ax1.set_title('Inception models')
+ax1.set_title('(b)')
 ax1.set_xlabel('Number of inception blocks')
 ax1.set_ylabel('Mean accuracy in percent')
 ax1.set_ylim(85, 100)
@@ -50,7 +51,8 @@ ax1.legend(['validation', 'test'], loc='lower right')
 ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 ax2 = fig.add_subplot(spec[0])
-ax2.set_title('Sequential models')
+#ax2.set_title('Sequential models')
+ax2.set_title('(a)')
 ax2.set_xlabel('Number of convolutional layers')
 ax2.set_ylabel('Mean accuracy in percent')
 ax2.set_ylim(85, 100)
@@ -91,9 +93,10 @@ test_flip_128 = np.array([90.68, 90.10, 90.66, 84.69, 88.74, 83.33])
 test_flip_128_err = np.array([5.53, 3.69, 6.02, 1.80, 2.88, 2.62])
 
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, figsize=(9.5, 8))
-fig.suptitle('Mean accuracies for 4-phase sequential models', fontsize=19)
+#fig.suptitle('Mean accuracies for 4-phase sequential models', fontsize=19)
 
-ax1.set_title('All augmentations, 256 x 256 input size')
+#ax1.set_title('All augmentations, 256 x 256 input size')
+ax1.set_title('(a)')
 ax1.set_xlabel('Number of convolutional layers')
 ax1.set_ylabel('Mean accuracy in percent')
 ax1.set_ylim(70, 100)
@@ -103,7 +106,8 @@ ax1.errorbar(num_layers, val_all_256, yerr=val_all_256_err, marker='o', linestyl
 ax1.errorbar(num_layers, test_all_256, yerr=test_all_256_err, marker='s', linestyle='none', transform=trans2)
 ax1.legend(['validation', 'test'], loc='lower left')
 
-ax2.set_title('Flip augmentations, 256 x 256 input size')
+#ax2.set_title('Flip augmentations, 256 x 256 input size')
+ax2.set_title('(b)')
 ax2.set_xlabel('Number of convolutional layers')
 ax2.set_ylabel('Mean accuracy in percent')
 ax2.set_ylim(70, 100)
@@ -113,7 +117,8 @@ ax2.errorbar(num_layers, val_flip_256, yerr=val_flip_256_err, marker='o', linest
 ax2.errorbar(num_layers, test_flip_256, yerr=test_flip_256_err, marker='s', linestyle='none', transform=trans2)
 ax2.legend(['validation', 'test'], loc='lower left')
 
-ax3.set_title('All augmentations, 128 x 128 input size')
+#ax3.set_title('All augmentations, 128 x 128 input size')
+ax3.set_title('(c)')
 ax3.set_xlabel('Number of convolutional layers')
 ax3.set_ylabel('Mean accuracy in percent')
 ax3.set_ylim(70, 100)
@@ -123,7 +128,8 @@ ax3.errorbar(num_layers, val_all_128, yerr=val_all_128_err, marker='o', linestyl
 ax3.errorbar(num_layers, test_all_128, yerr=test_all_128_err, marker='s', linestyle='none', transform=trans2)
 ax3.legend(['validation', 'test'], loc='lower left')
 
-ax4.set_title('Flip augmentations, 128 x 128 input size')
+#ax4.set_title('Flip augmentations, 128 x 128 input size')
+ax4.set_title('(d)')
 ax4.set_xlabel('Number of convolutional layers')
 ax4.set_ylabel('Mean accuracy in percent')
 ax4.set_ylim(70, 100)

@@ -169,4 +169,8 @@ K.~He {\em et~al.}, ``Deep residual learning for image recognition,'' in {\em
   IEEE Conference on Computer Vision and Pattern Recognition}, pp.~770--778,
   2016.
 
+\bibitem{Dosovitskiy20}
+A.~Dosovitskiy {\em et~al.}, ``An image is worth 16x16 words: Transformers for
+  image recognition at scale,'' 2020.
+
 \end{thebibliography}
