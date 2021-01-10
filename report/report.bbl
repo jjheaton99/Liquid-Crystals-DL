@@ -116,6 +116,20 @@ H.~H. Aghdam and E.~J. Heravi, {\em Guide to Convolutional Neural Networks: A
   Practical Application to Traffic-Sign Detection and Classification}.
 \newblock Springer Publishing Company, Incorporated, 1st~ed., 2017.
 
+\bibitem{Abadi16}
+M.~Abadi {\em et~al.}, ``Tensorflow: A system for large-scale machine
+  learning,'' in {\em 12th $\{$USENIX$\}$ Symposium on Operating Systems Design
+  and Implementation ($\{$OSDI$\}$ 16)}, pp.~265--283, 2016.
+
+\bibitem{Gulli17}
+A.~Gulli and S.~Pal, {\em Deep learning with Keras}.
+\newblock Packt Publishing Ltd, 2017.
+
+\bibitem{Cook12}
+S.~Cook, {\em CUDA Programming: A Developer’s Guide to Parallel Computing
+  with GPUs}.
+\newblock Morgan Kaufmann Publishers Inc., 1st~ed., 2012.
+
 \bibitem{Shi16}
 S.~Shi {\em et~al.}, ``Benchmarking state-of-the-art deep learning software
   tools,'' in {\em 2016 7th International Conference on Cloud Computing and Big

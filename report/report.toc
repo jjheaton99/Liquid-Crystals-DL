@@ -32,5 +32,5 @@
 \contentsline {section}{\numberline {5}Going forward}{19}% 
 \contentsline {section}{\numberline {A}Training algorithms}{21}% 
 \contentsline {subsection}{\numberline {A.1}Backpropagation}{21}% 
-\contentsline {subsection}{\numberline {A.2}Adam optimiser}{21}% 
+\contentsline {subsection}{\numberline {A.2}Adam optimiser}{22}% 
 \contentsline {section}{\numberline {B}Example architecture diagrams}{22}% 

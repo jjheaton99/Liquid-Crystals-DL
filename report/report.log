@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  9 JAN 2021 00:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  10 JAN 2021 01:09
 entering extended mode
 **./report.tex
 (report.tex
@@ -809,10 +809,10 @@ Package pdftex.def Info: images/inception_model.png  used on input line 448.
  [22] [23 <./images/v3_conv_3_diagram.png>]
 [24 <./images/inception_model.png>] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 18343 strings out of 492895
- 355006 string characters out of 3123736
- 401147 words of memory out of 3000000
- 22088 multiletter control sequences out of 15000+200000
+ 18346 strings out of 492895
+ 355032 string characters out of 3123736
+ 401162 words of memory out of 3000000
+ 22091 multiletter control sequences out of 15000+200000
  546915 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,13n,63p,1704b,574s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -842,7 +842,7 @@ ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jj_he/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/
 jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
 fb>
-Output written on report.pdf (26 pages, 1128212 bytes).
+Output written on report.pdf (26 pages, 1129834 bytes).
 PDF statistics:
  189 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
