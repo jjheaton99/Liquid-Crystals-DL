@@ -1,8 +1,15 @@
+"""
+Implementation of image transformer.
+Based on "AN IMAGE IS WORTH 16X16 WORDS:
+TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE"
+"""
+
 import numpy as np
 
 import tensorflow as tf
 import keras
 from keras.layers import Layer, Dense, Flatten
+from keras.activations import softmax
 
 class PatchSplit(Layer):
     #A layer that splits input images into patches of given size
@@ -34,11 +41,28 @@ class PatchSplit(Layer):
                            self.patch_dim**2 * img_d])
 
 class LinearProjection(Layer):
-    #Applies linear transformation to flattened patches
+    #linear projection of a single vector
+    def __init__(self, output_dim):
+        super(LinearProjection, self).__init__()
+        self.output_dim = output_dim
+        
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            name='w',
+            shape=(input_shape[0], self.output_dim),
+            initializer='random_normal',
+            trainable=True
+        )
+        
+    def call(self, inputs):
+        return tf.einsum('n,nm->m', inputs, self.w)
+
+class MultiLinearProjection(Layer):
+    #Applies same linear transformation to multiple vectors
     #Useful to change dimensions of patch vectors
     #Does not use bias units
-    def __init__(self, output_dim=32):
-        super(LinearProjection, self).__init__()
+    def __init__(self, output_dim):
+        super(MultiLinearProjection, self).__init__()
         self.output_dim = output_dim
         
     def build(self, input_shape):
@@ -90,6 +114,65 @@ class PositionEmbedding(Layer):
         #output adds positional embeddings
         return tf.add(appended_inputs, self.embeddings)
     
+class MultiDotProductAttention(Layer):
+    def __init__(self):
+        super(MultiDotProductAttention, self).__init__()
+    
+    def call(self, inputs):
+        #input shape is (batch_size, heads, 3, num_patches, model_dim) for the q, k, v matrices
+        q = inputs[:,:,0]
+        k = inputs[:,:,1]
+        v = inputs[:,:,2]
+        
+        return tf.matmul(softmax((tf.matmul(q, k, transpose_b=True) /
+                                  tf.sqrt(tf.cast(tf.shape(inputs)[-1], 'float32')))), v)
+        
+class MultiSelfAttention(Layer):
+    def __init__(self, num_heads, head_dim=None):
+        super(MultiSelfAttention, self).__init__()
+        self.num_heads = num_heads
+        self.head_dim = head_dim
+        
+    def build(self, input_shape):
+        self.d_model = input_shape[2]
+            
+        head_dim = 0
+        if self.head_dim != None:
+            head_dim = self.head_dim
+            
+        else:
+            if self.d_model % self.num_heads != 0:
+                raise Exception('d_model is not divisible by num_heads')
+            head_dim = self.d_model // self.num_heads
+        
+        self.w_qkv = self.add_weight(
+            name='w_qkv',
+            shape=(self.num_heads, 3, self.d_model, head_dim),
+            initializer='random_normal',
+            trainable=True
+        )
+        
+        self.w_o = self.add_weight(
+            name='w_o',
+            shape=(head_dim * self.num_heads, self.d_model),
+            initializer='random_normal',
+            trainable=True
+        )
+        
+        def call(self, inputs):
+            lin_proj_to_heads = tf.einsum('bpv,havn->bhapn', inputs, self.w_qkv)
+            attention = MultiDotProductAttention()(lin_proj_to_heads)
+            new_batches = tf.TensorArray(tf.float32, tf.shape(attention)[0])
+            
+            index = 0
+            for batch in attention:
+                concat_batch = tf.concat([head for head in batch], axis=-1)
+                new_batches = new_batches.write(index, concat_batch)
+                index += 1
+            concat = new_batches.stack()
+            
+            return tf.einsum('bpi,ij->bpj', concat, self.w_o)
+    
 """
 class VisionTransformer():
     def __init__(self):
@@ -98,20 +181,26 @@ class VisionTransformer():
 inputs = tf.convert_to_tensor(np.reshape(np.arange(5*30*30*1), (5, 30, 30, 1)).astype('float32'))
 one = PatchSplit(5)(inputs)
 print(np.shape(one.numpy()))
-two = LinearProjection(10)(one)
+two = MultiLinearProjection(10)(one)
 print(np.shape(two.numpy()))
 three = PositionEmbedding()(two)
 print(np.shape(three.numpy()))
 three = three.numpy()
 """
 
-from keras.preprocessing.image import ImageDataGenerator
+a = tf.convert_to_tensor(np.random.rand(2,4,10))
+print(a)
+
+print(MultiSelfAttention(num_heads=5)(a))
+
+"""
+from keras.preprocessing.image import ImageDataGeneratorc
 
 BATCH_SIZE = 32
 
 inputs = keras.Input((256,256,1))
 patch_split = PatchSplit(16)(inputs)
-linear = LinearProjection(32)(patch_split)
+linear = MultiLinearProjection(32)(patch_split)
 embed = PositionEmbedding()(linear)
 flatten = Flatten()(embed)
 dense = Dense(32, activation='relu')(flatten)
@@ -159,3 +248,4 @@ model.fit(
     verbose=1,
     validation_data=valid_gen,
     validation_steps=valid_gen.n//valid_gen.batch_size)
+"""
