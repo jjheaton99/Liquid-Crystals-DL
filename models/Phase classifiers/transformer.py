@@ -15,7 +15,6 @@ class PatchSplit(Layer):
         
     def call(self, inputs):
         input_shape = inputs.shape
-        batch_size = input_shape[0]
         img_h = input_shape[1]
         img_w = input_shape[2]
         img_d = input_shape[3]
@@ -23,12 +22,14 @@ class PatchSplit(Layer):
         if img_h % self.patch_dim != 0 or img_w % self.patch_dim != 0:
             raise Exception('Input image size is not divisible by patch dimensions!')
         
-        return tf.reshape(tf.image.extract_patches(images=inputs, 
-                                        sizes=[1, self.patch_dim, self.patch_dim, 1],
-                                        strides=[1, self.patch_dim, self.patch_dim, 1],
-                                        rates=[1, 1, 1, 1],
-                                        padding='VALID'), 
-                          [batch_size, 
+        patches = tf.image.extract_patches(images=inputs, 
+                                           sizes=[1, self.patch_dim, self.patch_dim, 1],
+                                           strides=[1, self.patch_dim, self.patch_dim, 1],
+                                           rates=[1, 1, 1, 1],
+                                           padding='VALID')
+        
+        return tf.reshape(patches, 
+                          [tf.shape(patches)[0], 
                            (img_h * img_w) // self.patch_dim**2, 
                            self.patch_dim**2 * img_d])
 
@@ -56,7 +57,7 @@ class PositionEmbedding(Layer):
     #flattened patch vectors
     def __init__(self):
         super(PositionEmbedding, self).__init__()
-        
+
     def build(self, input_shape):
         self.batch_size = input_shape[0]
         self.n_patches = input_shape[1]
@@ -77,11 +78,17 @@ class PositionEmbedding(Layer):
         )
 
     def call(self, inputs):
-        #add x_class to the start of each batch of patches
-        x_class_batch = tf.expand_dims(tf.stack([self.x_class for _ in range(self.batch_size)]), axis=1)
-        #print(tf.shape(inputs))
+        #add x_class to the start of each batch of patches       
+        new_batches = tf.TensorArray(tf.float32, tf.shape(inputs)[0])
+        index = 0
+        for batch in inputs:
+            appended_batch = tf.concat([tf.expand_dims(self.x_class, axis=0), batch], axis=0)
+            new_batches = new_batches.write(index, appended_batch)
+            index += 1
+        appended_inputs = new_batches.stack()
+        
         #output adds positional embeddings
-        return tf.add(tf.concat([x_class_batch, inputs], axis=1), self.embeddings)
+        return tf.add(appended_inputs, self.embeddings)
     
 """
 class VisionTransformer():
@@ -96,13 +103,13 @@ print(np.shape(two.numpy()))
 three = PositionEmbedding()(two)
 print(np.shape(three.numpy()))
 three = three.numpy()
-
 """
+
 from keras.preprocessing.image import ImageDataGenerator
 
 BATCH_SIZE = 32
 
-inputs = keras.Input((256,256,1), batch_size=BATCH_SIZE)
+inputs = keras.Input((256,256,1))
 patch_split = PatchSplit(16)(inputs)
 linear = LinearProjection(32)(patch_split)
 embed = PositionEmbedding()(linear)
@@ -149,6 +156,6 @@ model.fit(
     x=train_gen,
     steps_per_epoch=train_gen.n//train_gen.batch_size,
     epochs=10,
-    verbose=0,
+    verbose=1,
     validation_data=valid_gen,
     validation_steps=valid_gen.n//valid_gen.batch_size)
