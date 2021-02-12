@@ -11,9 +11,9 @@ import v3_4_phases
 import smectic_models
 import smecticAC_models
 
-train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/train'
-valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/valid'
-test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test'
+train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/train'
+valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/valid'
+test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/test'
 
 train_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/train'
 valid_dir_smectic = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/valid'
