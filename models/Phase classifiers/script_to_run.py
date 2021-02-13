@@ -10,6 +10,7 @@ import v2_4_phases
 import v3_4_phases
 import smectic_models
 import smecticAC_models
+import transformer
 
 train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/train'
 valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/valid'
@@ -23,12 +24,23 @@ train_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/sm
 valid_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/valid'
 test_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test'
 
-train_gen, valid_gen, test_gen = create_generators(train_dir_smectic,
-                                                   valid_dir_smectic,
-                                                   test_dir_smectic)
+train_gen, valid_gen, test_gen = create_generators(train_dir,
+                                                   valid_dir,
+                                                   test_dir)
 
-load_model('checkpoints/v3 flip augs 128/v3_conv_6_128').summary()
-load_model('checkpoints/v3 flip augs 256/v3_conv_6').summary()
+vistrans = transformer.VisionTransformer(input_shape=(256, 256, 1),
+                          num_classes=4,
+                          patch_dim=16,
+                          model_dim=64,
+                          num_encoders=4)
+
+train_model(vistrans, 
+            'vistrans_1', 
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            'checkpoints/vistrans',
+            save_diagram=True)
 
 """
 inc_val_accs = np.empty((3, 3))

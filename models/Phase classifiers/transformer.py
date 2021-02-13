@@ -8,8 +8,9 @@ import numpy as np
 
 import tensorflow as tf
 import keras
-from keras.layers import Layer, Dense, Flatten
+from keras.layers import Layer, Dense, Flatten, LayerNormalization, Dropout, Activation, Concatenate
 from keras.activations import softmax
+from keras.models import Model
 
 class PatchSplit(Layer):
     #A layer that splits input images into patches of given size
@@ -70,8 +71,7 @@ class MultiLinearProjection(Layer):
             name='w',
             shape=(input_shape[2], self.output_dim),
             initializer='random_normal',
-            trainable=True
-        )
+            trainable=True)
         
     def call(self, inputs):
         return tf.einsum('ijn,nm->ijm', inputs, self.w)
@@ -91,15 +91,13 @@ class PositionEmbedding(Layer):
             name='x_class',
             shape=(self.dim,),
             initializer='random_normal',
-            trainable=True
-        )
+            trainable=True)
 
         self.embeddings = self.add_weight(
             name='embeddings',
             shape=(self.n_patches + 1, self.dim),
             initializer='random_normal',
-            trainable=True
-        )
+            trainable=True)
 
     def call(self, inputs):
         #add x_class to the start of each batch of patches       
@@ -137,7 +135,7 @@ class MultiSelfAttention(Layer):
         self.d_model = input_shape[2]
             
         head_dim = 0
-        if self.head_dim != None:
+        if self.head_dim is not None:
             head_dim = self.head_dim
             
         else:
@@ -149,103 +147,61 @@ class MultiSelfAttention(Layer):
             name='w_qkv',
             shape=(self.num_heads, 3, self.d_model, head_dim),
             initializer='random_normal',
-            trainable=True
-        )
+            trainable=True)
         
         self.w_o = self.add_weight(
             name='w_o',
             shape=(head_dim * self.num_heads, self.d_model),
             initializer='random_normal',
-            trainable=True
-        )
+            trainable=True)
         
-        def call(self, inputs):
-            lin_proj_to_heads = tf.einsum('bpv,havn->bhapn', inputs, self.w_qkv)
-            attention = MultiDotProductAttention()(lin_proj_to_heads)
-            new_batches = tf.TensorArray(tf.float32, tf.shape(attention)[0])
-            
-            index = 0
-            for batch in attention:
-                concat_batch = tf.concat([head for head in batch], axis=-1)
-                new_batches = new_batches.write(index, concat_batch)
-                index += 1
-            concat = new_batches.stack()
-            
-            return tf.einsum('bpi,ij->bpj', concat, self.w_o)
+    def call(self, inputs):
+        lin_proj_to_heads = tf.einsum('bpv,havn->bhapn', inputs, self.w_qkv)
+        attention = MultiDotProductAttention()(lin_proj_to_heads)
+        new_batches = tf.TensorArray(tf.float32, tf.shape(attention)[0])       
+        batch_idx = 0
+        for batch in attention:
+            concat_batch = tf.concat(tf.unstack(batch), axis=-1)  
+            new_batches = new_batches.write(batch_idx, concat_batch)
+            batch_idx += 1
+        concat = new_batches.stack()
+        return tf.einsum('bpi,ij->bpj', concat, self.w_o)
+ 
+def gelu(x):
+    return 0.5 * x * (1 + tf.tanh(tf.sqrt(2.0 / np.pi) * (x + 0.044715 * x**3)))
+   
+def Encoder(inputs, model_dim, num_msa_heads, head_dim=None, dropout_rate=0.0):
+    layer_norm_1 = LayerNormalization()(inputs)
+    multi_attention = MultiSelfAttention(num_msa_heads, head_dim)(layer_norm_1)
+    add = tf.add(inputs, multi_attention)
+    layer_norm_2 = LayerNormalization()(add)
+    dense_1 = Dense(model_dim)(layer_norm_2)
+    gelu_1 = Activation(gelu)(dense_1)
+    dropout_1 = Dropout(dropout_rate)(gelu_1)
+    dense_2 = Dense(model_dim)(dropout_1)
+    gelu_2 = Activation(gelu)(dense_2)
+    dropout_2 = Dropout(dropout_rate)(gelu_2)
+    return tf.add(add, dropout_2)
     
-"""
-class VisionTransformer():
+class ExtractXClass(Layer):
     def __init__(self):
-"""
-"""
-inputs = tf.convert_to_tensor(np.reshape(np.arange(5*30*30*1), (5, 30, 30, 1)).astype('float32'))
-one = PatchSplit(5)(inputs)
-print(np.shape(one.numpy()))
-two = MultiLinearProjection(10)(one)
-print(np.shape(two.numpy()))
-three = PositionEmbedding()(two)
-print(np.shape(three.numpy()))
-three = three.numpy()
-"""
-
-a = tf.convert_to_tensor(np.random.rand(2,4,10))
-print(a)
-
-print(MultiSelfAttention(num_heads=5)(a))
-
-"""
-from keras.preprocessing.image import ImageDataGeneratorc
-
-BATCH_SIZE = 32
-
-inputs = keras.Input((256,256,1))
-patch_split = PatchSplit(16)(inputs)
-linear = MultiLinearProjection(32)(patch_split)
-embed = PositionEmbedding()(linear)
-flatten = Flatten()(embed)
-dense = Dense(32, activation='relu')(flatten)
-output = Dense(4)(dense)
-
-model = keras.models.Model(inputs=inputs, outputs=output)
-
-model.summary()
-
-train_datagen = ImageDataGenerator(
-    horizontal_flip=True,
-    vertical_flip=True,
-    rescale=1.0/255)
-
-valid_datagen = ImageDataGenerator(rescale=1.0/255)
-
-train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/train'
-valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/valid'
-
-train_gen = train_datagen.flow_from_directory(
-    directory=train_dir,
-    target_size=(256, 256),
-    color_mode='grayscale',
-    class_mode='categorical',
-    batch_size=BATCH_SIZE,
-    shuffle=True)
-
-valid_gen = valid_datagen.flow_from_directory(
-    directory=valid_dir,
-    target_size=(256, 256),
-    color_mode='grayscale',
-    class_mode='categorical',
-    batch_size=BATCH_SIZE,
-    shuffle=True)
-
-model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
-    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
-    metrics='accuracy')
-
-model.fit(
-    x=train_gen,
-    steps_per_epoch=train_gen.n//train_gen.batch_size,
-    epochs=10,
-    verbose=1,
-    validation_data=valid_gen,
-    validation_steps=valid_gen.n//valid_gen.batch_size)
-"""
+        super(ExtractXClass, self).__init__()
+        
+    def call(self, inputs):
+        return inputs[:,0]
+    
+def VisionTransformer(input_shape, num_classes, patch_dim, model_dim, num_encoders, 
+                 num_msa_heads=8, dropout_rate=0.0):
+    inputs = keras.Input(shape=input_shape)
+    x = PatchSplit(patch_dim)(inputs)
+    x = MultiLinearProjection(model_dim)(x)
+    x = PositionEmbedding()(x)
+    for _ in range(num_encoders):
+        x = Encoder(x, model_dim, num_msa_heads)
+    x = ExtractXClass()(x)
+    x = Dense(model_dim, activation='relu')(x)
+    x = Dropout(dropout_rate)(x)
+    x = Dense(model_dim, activation='relu')(x)
+    x = Dropout(dropout_rate)(x)
+    outputs = Dense(num_classes, activation=softmax)(x)
+    return Model(inputs=inputs, outputs=outputs)
