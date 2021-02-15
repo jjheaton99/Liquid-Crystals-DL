@@ -110,7 +110,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
                     x=train_gen,
                     steps_per_epoch=train_gen.n//train_gen.batch_size,
                     epochs=1000,
-                    verbose=2,
+                    verbose=1,
                     callbacks=[early_stop, model_save, learning_rate_schedule],
                     validation_data=valid_gen,
                     validation_steps=valid_gen.n//valid_gen.batch_size)
@@ -118,7 +118,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
     plot_loss_acc_history(history, plot_title)
 
     if save_history:
-        pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name+'.csv'))
+        pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name, model_name+'.csv'))
     
     best_model = Model()
     if is_ViT:

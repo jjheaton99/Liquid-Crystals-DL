@@ -92,10 +92,7 @@ def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', binary=Fals
     y_true = rearrange_4_phase_labels(y_true)
     y_pred = rearrange_4_phase_labels(y_pred)
     
-    class_names = ['Iso',
-                   'N',
-                   'N*', 
-                   'Sm']
+    class_names = ['Iso', 'N', 'N*', 'Sm']
     
     display_confusion_matrix(y_true, 
                              y_pred, 
@@ -169,46 +166,11 @@ def con_mat_smecticAC_2(test_dir, model_name_1, model_name_2, title, sub_title_1
                                  figsize=figsize,
                                  font_scale=font_scale)
 
-con_mat_smecticAC_2('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test',
-                    'smecticAC/flip_256_inception_2_3',
-                    'smecticAC/flip_256_1_3',
-                    'Test set confusion matrices for the most\nand least accurate smectic A and C models',
-                    'Inception, 2 blocks,\n99.22% total accuracy',
-                    'Sequential, 1 convoluational\nlayer, 85.42% total accuracy',
-                    figsize=(6, 4),
-                    font_scale=1.2)
-"""
-con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
-                 'multi train 2nd run/all_128_6',
-                 title='Test set confusion matrix, 6 convolutional layers, all\n augmentations, 128 x 128 input size, 74.42% accuracy',
-                 image_size=128)
-
-con_mat_4_phases('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
-                 'multi train 1st run/conv_2_flip_256',
-                 title='Test set confusion matrix, 2 convolutional layers, flip\n augmentations, 256 x 256 input size, 94.33% accuracy',
+con_mat_smecticAC('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test',
+                 'vis_trans/smecticAC_1',
+                 title='vision transformer',
                  image_size=256)
-"""
-con_mat_4_phases_2('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/set2/test',
-                   'multi train 1st run/conv_2_flip_256',
-                   'multi train 2nd run/all_128_6',
-                   'Test set confusion matrices for the\nmost and least accurate 4-phase models',
-                   '2 convolutional layers, flip\naugmentations, 256 x 256 input\nsize, 94.33% total accuracy',
-                   '6 convolutional layers, all\naugmentations, 128 x 128 input\nsize, 74.42% total accuracy',
-                   image_size_1=256,
-                   image_size_2=128,
-                   figsize=(9,6),
-                   font_scale=1.2)
-"""
-con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
-                'smectic/flip_256_inception_3',
-                title='3 inception blocks',
-                sequential=False)
 
-con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic/test',
-                'smectic/flip_256_4',
-                title='4 convolutional layers',
-                sequential=True)
-"""
 """
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):
