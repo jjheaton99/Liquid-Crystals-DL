@@ -15,7 +15,7 @@ import v3_4_phases
 import smectic_models
 import smecticAC_models
 import vision_transformer
-import vis_trans_hypermodel
+import ViT_hypermodel
 
 train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/train'
 valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/4-phase/valid'
@@ -47,7 +47,7 @@ tuner = Hyperband(hypermodel,
                   objective='val_accuracy',
                   max_epochs=100,
                   directory=os.path.normpath('C:/MPhys project/Liquid-Crystals-DL/models/Phase classifiers/hyperband'),
-                  project_name='vis_trans')
+                  project_name='ViT')
 
 tuner.search(x=train_gen,
              steps_per_epoch=train_gen.n//train_gen.batch_size,
@@ -72,23 +72,23 @@ loss, accuracy = best_model.evaluate(test_gen,
                     steps=test_gen.n//test_gen.batch_size,
                     verbose=2)
 
-save_model(best_model, 'checkpoints/vis_trans/best_hp_model')
+save_model(best_model, 'checkpoints/ViT/best_hp_model')
 """
 
-vis_trans = vision_transformer.VisionTransformer(input_shape=(256, 256, 1),
+vit = vision_transformer.VisionTransformer(input_shape=(256, 256, 1),
                           num_classes=2,
                           patch_dim=16,
                           model_dim=64,
                           num_encoders=4,
                           dropout_rate=0.0)
 
-print(train_model(vis_trans, 
+print(train_model(vit, 
             'smecticAC_1', 
             train_gen, 
             valid_gen,
             test_gen,
             save_dir='checkpoints/vis_trans',
-            is_ViT=True))
+            is_vit=True))
 
 """
 inc_val_accs = np.empty((3, 3))

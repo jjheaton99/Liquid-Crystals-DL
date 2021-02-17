@@ -4,7 +4,7 @@ from kerastuner import HyperModel
 
 import vision_transformer
 
-class VisTransHypermodel(HyperModel):
+class ViTHypermodel(HyperModel):
     def __init__(self, input_shape, num_classes):
         self.input_shape = input_shape
         self.num_classes = num_classes

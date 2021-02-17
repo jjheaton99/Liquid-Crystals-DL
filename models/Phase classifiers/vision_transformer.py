@@ -203,7 +203,7 @@ def VisionTransformer(input_shape, num_classes, patch_dim, model_dim, num_encode
     outputs = Dense(num_classes)(x)
     return Model(inputs=inputs, outputs=outputs)
 
-def load_ViT(filepath):
+def load_vit(filepath):
     return keras.models.load_model(filepath, custom_objects={'PatchSplit' : PatchSplit,
                                                              'MultiLinearProjection' : MultiLinearProjection,
                                                              'PositionEmbedding' : PositionEmbedding,

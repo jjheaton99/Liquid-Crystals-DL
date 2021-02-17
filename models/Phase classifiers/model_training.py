@@ -80,7 +80,7 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
     return train_gen, valid_gen, test_gen
 
 def train_model(model, model_name, train_gen, valid_gen, test_gen, 
-                save_dir='checkpoints', is_ViT=False, binary=False, save_diagram=False,
+                save_dir='checkpoints', is_vit=False, binary=False, save_diagram=False,
                 save_history=True, plot_title='Training history'):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=50)
@@ -121,8 +121,8 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
         pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name, model_name+'.csv'))
     
     best_model = Model()
-    if is_ViT:
-        best_model = vision_transformer.load_ViT(join(save_dir, model_name))
+    if is_vit:
+        best_model = vision_transformer.load_vit(join(save_dir, model_name))
     else:
         best_model = load_model(join(save_dir, model_name))
         
