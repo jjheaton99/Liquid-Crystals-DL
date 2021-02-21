@@ -88,7 +88,7 @@ def rearrange_4_phase_labels(labels):
     return new_labels
 
 def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', binary=False, 
-                     sequential=True, image_size=256, evaluate=True, font_scale=1.2):
+                     sequential=False, image_size=256, evaluate=True, font_scale=1.2):
     y_true, y_pred = get_labels_and_preds(test_dir, model_name, binary, sequential, image_size, evaluate)
     
     y_true = rearrange_4_phase_labels(y_true)
@@ -103,7 +103,7 @@ def con_mat_4_phases(test_dir, model_name, title='Confusion Matrix', binary=Fals
                              font_scale=font_scale)
     
 def con_mat_4_phases_2(test_dir, model_name_1, model_name_2, title='Confusion Matrix', sub_title_1='', sub_title_2='', 
-                       sequential_1=True, sequential_2=True, image_size_1=256, image_size_2=256, evaluate=True, 
+                       sequential_1=True, sequential_2=False, image_size_1=256, image_size_2=256, evaluate=True, 
                        figsize=(10, 5), font_scale=1.2):
     y_true_1, y_pred_1 = get_labels_and_preds(test_dir, model_name_1, False, sequential_1, image_size_1, evaluate)
     
@@ -128,7 +128,7 @@ def con_mat_4_phases_2(test_dir, model_name_1, model_name_2, title='Confusion Ma
                                  figsize=figsize,
                                  font_scale=font_scale)
     
-def con_mat_smectic(test_dir, model_name, title, sequential=True, image_size=256, evaluate=True, font_scale=1.2):
+def con_mat_smectic(test_dir, model_name, title, sequential=False, image_size=256, evaluate=True, font_scale=1.2):
     y_true, y_pred = get_labels_and_preds(test_dir, model_name, False, sequential, image_size, evaluate)
     
     class_names = ['FSm', 'HSm', 'SC']
