@@ -82,11 +82,11 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
     
     return train_gen, valid_gen, test_gen
 
-def train_model(model, model_name, train_gen, valid_gen, test_gen, 
-                save_dir='checkpoints', is_vit=False, binary=False, save_diagram=False,
-                save_history=True, plot_title='Training history'):
+def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='checkpoints', 
+                learning_rate=0.001, patience=50, reduce_lr=True, is_vit=False, binary=False, 
+                save_diagram=False, save_history=True, plot_title='Training history'):
     #callbacks
-    early_stop = EarlyStopping(monitor='val_loss', patience=50)
+    early_stop = EarlyStopping(monitor='val_loss', patience=patience)
     model_save = ModelCheckpoint(join(save_dir, model_name), save_best_only=True)
     learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                                factor=0.5,
@@ -94,7 +94,11 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
                                                verbose=1,
                                                min_lr=1e-5)
     
-    model.summary()
+    callbacks=[]
+    if reduce_lr:
+        callbacks=[early_stop, model_save, learning_rate_schedule]  
+    else:
+        callbacks=[early_stop, model_save]
 
     if save_diagram:
         plot_model(model, to_file='plots/architecture diagrams/'+model_name+'.png', show_shapes=True)
@@ -104,8 +108,9 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
     else:
         loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True)
     
+    model.summary()
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
         loss=loss,
         metrics='accuracy')
 
@@ -114,7 +119,7 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen,
                     steps_per_epoch=train_gen.n//train_gen.batch_size,
                     epochs=1000,
                     verbose=1,
-                    callbacks=[early_stop, model_save, learning_rate_schedule],
+                    callbacks=callbacks,
                     validation_data=valid_gen,
                     validation_steps=valid_gen.n//valid_gen.batch_size)
     
