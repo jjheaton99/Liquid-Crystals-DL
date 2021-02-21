@@ -1,11 +1,13 @@
 import numpy as np
 import os
 
+"""
 import sys
 sys.path.insert(1, 'C:/MPhys project/Liquid-Crystals-DL/misc scripts')
+"""
 
-from image_data_transformer import transform_image
-from confusion_matrix_plotter import display_confusion_matrix, display_2_confusion_matrices
+from miscScripts.image_data_transformer import transform_image
+from miscScripts.confusion_matrix_plotter import display_confusion_matrix, display_2_confusion_matrices
 
 import tensorflow as tf
 from keras.preprocessing.image import ImageDataGenerator
@@ -166,9 +168,10 @@ def con_mat_smecticAC_2(test_dir, model_name_1, model_name_2, title, sub_title_1
                                  figsize=figsize,
                                  font_scale=font_scale)
 
-con_mat_smecticAC('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic A C/test',
-                 'vis_trans/smecticAC_1',
+con_mat_smectic('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smectic3/test',
+                 'ViT/smectic3_2',
                  title='vision transformer',
+                 sequential=False,
                  image_size=256)
 
 """

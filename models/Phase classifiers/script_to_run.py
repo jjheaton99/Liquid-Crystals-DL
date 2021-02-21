@@ -87,5 +87,5 @@ print(train_model(vit,
             train_gen, 
             valid_gen,
             test_gen,
-            save_dir='checkpoints/vis_trans',
+            save_dir='checkpoints/ViT',
             is_vit=True))

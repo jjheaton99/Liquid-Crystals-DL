@@ -1,9 +1,12 @@
 import os
 from os.path import join
+
+"""
 os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
 
 import sys
 sys.path.insert(1, 'C:/MPhys project/Liquid-Crystals-DL/misc scripts')
+"""
 
 import numpy as np
 import pandas as pd
@@ -15,7 +18,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.models import load_model, Model
 from keras.utils.vis_utils import plot_model
 
-from history_plotter import plot_loss_acc_history
+from miscScripts.history_plotter import plot_loss_acc_history
 
 import v1_4_phases
 import v2_4_phases
