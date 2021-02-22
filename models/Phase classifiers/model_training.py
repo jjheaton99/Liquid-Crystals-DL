@@ -2,8 +2,6 @@ import os
 from os.path import join
 
 """
-os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz 2.44.1/bin'
-
 import sys
 sys.path.insert(1, 'C:/MPhys project/Liquid-Crystals-DL/misc scripts')
 """
@@ -16,16 +14,10 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image_dataset_from_directory
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.models import load_model, Model
-from keras.utils.vis_utils import plot_model
+
+import vision_transformer
 
 from miscScripts.history_plotter import plot_loss_acc_history
-
-import v1_4_phases
-import v2_4_phases
-import v3_4_phases
-import smectic_models
-import smecticAC_models
-import vision_transformer
 
 def create_generators(train_dir, valid_dir, test_dir, batch_size=32, 
                       image_shape=(256, 256), flip_augs_only=True, binary=False):
@@ -84,7 +76,7 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
 
 def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='checkpoints', 
                 learning_rate=0.001, patience=50, reduce_lr=True, is_vit=False, binary=False, 
-                save_diagram=False, save_history=True, plot_title='Training history'):
+                save_history=True, plot_title='Training history'):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=patience)
     model_save = ModelCheckpoint(join(save_dir, model_name), save_best_only=True)
@@ -100,9 +92,6 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='che
     else:
         callbacks=[early_stop, model_save]
 
-    if save_diagram:
-        plot_model(model, to_file='plots/architecture diagrams/'+model_name+'.png', show_shapes=True)
-    
     if binary:
         loss=tf.keras.losses.BinaryCrossentropy(from_logits=True)
     else:
@@ -156,7 +145,7 @@ def evaluate_model(model, valid_gen, test_gen):
                           verbose=2)[1]
     
     return val, test
-
+"""
 def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     train_gen_all_256, valid_gen_all_256, test_gen_all_256 = create_generators(image_shape=(256, 256), 
                                                                flip_augs_only=False)
@@ -318,3 +307,4 @@ def train_all_v3_models(train_dir, valid_dir, test_dir, result_save_dir):
     print(accs)
     
     pd.DataFrame(accs).to_csv(join(result_save_dir, 'accs3.csv'))
+"""

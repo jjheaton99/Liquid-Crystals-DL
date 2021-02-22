@@ -166,7 +166,7 @@ class MultiSelfAttention(Layer):
 def gelu(x):
     return 0.5 * x * (1 + tf.tanh(tf.sqrt(2.0 / np.pi) * (x + 0.044715 * x**3)))
    
-def Encoder(inputs, model_dim, num_msa_heads, head_dim=None, dropout_rate=0.0):
+def encoder(inputs, model_dim, num_msa_heads, head_dim=None, dropout_rate=0.0):
     layer_norm_1 = LayerNormalization()(inputs)
     multi_attention = MultiSelfAttention(num_msa_heads, head_dim)(layer_norm_1)
     add = tf.add(inputs, multi_attention)
@@ -186,14 +186,14 @@ class ExtractXClass(Layer):
     def call(self, inputs):
         return inputs[:,0]
     
-def VisionTransformer(input_shape, num_classes, patch_dim, model_dim, num_encoders, 
-                 num_msa_heads=8, dropout_rate=0.0):
+def vision_transformer_model(num_classes, patch_dim, model_dim, num_encoders, 
+                 num_msa_heads=8, dropout_rate=0.0, input_shape=(256, 256, 1)):
     inputs = keras.Input(shape=input_shape)
     x = PatchSplit(patch_dim)(inputs)
     x = MultiLinearProjection(model_dim)(x)
     x = PositionEmbedding()(x)
     for _ in range(num_encoders):
-        x = Encoder(x, model_dim, num_msa_heads)
+        x = encoder(x, model_dim, num_msa_heads)
     x = ExtractXClass()(x)
     x = Dense(model_dim, activation='relu')(x)
     x = Dropout(dropout_rate)(x)
