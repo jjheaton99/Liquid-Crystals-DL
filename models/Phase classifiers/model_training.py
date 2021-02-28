@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 import tensorflow as tf
+import keras.backend as K
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image_dataset_from_directory
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
@@ -74,8 +75,43 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
     
     return train_gen, valid_gen, test_gen
 
+def categorical_focal_loss(gamma=2.0, alpha=0.25):
+    """
+    Implementation of Focal Loss from the paper in multiclass classification
+    Formula:
+        loss = -alpha*((1-p)^gamma)*log(p)
+    Parameters:
+        alpha -- the same as wighting factor in balanced cross entropy
+        gamma -- focusing parameter for modulating factor (1-p)
+    Default value:
+        gamma -- 2.0 as mentioned in the paper
+        alpha -- 0.25 as mentioned in the paper
+    """
+    def focal_loss(y_true, y_pred):
+        # Define epsilon so that the backpropagation will not result in NaN
+        # for 0 divisor case
+        epsilon = K.epsilon()
+        # Add the epsilon to prediction value
+        #y_pred = y_pred + epsilon
+        # Clip the prediction value
+        y_pred = K.clip(y_pred, epsilon, 1.0-epsilon)
+        # Calculate cross entropy
+        cross_entropy = -y_true*K.log(y_pred)
+        # Calculate weight that consists of  modulating factor and weighting factor
+        weight = alpha * y_true * K.pow((1-y_pred), gamma)
+        # Calculate focal loss
+        loss = weight * cross_entropy
+        # Sum the losses in mini_batch
+        loss = K.sum(loss, axis=1)
+        return loss
+    
+    return focal_loss
+
+def load_model_fl(filepath, gamma=2.0, alpha=0.25):
+    return load_model(filepath, custom_objects={'focal_loss' : categorical_focal_loss(gamma, alpha)})
+    
 def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='checkpoints', 
-                learning_rate=0.001, patience=50, reduce_lr=True, is_vit=False, binary=False, 
+                learning_rate=0.001, patience=25, reduce_lr=True, is_vit=False, loss='cce', 
                 save_history=True, plot_title='Training history'):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=patience)
@@ -86,16 +122,17 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='che
                                                verbose=1,
                                                min_lr=1e-5)
     
-    callbacks=[]
     if reduce_lr:
         callbacks=[early_stop, model_save, learning_rate_schedule]  
     else:
         callbacks=[early_stop, model_save]
-
-    if binary:
-        loss=tf.keras.losses.BinaryCrossentropy(from_logits=True)
+        
+    if loss == 'bce':
+        loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+    elif loss == 'fl':
+        loss = [categorical_focal_loss()]
     else:
-        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True)
+        loss = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
     
     model.summary()
     model.compile(
@@ -117,11 +154,11 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='che
     if save_history:
         pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name, model_name+'.csv'))
     
-    best_model = Model()
     if is_vit:
         best_model = vision_transformer.load_vit(join(save_dir, model_name))
     else:
-        best_model = load_model(join(save_dir, model_name))
+        #best_model = load_model(join(save_dir, model_name))
+        best_model = load_model_fl(join(save_dir, model_name))
         
     val_acc = best_model.evaluate(
                     valid_gen,

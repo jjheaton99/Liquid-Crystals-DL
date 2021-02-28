@@ -10,7 +10,7 @@ from keras.models import load_model, save_model
 from kerastuner.tuners import Hyperband
 from keras.utils.vis_utils import plot_model
 
-from model_training import create_generators, train_model, evaluate_model
+from model_training import create_generators, train_model, evaluate_model, load_model_fl
 
 from sequential import sequential_model
 from inception import inception_model
@@ -34,6 +34,84 @@ train_gen, valid_gen, test_gen = create_generators(train_dir_smectic3,
                                                    valid_dir_smectic3,
                                                    test_dir_smectic3,
                                                    batch_size=64)
+"""
+train_model(inception_model(num_classes=3, num_blocks=3),
+            'fl_inc_3a',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl',
+            patience=50)
+"""
+model = load_model_fl('checkpoints/smectic3/sem2/fl_inc_3a')
+evaluate_model(model, valid_gen, test_gen)
+"""
+train_model(inception_model(num_classes=3, num_blocks=3),
+            
+            'inc_3j',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=3),
+            'inc_3k',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=3),
+            'inc_3l',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'inc_2j',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'inc_2k',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'inc_2l',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=1),
+            'inc_1j',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=1),
+            'inc_1k',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+
+train_model(inception_model(num_classes=3, num_blocks=1),
+            'inc_1l',
+            train_gen, 
+            valid_gen, 
+            test_gen,
+            save_dir='checkpoints/smectic3/sem2')
+"""
+
 """
 early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=30)
 model_save = tf.keras.callbacks.ModelCheckpoint('checkpoints/vis_trans', save_best_only=True)
@@ -92,23 +170,3 @@ print(train_model(vit,
             save_dir='checkpoints/ViT',
             is_vit=True))
 """
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'inc_3a',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'inc_3b',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'inc_3c',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
