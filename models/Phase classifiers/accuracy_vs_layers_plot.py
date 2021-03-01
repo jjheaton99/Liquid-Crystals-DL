@@ -15,6 +15,34 @@ plt.rcParams['legend.fontsize'] = 12
 num_layers = np.array([1, 2, 3, 4, 5, 6])
 num_blocks = np.array([0.85, 1, 2, 3, 3.15])
 
+inc_val_accs = pd.read_csv('multi train results/smectic3/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/smectic3/inc_test_accs.csv').to_numpy()
+
+inc_val_mean = np.append(np.insert(inc_val_accs[12][1:], 0, 0), 0)
+inc_val_err = np.append(np.insert(inc_val_accs[13][1:], 0, 0), 0)
+
+inc_test_mean = np.append(np.insert(inc_test_accs[12][1:], 0, 0), 0)
+inc_test_err = np.append(np.insert(inc_test_accs[13][1:], 0, 0), 0)
+
+fig = plt.figure(figsize=(4.5, 4.5))
+ax1 = fig.add_subplot()
+ax1.set_title('Smectic 3 inception mean accuracies')
+ax1.set_xlabel('Number of inception blocks')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(40, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.legend(['validation', 'test'], loc='lower right')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+
+#Semester one plots
+"""
 inc_val_accs = pd.read_csv('multi train results/smecticAC/inc_val_accs.csv').to_numpy()
 inc_test_accs = pd.read_csv('multi train results/smecticAC/inc_test_accs.csv').to_numpy()
 seq_val_accs = pd.read_csv('multi train results/smecticAC/seq_val_accs.csv').to_numpy()
@@ -142,7 +170,7 @@ ax4.legend(['validation', 'test'], loc='lower left')
 plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
-
+"""
 """
 plt.rcParams['axes.titley'] = 1.05
 plt.title('Mean validation accuracies for 4-phase sequential models')

@@ -35,138 +35,264 @@ train_gen, valid_gen, test_gen = create_generators(train_dir_smectic3,
                                                    test_dir_smectic3,
                                                    batch_size=64)
 """
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3a',
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2a',
             train_gen, 
             valid_gen, 
-            test_gen,
             save_dir='checkpoints/smectic3/sem2',
-            loss='fl',
-            patience=50)
-"""
-model = load_model_fl('checkpoints/smectic3/sem2/fl_inc_3a')
-evaluate_model(model, valid_gen, test_gen)
-"""
-train_model(inception_model(num_classes=3, num_blocks=3),
-            
-            'inc_3j',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'inc_3k',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'inc_3l',
-            train_gen, 
-            valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            loss='fl')
 
 train_model(inception_model(num_classes=3, num_blocks=2),
-            'inc_2j',
+            'fl_inc_2b',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
 train_model(inception_model(num_classes=3, num_blocks=2),
-            'inc_2k',
+            'fl_inc_2c',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
 train_model(inception_model(num_classes=3, num_blocks=2),
-            'inc_2l',
+            'fl_inc_2d',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'inc_1j',
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2e',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'inc_1k',
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2f',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'inc_1l',
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2g',
             train_gen, 
             valid_gen, 
-            test_gen,
-            save_dir='checkpoints/smectic3/sem2')
-"""
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
 
-"""
-early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=30)
-model_save = tf.keras.callbacks.ModelCheckpoint('checkpoints/vis_trans', save_best_only=True)
-learning_rate_schedule = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss',
-                                           factor=0.5,
-                                           patience=20,
-                                           verbose=1,
-                                           min_lr=1e-5)
-
-hypermodel = ViT_hypermodel.ViTHypermodel((256, 256, 1), 3)
-
-tuner = Hyperband(hypermodel,
-                  objective='val_accuracy',
-                  max_epochs=100,
-                  directory='hyperband',
-                  project_name='ViT_smectic3')
-
-tuner.search(x=train_gen,
-             steps_per_epoch=train_gen.n//train_gen.batch_size,
-             epochs=100,
-             callbacks=[early_stop, learning_rate_schedule],
-             validation_data=valid_gen,
-             validation_steps=valid_gen.n//valid_gen.batch_size)
-
-tuner.results_summary()
-
-best_hps = tuner.get_best_hyperparameters()[0]
-
-print('Optimal hyperparameters:')
-print('lr: ', best_hps.get('learning_rate'))
-print('patch_dim: ', best_hps.get('patch_dim'))
-print('model_dim: ', best_hps.get('model_dim'))
-print('num_encoders: ', best_hps.get('num_encoders'))
-print('dropout rate: ', best_hps.get('dropout_rate'))
-
-best_model = tuner.get_best_models(num_models=1)[0]
-loss, accuracy = best_model.evaluate(test_gen,
-                    steps=test_gen.n//test_gen.batch_size,
-                    verbose=2)
-
-save_model(best_model, 'checkpoints/ViT/best_hp_model_smectic3')
-"""
-"""
-vit = vision_transformer.VisionTransformer(input_shape=(256, 256, 1),
-                          num_classes=3,
-                          patch_dim=16,
-                          model_dim=128,
-                          num_encoders=8,
-                          dropout_rate=0.1)
-
-print(train_model(vit, 
-            'smectic3_2', 
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2h',
             train_gen, 
-            valid_gen,
-            test_gen,
-            save_dir='checkpoints/ViT',
-            is_vit=True))
+            valid_gen, 
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2i',
+            train_gen, 
+            valid_gen, 
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2j',
+            train_gen, 
+            valid_gen, 
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2k',
+            train_gen, 
+            valid_gen, 
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
+
+train_model(inception_model(num_classes=3, num_blocks=2),
+            'fl_inc_2l',
+            train_gen, 
+            valid_gen, 
+            save_dir='checkpoints/smectic3/sem2',
+            loss='fl')
+
 """
+inc_val_accs = np.empty((12, 3))
+inc_test_accs = np.empty((12, 3))
+
+inc_val_accs[0][0], inc_test_accs[0][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1a'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[1][0], inc_test_accs[1][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1b'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[2][0], inc_test_accs[2][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1c'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[3][0], inc_test_accs[3][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1d'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[4][0], inc_test_accs[4][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1e'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[5][0], inc_test_accs[5][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1f'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[6][0], inc_test_accs[6][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1g'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[7][0], inc_test_accs[7][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1h'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[8][0], inc_test_accs[8][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1i'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[9][0], inc_test_accs[9][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1j'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[10][0], inc_test_accs[10][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1k'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[11][0], inc_test_accs[11][0] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_1l'),
+                    valid_gen,
+                    test_gen)
+
+inc_val_accs[0][1], inc_test_accs[0][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2a'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[1][1], inc_test_accs[1][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2b'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[2][1], inc_test_accs[2][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2c'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[3][1], inc_test_accs[3][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2d'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[4][1], inc_test_accs[4][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2e'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[5][1], inc_test_accs[5][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2f'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[6][1], inc_test_accs[6][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2g'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[7][1], inc_test_accs[7][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2h'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[8][1], inc_test_accs[8][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2i'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[9][1], inc_test_accs[9][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2j'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[10][1], inc_test_accs[10][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2k'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[11][1], inc_test_accs[11][1] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_2l'),
+                    valid_gen,
+                    test_gen)
+
+inc_val_accs[0][2], inc_test_accs[0][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3a'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[1][2], inc_test_accs[1][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3b'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[2][2], inc_test_accs[2][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3c'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[3][2], inc_test_accs[3][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3d'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[4][2], inc_test_accs[4][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3e'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[5][2], inc_test_accs[5][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3f'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[6][2], inc_test_accs[6][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3g'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[7][2], inc_test_accs[7][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3h'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[8][2], inc_test_accs[8][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3i'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[9][2], inc_test_accs[9][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3j'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[10][2], inc_test_accs[10][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3k'),
+                    valid_gen,
+                    test_gen)
+inc_val_accs[11][2], inc_test_accs[11][2] = evaluate_model(
+                    load_model('checkpoints/smectic3/sem2/inc_3l'),
+                    valid_gen,
+                    test_gen)
+
+inc_val_mean = np.mean(inc_val_accs, axis=0)
+inc_val_unc = np.std(inc_val_accs, axis=0)
+
+for index in range(3):
+    transpose_accs_idx = np.transpose(inc_val_accs)[index]
+    inc_val_unc[index] = (np.max(transpose_accs_idx) - np.min(transpose_accs_idx)) / 2
+
+inc_val_accs = np.round(100*np.append(inc_val_accs, np.array([inc_val_mean, inc_val_unc]), axis=0), 2)
+    
+inc_test_mean = np.mean(inc_test_accs, axis=0)
+inc_test_unc = np.std(inc_test_accs, axis=0)
+
+for index in range(3):
+    transpose_accs_idx = np.transpose(inc_test_accs)[index]
+    inc_test_unc[index] = (np.max(transpose_accs_idx) - np.min(transpose_accs_idx)) / 2
+
+inc_test_accs = np.round(100*np.append(inc_test_accs, np.array([inc_test_mean, inc_test_unc]), axis=0), 2)
+
+rows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Mean', 'Uncertainty']
+inc_cols = ['1', '2', '3']
+pd.DataFrame(data=inc_val_accs,
+             index=rows,
+             columns=inc_cols).to_csv('multi train results/smectic3/inc_val_accs.csv')
+pd.DataFrame(data=inc_test_accs,
+             index=rows,
+             columns=inc_cols).to_csv('multi train results/smectic3/inc_test_accs.csv')

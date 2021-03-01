@@ -75,7 +75,7 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
     
     return train_gen, valid_gen, test_gen
 
-def categorical_focal_loss(gamma=2.0, alpha=0.25):
+def categorical_focal_loss(gamma=1.0, alpha=0.25):
     """
     Implementation of Focal Loss from the paper in multiclass classification
     Formula:
@@ -107,11 +107,11 @@ def categorical_focal_loss(gamma=2.0, alpha=0.25):
     
     return focal_loss
 
-def load_model_fl(filepath, gamma=2.0, alpha=0.25):
+def load_model_fl(filepath, gamma=1.0, alpha=0.25):
     return load_model(filepath, custom_objects={'focal_loss' : categorical_focal_loss(gamma, alpha)})
     
-def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='checkpoints', 
-                learning_rate=0.001, patience=25, reduce_lr=True, is_vit=False, loss='cce', 
+def train_model(model, model_name, train_gen, valid_gen, test_gen=None, save_dir='checkpoints', 
+                learning_rate=0.001, patience=30, reduce_lr=True, is_vit=False, loss='cce', 
                 save_history=True, plot_title='Training history'):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=patience)
@@ -154,23 +154,25 @@ def train_model(model, model_name, train_gen, valid_gen, test_gen, save_dir='che
     if save_history:
         pd.DataFrame.from_dict(history.history).to_csv(join(save_dir, model_name, model_name+'.csv'))
     
-    if is_vit:
-        best_model = vision_transformer.load_vit(join(save_dir, model_name))
-    else:
-        #best_model = load_model(join(save_dir, model_name))
-        best_model = load_model_fl(join(save_dir, model_name))
+    if test_gen is not None:
+        if is_vit:
+            best_model = vision_transformer.load_vit(join(save_dir, model_name))
+        elif loss == 'fl':
+            best_model = load_model_fl(join(save_dir, model_name))
+        else:
+            best_model = load_model(join(save_dir, model_name))
+            
+        val_acc = best_model.evaluate(
+                        valid_gen,
+                        steps=valid_gen.n//valid_gen.batch_size,
+                        verbose=2)[1]
         
-    val_acc = best_model.evaluate(
-                    valid_gen,
-                    steps=valid_gen.n//valid_gen.batch_size,
-                    verbose=2)[1]
-    
-    test_acc = best_model.evaluate(
-                    test_gen,
-                    steps=test_gen.n//test_gen.batch_size,
-                    verbose=2)[1]
-    
-    return val_acc, test_acc
+        test_acc = best_model.evaluate(
+                        test_gen,
+                        steps=test_gen.n//test_gen.batch_size,
+                        verbose=2)[1]
+        
+        return val_acc, test_acc
 
 def evaluate_model(model, valid_gen, test_gen):
     val = model.evaluate(valid_gen,
