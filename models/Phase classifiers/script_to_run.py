@@ -34,7 +34,7 @@ train_gen, valid_gen, test_gen = create_generators(train_dir_smectic3,
                                                    valid_dir_smectic3,
                                                    test_dir_smectic3,
                                                    batch_size=64)
-"""
+
 train_model(inception_model(num_classes=3, num_blocks=2),
             'fl_inc_2a',
             train_gen, 
@@ -296,3 +296,4 @@ pd.DataFrame(data=inc_val_accs,
 pd.DataFrame(data=inc_test_accs,
              index=rows,
              columns=inc_cols).to_csv('multi train results/smectic3/inc_test_accs.csv')
+"""

@@ -75,7 +75,7 @@ def create_generators(train_dir, valid_dir, test_dir, batch_size=32,
     
     return train_gen, valid_gen, test_gen
 
-def categorical_focal_loss(gamma=1.0, alpha=0.25):
+def categorical_focal_loss(gamma=2.0, alpha=0.25):
     """
     Implementation of Focal Loss from the paper in multiclass classification
     Formula:
@@ -88,6 +88,8 @@ def categorical_focal_loss(gamma=1.0, alpha=0.25):
         alpha -- 0.25 as mentioned in the paper
     """
     def focal_loss(y_true, y_pred):
+        #apply softmax
+        y_pred = tf.keras.activations.softmax(y_pred)
         # Define epsilon so that the backpropagation will not result in NaN
         # for 0 divisor case
         epsilon = K.epsilon()
@@ -107,7 +109,7 @@ def categorical_focal_loss(gamma=1.0, alpha=0.25):
     
     return focal_loss
 
-def load_model_fl(filepath, gamma=1.0, alpha=0.25):
+def load_model_fl(filepath, gamma=2.0, alpha=0.25):
     return load_model(filepath, custom_objects={'focal_loss' : categorical_focal_loss(gamma, alpha)})
     
 def train_model(model, model_name, train_gen, valid_gen, test_gen=None, save_dir='checkpoints', 
