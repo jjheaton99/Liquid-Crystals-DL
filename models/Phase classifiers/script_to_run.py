@@ -30,180 +30,406 @@ train_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/sm
 valid_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smecticAC/valid'
 test_dir_smecticAC = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smecticAC/test'
 
-train_gen, valid_gen, test_gen = create_generators(train_dir_smectic3,
-                                                   valid_dir_smectic3,
-                                                   test_dir_smectic3,
+train_dir_ch_sm4 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm4/train'
+valid_dir_ch_sm4 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm4/valid'
+test_dir_ch_sm4 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm4/test'
+
+train_dir_ch_sm6 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm6/train'
+valid_dir_ch_sm6 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm6/valid'
+test_dir_ch_sm6 = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ch_sm6/test'
+
+train_gen_64, valid_gen_64, test_gen_64 = create_generators(train_dir_ch_sm4,
+                                                   valid_dir_ch_sm4,
+                                                   test_dir_ch_sm4,
                                                    batch_size=64)
+
+train_gen_32, valid_gen_32, test_gen_32 = create_generators(train_dir_ch_sm4,
+                                                   valid_dir_ch_sm4,
+                                                   test_dir_ch_sm4,
+                                                   batch_size=32)
+
+train_gen_16, valid_gen_16, test_gen_16 = create_generators(train_dir_ch_sm4,
+                                                   valid_dir_ch_sm4,
+                                                   test_dir_ch_sm4,
+                                                   batch_size=16)
+
+#lr 0.1
 """
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1a',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr01_a', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1b',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr01_b', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1c',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr01_c', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
 
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1d',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1e',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1f',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1g',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1h',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1i',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1j',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1k',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=1),
-            'fl_inc_1l',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3a',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3b',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3c',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3d',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3e',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3f',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3g',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3h',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3i',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3j',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3k',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
-
-train_model(inception_model(num_classes=3, num_blocks=3),
-            'fl_inc_3l',
-            train_gen, 
-            valid_gen, 
-            save_dir='checkpoints/smectic3/sem2',
-            loss='fl')
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr01_a', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
 """
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr01_b', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
 
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr01_c', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr01_a', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr01_b', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr01_c', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.1)
+
+#lr 0.01
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr001_a', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr001_b', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr001_c', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr001_a', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr001_b', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr001_c', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr001_a', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr001_b', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr001_c', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.01)
+
+#lr 0.001
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr0001_a', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr0001_b', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr0001_c', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr0001_a', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr0001_b', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr0001_c', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr0001_a', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr0001_b', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr0001_c', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.001)
+
+#lr 0.0001
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr00001_a', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr00001_b', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr00001_c', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr00001_a', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr00001_b', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr00001_c', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr00001_a', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr00001_b', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr00001_c', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.0001)
+
+#lr 0.00001
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr000001_a', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr000001_b', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr000001_c', 
+            train_gen_64, 
+            valid_gen_64,
+            test_gen_64,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr000001_a', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr000001_b', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr000001_c', 
+            train_gen_32, 
+            valid_gen_32,
+            test_gen_32,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_a, test_a = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr000001_a', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_b, test_b = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr000001_b', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+val_c, test_c = train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr000001_c', 
+            train_gen_16, 
+            valid_gen_16,
+            test_gen_16,
+            'checkpoints/ch_sm4',
+            learning_rate=0.00001)
+
+"""
+rows = ['0.1', '0.01', '0.001', '0.0001', '0.00001']
+cols = ['64', '32', '16']
+pd.DataFrame(data=val_results,
+             index=rows,
+             columns=cols).to_csv('multi train results/ch_sm4/batch_lr_val.csv')
+pd.DataFrame(data=test_results,
+             index=rows,
+             columns=cols).to_csv('multi train results/ch_sm4/batch_lr_test.csv')
+"""
+"""
 fl_inc_val_accs = np.empty((12, 3))
 fl_inc_test_accs = np.empty((12, 3))
 
@@ -380,3 +606,4 @@ pd.DataFrame(data=fl_inc_val_accs,
 pd.DataFrame(data=fl_inc_test_accs,
              index=rows,
              columns=fl_inc_cols).to_csv('multi train results/smectic3/fl_inc_test_accs.csv')
+"""

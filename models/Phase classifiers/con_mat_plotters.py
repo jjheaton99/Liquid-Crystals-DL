@@ -351,17 +351,23 @@ labels_preds_fl_3 = get_multi_labels_preds(test_gen,
                                        'checkpoints/smectic3/sem2/fl_inc_3l'],
                                        focal_loss=True)
 
-display_mean_confusion_matrix(labels_preds_1, ['FSm', 'HSm', 'SC'])
-display_mean_confusion_matrix(labels_preds_2, ['FSm', 'HSm', 'SC'])
-display_mean_confusion_matrix(labels_preds_3, ['FSm', 'HSm', 'SC'])
-display_mean_confusion_matrix(labels_preds_fl_1, ['FSm', 'HSm', 'SC'])
-display_mean_confusion_matrix(labels_preds_fl_2, ['FSm', 'HSm', 'SC'])
-display_mean_confusion_matrix(labels_preds_fl_3, ['FSm', 'HSm', 'SC'])
+display_mean_confusion_matrix(labels_preds_1, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 1 block inception')
+display_mean_confusion_matrix(labels_preds_2, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 2 block inception')
+display_mean_confusion_matrix(labels_preds_3, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 3 block inception')
+display_mean_confusion_matrix(labels_preds_fl_1, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 1 block inception, focal loss')
+display_mean_confusion_matrix(labels_preds_fl_2, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 2 block inception, focal loss')
+display_mean_confusion_matrix(labels_preds_fl_3, ['FSm', 'HSm', 'SC'], 
+                              'Mean confusion matrix, 3 block inception, focal loss')
 
 """
 #outputs prediction for image file and associated confidence
 def predict_image(filename, model=model, show=False):
-    if show:
+    if show:w
         transform_image(Image.open(filename), size=IMAGE_SIZE).show()
     image = transform_image(Image.open(filename), 
                             as_array=True, 
