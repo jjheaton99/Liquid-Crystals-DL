@@ -113,7 +113,7 @@ def load_model_fl(filepath, gamma=2.0, alpha=0.25):
     return load_model(filepath, custom_objects={'focal_loss' : categorical_focal_loss(gamma, alpha)})
     
 def train_model(model, model_name, train_gen, valid_gen, test_gen=None, save_dir='checkpoints', 
-                learning_rate=0.001, patience=30, reduce_lr=True, is_vit=False, loss='cce', 
+                learning_rate=0.0001, patience=30, reduce_lr=False, is_vit=False, loss='cce', 
                 save_history=True, plot_title=None):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=patience)
