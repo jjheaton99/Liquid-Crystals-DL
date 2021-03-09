@@ -54,73 +54,24 @@ train_gen_16, valid_gen_16, test_gen_16 = create_generators(train_dir_ch_sm4,
                                                    batch_size=16)
 
 #lr 0.1
-"""
 train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr01_a', 
+            'seq_3_8_batch64_lr01_e', 
             train_gen_64, 
             valid_gen_64,
             test_gen_64,
             'checkpoints/ch_sm4',
             learning_rate=0.1)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr01_b', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr01_c', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr01_a', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-"""
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr01_b', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr01_e', 
             train_gen_32, 
             valid_gen_32,
             test_gen_32,
             'checkpoints/ch_sm4',
             learning_rate=0.1)
 
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr01_c', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr01_a', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr01_b', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.1)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr01_c', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr01_e', 
             train_gen_16, 
             valid_gen_16,
             test_gen_16,
@@ -128,72 +79,24 @@ val_c, test_c = train_model(sequential_model(4, 3, 8),
             learning_rate=0.1)
 
 #lr 0.01
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr001_e', 
             train_gen_64, 
             valid_gen_64,
             test_gen_64,
             'checkpoints/ch_sm4',
             learning_rate=0.01)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr001_b', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr001_c', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr001_e', 
             train_gen_32, 
             valid_gen_32,
             test_gen_32,
             'checkpoints/ch_sm4',
             learning_rate=0.01)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr001_b', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr001_c', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr001_a', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr001_b', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.01)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr001_c', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr001_e', 
             train_gen_16, 
             valid_gen_16,
             test_gen_16,
@@ -201,72 +104,24 @@ val_c, test_c = train_model(sequential_model(4, 3, 8),
             learning_rate=0.01)
 
 #lr 0.001
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr0001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr0001_e', 
             train_gen_64, 
             valid_gen_64,
             test_gen_64,
             'checkpoints/ch_sm4',
             learning_rate=0.001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr0001_b', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr0001_c', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr0001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr0001_e', 
             train_gen_32, 
             valid_gen_32,
             test_gen_32,
             'checkpoints/ch_sm4',
             learning_rate=0.001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr0001_b', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr0001_c', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr0001_a', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr0001_b', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr0001_c', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr0001_e', 
             train_gen_16, 
             valid_gen_16,
             test_gen_16,
@@ -274,72 +129,24 @@ val_c, test_c = train_model(sequential_model(4, 3, 8),
             learning_rate=0.001)
 
 #lr 0.0001
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr00001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr00001_e', 
             train_gen_64, 
             valid_gen_64,
             test_gen_64,
             'checkpoints/ch_sm4',
             learning_rate=0.0001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr00001_b', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr00001_c', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr00001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr00001_e', 
             train_gen_32, 
             valid_gen_32,
             test_gen_32,
             'checkpoints/ch_sm4',
             learning_rate=0.0001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr00001_b', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr00001_c', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr00001_a', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr00001_b', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.0001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr00001_c', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr00001_e', 
             train_gen_16, 
             valid_gen_16,
             test_gen_16,
@@ -347,72 +154,24 @@ val_c, test_c = train_model(sequential_model(4, 3, 8),
             learning_rate=0.0001)
 
 #lr 0.00001
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr000001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch64_lr000001_e', 
             train_gen_64, 
             valid_gen_64,
             test_gen_64,
             'checkpoints/ch_sm4',
             learning_rate=0.00001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr000001_b', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch64_lr000001_c', 
-            train_gen_64, 
-            valid_gen_64,
-            test_gen_64,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr000001_a', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch32_lr000001_e', 
             train_gen_32, 
             valid_gen_32,
             test_gen_32,
             'checkpoints/ch_sm4',
             learning_rate=0.00001)
 
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr000001_b', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch32_lr000001_c', 
-            train_gen_32, 
-            valid_gen_32,
-            test_gen_32,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_a, test_a = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr000001_a', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_b, test_b = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr000001_b', 
-            train_gen_16, 
-            valid_gen_16,
-            test_gen_16,
-            'checkpoints/ch_sm4',
-            learning_rate=0.00001)
-
-val_c, test_c = train_model(sequential_model(4, 3, 8), 
-            'seq_3_8_batch16_lr000001_c', 
+train_model(sequential_model(4, 3, 8), 
+            'seq_3_8_batch16_lr000001_e', 
             train_gen_16, 
             valid_gen_16,
             test_gen_16,

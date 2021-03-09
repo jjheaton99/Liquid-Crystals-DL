@@ -113,14 +113,14 @@ def load_model_fl(filepath, gamma=2.0, alpha=0.25):
     return load_model(filepath, custom_objects={'focal_loss' : categorical_focal_loss(gamma, alpha)})
     
 def train_model(model, model_name, train_gen, valid_gen, test_gen=None, save_dir='checkpoints', 
-                learning_rate=0.001, patience=30, reduce_lr=False, is_vit=False, loss='cce', 
+                learning_rate=0.001, patience=30, reduce_lr=True, is_vit=False, loss='cce', 
                 save_history=True, plot_title=None):
     #callbacks
     early_stop = EarlyStopping(monitor='val_loss', patience=patience)
     model_save = ModelCheckpoint(join(save_dir, model_name), save_best_only=True)
     learning_rate_schedule = ReduceLROnPlateau(monitor='val_loss',
                                                factor=0.5,
-                                               patience=20,
+                                               patience=10,
                                                verbose=1,
                                                min_lr=1e-5)
     
