@@ -12,34 +12,193 @@ plt.rcParams['xtick.labelsize'] = 14
 plt.rcParams['ytick.labelsize'] = 14
 plt.rcParams['legend.fontsize'] = 12
 
-num_layers = np.array([1, 2, 3, 4, 5, 6])
-num_blocks = np.array([0.85, 1, 2, 3, 3.15])
+#ch_sm3
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+seq_archs = ['', '3, 8', '3, 16', '3, 32', '4, 8', '4, 16', '4, 32']
+seq_ticks = np.arange(6)
 
-inc_val_accs = pd.read_csv('multi train results/smectic3/fl_inc_val_accs.csv').to_numpy()
-inc_test_accs = pd.read_csv('multi train results/smectic3/fl_inc_test_accs.csv').to_numpy()
+seq_val_accs = pd.read_csv('multi train results/ch_sm3/seq_val_accs.csv').to_numpy()
+seq_test_accs = pd.read_csv('multi train results/ch_sm3/seq_test_accs.csv').to_numpy()
 
-inc_val_mean = np.append(np.insert(inc_val_accs[12][1:], 0, 0), 0)
-inc_val_err = np.append(np.insert(inc_val_accs[13][1:], 0, 0), 0)
+seq_val_mean = seq_val_accs[-2][1:]
+seq_val_err = seq_val_accs[-1][1:]
 
-inc_test_mean = np.append(np.insert(inc_test_accs[12][1:], 0, 0), 0)
-inc_test_err = np.append(np.insert(inc_test_accs[13][1:], 0, 0), 0)
+seq_test_mean = seq_test_accs[-2][1:]
+seq_test_err = seq_test_accs[-1][1:]
 
-fig = plt.figure(figsize=(4.5, 4.5))
+fig = plt.figure(figsize=(len(seq_archs), 5))
 ax1 = fig.add_subplot()
-ax1.set_title('Smectic 3 focal loss inception mean accuracies')
-ax1.set_xlabel('Number of inception blocks')
+ax1.set_title('ChSm3 sequential mean accuracies')
+ax1.set_xlabel('layers, starting channels')
 ax1.set_ylabel('Mean accuracy in percent')
-ax1.set_ylim(20, 100)
+ax1.set_ylim(60, 100)
 trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
 trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
-ax1.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
-ax1.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
-ax1.legend(['validation', 'test'], loc='lower right')
+ax1.errorbar(seq_ticks, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(seq_ticks, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(seq_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
 ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 #plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
+
+inc_archs = ['', '1, 2', '1, 4', '1, 8', '2, 2', '2, 4', '2, 8', '3, 2', '3, 4', '3, 8']
+inc_ticks = np.arange(9)
+
+inc_val_accs = pd.read_csv('multi train results/ch_sm3/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/ch_sm3/inc_test_accs.csv').to_numpy()
+
+inc_val_mean = inc_val_accs[-2][1:]
+inc_val_err = inc_val_accs[-1][1:]
+
+inc_test_mean = inc_test_accs[-2][1:]
+inc_test_err = inc_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(inc_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('ChSm3 inception mean accuracies')
+ax1.set_xlabel('number of blocks, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(60, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(inc_ticks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(inc_ticks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(inc_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#smecticAC
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+seq_val_accs = pd.read_csv('multi train results/smecticAC/sem2/seq_val_accs.csv').to_numpy()
+seq_test_accs = pd.read_csv('multi train results/smecticAC/sem2/seq_test_accs.csv').to_numpy()
+
+seq_val_mean = seq_val_accs[-2][1:]
+seq_val_err = seq_val_accs[-1][1:]
+
+seq_test_mean = seq_test_accs[-2][1:]
+seq_test_err = seq_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(seq_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('SmecticAC sequential mean accuracies')
+ax1.set_xlabel('layers, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(85, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(seq_ticks, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(seq_ticks, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(seq_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+
+inc_val_accs = pd.read_csv('multi train results/smecticAC/sem2/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/smecticAC/sem2/inc_test_accs.csv').to_numpy()
+
+inc_val_mean = inc_val_accs[-2][1:]
+inc_val_err = inc_val_accs[-1][1:]
+
+inc_test_mean = inc_test_accs[-2][1:]
+inc_test_err = inc_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(inc_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('SmecticAC inception mean accuracies')
+ax1.set_xlabel('number of blocks, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(85, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(inc_ticks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(inc_ticks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(inc_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#smecticIF
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+seq_val_accs = pd.read_csv('multi train results/smecticIF/seq_val_accs.csv').to_numpy()
+seq_test_accs = pd.read_csv('multi train results/smecticIF/seq_test_accs.csv').to_numpy()
+
+seq_val_mean = seq_val_accs[-2][1:]
+seq_val_err = seq_val_accs[-1][1:]
+
+seq_test_mean = seq_test_accs[-2][1:]
+seq_test_err = seq_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(seq_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('SmecticIF sequential mean accuracies')
+ax1.set_xlabel('layers, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(30, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(seq_ticks, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(seq_ticks, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(seq_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+
+inc_val_accs = pd.read_csv('multi train results/smecticIF/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/smecticIF/inc_test_accs.csv').to_numpy()
+
+inc_val_mean = inc_val_accs[-2][1:]
+inc_val_err = inc_val_accs[-1][1:]
+
+inc_test_mean = inc_test_accs[-2][1:]
+inc_test_err = inc_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(inc_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('SmecticIF inception mean accuracies')
+ax1.set_xlabel('number of blocks, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(30, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(inc_ticks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(inc_ticks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+ax1.set_xticklabels(inc_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+"""
+inc_val_mean = np.append(np.insert(inc_val_accs[-2][1:], 0, 0), 0)
+inc_val_err = np.append(np.insert(inc_val_accs[-1][1:], 0, 0), 0)
+
+inc_test_mean = np.append(np.insert(inc_test_accs[-2][1:], 0, 0), 0)
+inc_test_err = np.append(np.insert(inc_test_accs[-1][1:], 0, 0), 0)
+
+num_layers = np.array([1, 2, 3, 4, 5, 6])
+num_blocks = np.array([0.85, 1, 2, 3, 3.15])
+"""
 
 #Semester one plots
 """
@@ -75,7 +234,7 @@ trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
 trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
 ax1.errorbar(num_blocks, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
 ax1.errorbar(num_blocks, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
-ax1.legend(['validation', 'test'], loc='lower right')
+ax1.legend(['validation', 'test'], loc='lower left')
 ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 ax2 = fig.add_subplot(spec[0])
@@ -88,7 +247,7 @@ trans1 = ax2.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
 trans2 = ax2.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
 ax2.errorbar(num_layers, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
 ax2.errorbar(num_layers, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
-ax2.legend(['validation', 'test'], loc='lower right')
+ax2.legend(['validation', 'test'], loc='lower left')
 
 plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()

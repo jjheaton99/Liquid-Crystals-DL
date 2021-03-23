@@ -42,7 +42,7 @@ def inception_block(prev_output, filters=32):
     
     return concatenate([block_1x1, block_3x3, block_5x5, block_pooling], axis=3)
 
-def inception_model(num_classes, starting_channels=2, num_blocks=1, 
+def inception_model(num_classes, num_blocks=1, starting_channels=2, 
               double_block_channels=True, dropout_rate=0.5, input_shape=(256, 256, 1)):
     inputs = keras.Input(shape=input_shape)
     x = Conv2D(starting_channels, (7, 7), activation='relu', padding='same')(inputs)

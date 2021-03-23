@@ -10,7 +10,7 @@ import tensorflow as tf
 from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator, save_img
 from keras.layers import Input, Reshape, Conv2D, Dense, LeakyReLU, UpSampling2D
-from keras.layers import BatchNormalization, LayerNormalization, Flatten, Dropout
+from keras.layers import BatchNormalization, LayerNormalization, Flatten, Dropout, GaussianNoise
 from keras.models import Model, Sequential
 from keras.optimizers import RMSprop
 import keras.backend as K
@@ -104,52 +104,66 @@ class WGAN_GP():
         return K.mean(gradient_penalty)
     
     def build_generator(self):
-        """
+        noise_stddev = 0.0
+        padding = 'valid'
+        reshape_dim = 20
+        starting_channels = 32
+            
         model = Sequential([
-            Dense(256 * 32 * 32, activation='relu', input_dim=self.latent_dim),
-            Reshape((32, 32, 256)),
-            UpSampling2D(),
+                Dense(256, activation='relu', input_dim=self.latent_dim),
+                BatchNormalization(),
+                Dense(256, activation='relu'),
+                BatchNormalization(),
+                Dense(starting_channels * reshape_dim * reshape_dim, activation='relu'),
+                Reshape((reshape_dim, reshape_dim, starting_channels)),
+                UpSampling2D(),
+                
+                Conv2D(starting_channels, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                Conv2D(starting_channels, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                UpSampling2D(),
+                
+                Conv2D(starting_channels/2, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                Conv2D(starting_channels/2, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                UpSampling2D(),
+                
+                Conv2D(starting_channels/4, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                Conv2D(starting_channels/4, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                Conv2D(starting_channels/4, kernel_size=(3, 3), activation='relu', padding=padding),
+                GaussianNoise(noise_stddev),
+                BatchNormalization(momentum=0.8),
+                
+                UpSampling2D(),
+                
+                Conv2D(self.channels, kernel_size=(3, 3), activation='relu', padding=padding),
+                BatchNormalization(momentum=0.8),
+                Conv2D(self.channels, kernel_size=(3, 3), activation='tanh', padding=padding)
+            ])
             
-            Conv2D(128, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
-            BatchNormalization(momentum=0.8),
-            UpSampling2D(),
-            
-            Conv2D(64, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
-            BatchNormalization(momentum=0.8),
-            UpSampling2D(),
-            
-            Conv2D(self.channels, kernel_size=(4, 4), activation='tanh', padding='same')
-        ])
-        """
-        model = Sequential([
-            Dense(1024, activation='relu', input_dim=self.latent_dim),
-            BatchNormalization(),
-            Dense(128 * 16 * 16, activation='relu'),
-            Reshape((16, 16, 128)),
-            UpSampling2D(),
-            
-            Conv2D(64, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
-            BatchNormalization(momentum=0.8),
-            UpSampling2D(),
-            
-            Conv2D(32, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
-            BatchNormalization(momentum=0.8),
-            UpSampling2D(),
-            
-            Conv2D(16, kernel_size=(4, 4), strides=1, activation='relu', padding='same'),
-            BatchNormalization(momentum=0.8),
-            UpSampling2D(),
-            
-            Conv2D(self.channels, kernel_size=(4, 4), activation='tanh', padding='same')
-        ])
-        
         model.summary()
-        
-        noise = Input(shape=(self.latent_dim,))
+
+        noise = Input(shape=(self.latent_dim,))        
         img = model(noise)
-        
+
         return Model(noise, img)
-    
+        
     def build_critic(self):
         model = Sequential([
             Conv2D(32, kernel_size=(4, 4), strides=2, input_shape=self.img_shape, padding='same'),
@@ -168,11 +182,6 @@ class WGAN_GP():
             Dropout(0.2),
             
             Conv2D(256, kernel_size=(4, 4), strides=2, padding='same'),
-            LayerNormalization(),
-            LeakyReLU(0.1),
-            Dropout(0.2),
-            
-            Conv2D(512, kernel_size=(4, 4), strides=2, padding='same'),
             LayerNormalization(),
             LeakyReLU(0.1),
             Dropout(0.2),
@@ -321,19 +330,18 @@ if __name__ == '__main__':
         horizontal_flip=True)
     
     BATCH_SIZE = 32
-    phase='nematic'
     
     train_data = train_datagen.flow_from_directory(
-        directory=phase+'/data',
+        directory='C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/GAN/nematic',
         target_size=(256, 256),
         class_mode='categorical',
         color_mode='grayscale',
         batch_size=BATCH_SIZE,
         shuffle=True)
     
-    wgan_gp = WGAN_GP(load_dir=phase, load_saved_models=False, batch_size=BATCH_SIZE)
+    wgan_gp = WGAN_GP(load_dir='', load_saved_models=False, batch_size=BATCH_SIZE)
     
     #wgan_gp.sample_images(num_samples=100, save_dir='cholesteric/more samples')
     
     wgan_gp.train(epochs=99999999, train_data=train_data, checkpoint_interval=100, 
-                  sample_interval=1, num_samples=1, history_plot_interval=1000, save_dir=phase)
+                  sample_interval=1, num_samples=1, history_plot_interval=1000, save_dir='checkpoints')
