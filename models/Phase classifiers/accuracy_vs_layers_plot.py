@@ -12,8 +12,93 @@ plt.rcParams['xtick.labelsize'] = 14
 plt.rcParams['ytick.labelsize'] = 14
 plt.rcParams['legend.fontsize'] = 12
 
+#ChACHex
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+seq_archs = ['3, 4', 
+             '3, 8', 
+             '3, 16', 
+             '3, 32', 
+             '4, 4', 
+             '4, 8', 
+             '4, 16', 
+             '4, 32', 
+             '5, 4', 
+             '5, 8', 
+             '5, 16', 
+             '5, 32']
+seq_ticks = np.arange(12)
+
+seq_val_accs = pd.read_csv('multi train results/ChACHex/seq_val_accs.csv').to_numpy()
+seq_test_accs = pd.read_csv('multi train results/ChACHex/seq_test_accs.csv').to_numpy()
+
+seq_val_mean = seq_val_accs[-2][1:]
+seq_val_err = seq_val_accs[-1][1:]
+
+seq_test_mean = seq_test_accs[-2][1:]
+seq_test_err = seq_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(seq_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('ChACHex sequential mean accuracies')
+ax1.set_xlabel('layers, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(60, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(seq_archs, seq_val_mean, yerr=seq_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(seq_archs, seq_test_mean, yerr=seq_test_err, marker='s', linestyle='none', transform=trans2)
+#ax1.set_xticklabels(seq_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+#ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+
+inc_archs = ['3, 2',
+             '3, 4', 
+             '3, 8', 
+             '3, 16',
+             '4, 2',
+             '4, 4', 
+             '4, 8', 
+             '4, 16',
+             '5, 2',
+             '5, 4', 
+             '5, 8', 
+             '5, 16']
+inc_ticks = np.arange(12)
+
+inc_val_accs = pd.read_csv('multi train results/ChACHex/inc_val_accs.csv').to_numpy()
+inc_test_accs = pd.read_csv('multi train results/ChACHex/inc_test_accs.csv').to_numpy()
+
+inc_val_mean = inc_val_accs[-2][1:]
+inc_val_err = inc_val_accs[-1][1:]
+
+inc_test_mean = inc_test_accs[-2][1:]
+inc_test_err = inc_test_accs[-1][1:]
+
+fig = plt.figure(figsize=(len(inc_archs), 5))
+ax1 = fig.add_subplot()
+ax1.set_title('ChACHex inception mean accuracies')
+ax1.set_xlabel('number of blocks, starting channels')
+ax1.set_ylabel('Mean accuracy in percent')
+ax1.set_ylim(60, 100)
+trans1 = ax1.transData + ScaledTranslation(-4/72, 0, fig.dpi_scale_trans)
+trans2 = ax1.transData + ScaledTranslation(+4/72, 0, fig.dpi_scale_trans)
+ax1.errorbar(inc_archs, inc_val_mean, yerr=inc_val_err, marker='o', linestyle='none', transform=trans1)
+ax1.errorbar(inc_archs, inc_test_mean, yerr=inc_test_err, marker='s', linestyle='none', transform=trans2)
+#ax1.set_xticklabels(inc_archs)
+ax1.legend(['validation', 'test'], loc='lower left')
+#ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+#plt.tight_layout(w_pad=3.0, h_pad=2.0)
+plt.show()
+plt.close()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #ch_sm3
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
 seq_archs = ['', '3, 8', '3, 16', '3, 32', '4, 8', '4, 16', '4, 32']
 seq_ticks = np.arange(6)
 
@@ -73,10 +158,12 @@ ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 #plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
+"""
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #smecticAC
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
 seq_val_accs = pd.read_csv('multi train results/smecticAC/sem2/seq_val_accs.csv').to_numpy()
 seq_test_accs = pd.read_csv('multi train results/smecticAC/sem2/seq_test_accs.csv').to_numpy()
 
@@ -130,10 +217,12 @@ ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 #plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
+"""
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #smecticIF
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
 seq_val_accs = pd.read_csv('multi train results/smecticIF/seq_val_accs.csv').to_numpy()
 seq_test_accs = pd.read_csv('multi train results/smecticIF/seq_test_accs.csv').to_numpy()
 
@@ -187,6 +276,7 @@ ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 #plt.tight_layout(w_pad=3.0, h_pad=2.0)
 plt.show()
 plt.close()
+"""
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
@@ -200,7 +290,7 @@ num_layers = np.array([1, 2, 3, 4, 5, 6])
 num_blocks = np.array([0.85, 1, 2, 3, 3.15])
 """
 
-#Semester one plots
+#~Semester one plots~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 inc_val_accs = pd.read_csv('multi train results/smecticAC/inc_val_accs.csv').to_numpy()
 inc_test_accs = pd.read_csv('multi train results/smecticAC/inc_test_accs.csv').to_numpy()

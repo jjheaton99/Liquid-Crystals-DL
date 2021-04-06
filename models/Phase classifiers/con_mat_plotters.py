@@ -111,7 +111,8 @@ def display_confusion_matrix(model_dir, test_gen, class_names, title='Confusion 
     
 def display_mean_confusion_matrix(model_dirs, test_gen, class_names, title='Confusion Matrix', 
                                   sub_title_1='mean', sub_title_2='uncertainty', binary=False, sequential=False, 
-                                  focal_loss=False, evaluate=True, figsize=None, font_scale=1.0, reorder_2_phase=False):
+                                  focal_loss=False, evaluate=True, figsize=None, font_scale=1.0, reorder_2_phase=False,
+                                  reorder_ChACHex=False):
     labels_preds = get_multi_labels_preds(model_dirs, test_gen, binary, sequential, 
                            focal_loss, evaluate)
     
@@ -123,6 +124,9 @@ def display_mean_confusion_matrix(model_dirs, test_gen, class_names, title='Conf
         if reorder_2_phase:
             labels = rearrange_2_phase_labels(labels)
             preds = rearrange_2_phase_labels(preds)
+        elif reorder_ChACHex:
+            labels = rearrange_ChACHex_phase_labels(labels)
+            preds = rearrange_ChACHex_phase_labels(preds)
         con_mat = confusion_matrix(labels=labels, predictions=preds).numpy()
         con_mats[index] = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], decimals=2)
         
@@ -181,248 +185,40 @@ def rearrange_2_phase_labels(labels):
     
     return new_labels
 
-test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/smecticIF/test')
+def rearrange_ChACHex_phase_labels(labels):
+    num_labels = np.shape(labels)[0]
+    new_labels = np.empty(num_labels)
+    
+    for index in range(num_labels):
+        if labels[index] == 0:
+            new_labels[index] = 0 
+        elif labels[index] == 1:
+            new_labels[index] = 3
+        elif labels[index] == 2:
+            new_labels[index] = 1
+        elif labels[index] == 3:
+            new_labels[index] = 2
+    
+    return new_labels
 
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_3_8_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 3 layers, 8 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=False)
-"""
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_3_16_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 3 layers, 16 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
+test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACHex/test')
 
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_3_32_batch16_lr1e-4_j'], 
+display_mean_confusion_matrix(['checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_a',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_b',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_c',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_d',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_e',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_f',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_g',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_h',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_i',
+                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_j'], 
                               test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 3 layers, 32 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
+                              ['N*', 'SmA', 'SmC', 'HSm'],
+                              'Inception 2 blocks, 16 starting channels',
+                              #figsize=(5, 2.5),
+                              reorder_ChACHex=True)
 
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_4_8_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 4 layers, 8 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_4_16_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 4 layers, 16 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/sequential/seq_4_32_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Sequential 4 layers, 32 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_1_2_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 1 blocks, 2 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_1_4_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 1 blocks, 4 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_1_8_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 1 blocks, 8 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_2_2_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 2 blocks, 2 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_2_4_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 2 blocks, 4 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_2_8_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 2 blocks, 8 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_3_2_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 3 blocks, 2 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_3_4_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 3 blocks, 4 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-
-display_mean_confusion_matrix(['checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_a',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_b',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_c',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_d',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_e',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_f',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_g',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_h',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_i',
-                               'checkpoints/smecticIF/inception/inc_3_8_batch16_lr1e-4_j'], 
-                              test_gen, 
-                              ['SmI', 'SmF'],
-                              'Inception 3 blocks, 8 starting channels',
-                              figsize=(5, 2.5),
-                              reorder_2_phase=True)
-"""
 """ 
 def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, title='Confusion Matrix', 
                                  sub_title_1='', sub_title_2='', figsize=(10, 5), font_scale=1.2):
