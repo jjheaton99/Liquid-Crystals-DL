@@ -1,4 +1,66 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Murphy12}
+K.~Murphy, {\em Machine Learning: A Probabilistic Perspective}.
+\newblock MIT Press, 2012.
+
+\bibitem{Goodfellow16}
+I.~Goodfellow, Y.~Bengio, and A.~Courville, {\em Deep Learning}.
+\newblock MIT Press, 2016.
+
+\bibitem{Shrestha19}
+A.~Shrestha and A.~Mahmood, ``Review of deep learning algorithms and
+  architectures,'' {\em IEEE Access}, vol.~7, pp.~53040--53065, 2019.
+
+\bibitem{Voulodimos18}
+A.~Voulodimos, N.~Doulamis, A.~Doulamis, E.~Protopapadakis, and D.~Andina,
+  ``Deep learning for computer vision: A brief review,'' {\em Intell.
+  Neuroscience}, vol.~2018, 2018.
+
+\bibitem{Dierking03}
+I.~Dierking, {\em Textures of Liquid Crystals}.
+\newblock WILEY-VCH, 2003.
+
+\bibitem{Sigaki20}
+H.~Y.~D. Sigaki {\em et~al.}, ``Learning physical properties of liquid crystals
+  with deep convolutional neural networks,'' {\em Scientific Reports}, vol.~10,
+  p.~7664, 2020.
+
+\bibitem{Sigaki19}
+H.~Y.~D. Sigaki, R.~F. de~Souza, R.~T. de~Souza, R.~S. Zola, and H.~V. Ribeiro,
+  ``Estimating physical properties from liquid crystal textures via machine
+  learning and complexity-entropy methods,'' {\em Phys. Rev. E}, vol.~99,
+  p.~013311, 2019.
+
+\bibitem{Minor20}
+E.~N. Minor {\em et~al.}, ``End-to-end machine learning for experimental
+  physics: using simulated data to train a neural network for object detection
+  in video microscopy,'' {\em Soft Matter}, vol.~16, p.~1751, 2020.
+
+\bibitem{Walters19}
+M.~Walters, Q.~Wei, and J.~Z.~Y. Chen, ``Machine learning topological defects
+  of confined liquid crystals in two dimensions,'' {\em Phys. Rev. E}, vol.~99,
+  p.~062701, 2019.
+
+\bibitem{Florin07}
+F.~Leon, S.~Curteanu, C.~Ta, L.~Lin, and N.~Hurduc, ``Machine learning methods
+  used to predict the liquid-crystalline behavior of some copolyethers,'' {\em
+  Molecular Crystals and Liquid Crystals}, vol.~469, 2007.
+
+\bibitem{Butnariu13}
+C.~Butnariu, C.~Lisa, F.~Leon, and S.~Curteanu, ``Prediction of
+  liquid-crystalline property using support vector machine classification,''
+  {\em Journal of Chemometrics}, vol.~27, no.~7-8, pp.~179--188, 2013.
+
+\bibitem{Doi19}
+H.~Doi, K.~Takahashi, K.~Tagashira, J.~Fukuda, and T.~Aoyagi, ``Machine
+  learning-aided analysis for complex local structure of liquid crystal
+  polymers,'' {\em Scientific Reports}, vol.~9, 2019.
+
+\bibitem{Inokuchi20}
+T.~Inokuchi, R.~Okamoto, and N.~Arai, ``Predicting molecular ordering in a
+  binary liquid crystal using machine learning,'' {\em Liquid Crystals},
+  vol.~47, no.~3, pp.~438--448, 2020.
 
 \bibitem{Heaton20}
 J.~Heaton, ``Classification of liquid crystal textures using machine

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  9 APR 2021 00:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  10 APR 2021 16:51
 entering extended mode
 **./report2.tex
 (report2.tex
@@ -750,25 +750,25 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write3
 \openout3 = `report2.toc'.
 
- [1] (report2.bbl [1]) [2] (report2.aux) ) 
+ [1] (report2.bbl [1] [2]) [3] (report2.aux) ) 
 Here is how much of TeX's memory you used:
- 18244 strings out of 492895
- 353112 string characters out of 3123736
- 395964 words of memory out of 3000000
- 22003 multiletter control sequences out of 15000+200000
- 544235 words of font info for 67 fonts, out of 3000000 for 9000
+ 18258 strings out of 492895
+ 353270 string characters out of 3123736
+ 397021 words of memory out of 3000000
+ 22017 multiletter control sequences out of 15000+200000
+ 544582 words of font info for 68 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,4n,63p,1162b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj_he/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/j
-j_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb
-><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmti12.pfb>
-Output written on report2.pdf (4 pages, 76251 bytes).
+ 41i,4n,63p,1251b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/jj_he/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jj_he/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Use
+rs/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12
+.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmti12.pfb>
+Output written on report2.pdf (5 pages, 88396 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
+ 38 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
