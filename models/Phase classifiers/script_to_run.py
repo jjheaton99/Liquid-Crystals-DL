@@ -18,23 +18,15 @@ from vision_transformer import vision_transformer_model
 
 import ViT_hypermodel
 
-train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACHex/train'
-valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACHex/valid'
-test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACHex/test'
+train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/train'
+valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/valid'
+test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/test'
 
 train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    valid_dir,
                                                    test_dir,
                                                    batch_size=16)
 
-train_model(inception_model(4, 3, 2), 
-                        'inc_3_2_batch16_lr1e-4_h', 
-                        train_gen, 
-                        valid_gen,
-                        test_gen,
-                        save_dir='checkpoints/ChACHex/inception')
-
-"""
 for run in range(10):
     label = chr(run+97)
     for i in range(1, 4):
@@ -45,23 +37,23 @@ for run in range(10):
             inc_num_blocks = i
             inc_channels = 2**(j)
             
-            train_model(sequential_model(4, seq_num_layers, seq_channels), 
+            train_model(sequential_model(2, seq_num_layers, seq_channels), 
                         'seq_{0}_{1}_batch16_lr1e-4_{2}'.format(seq_num_layers,
                                                                 seq_channels,
                                                                 label), 
                         train_gen, 
                         valid_gen,
                         test_gen,
-                        save_dir='checkpoints/ChACHex/sequential')
+                        save_dir='checkpoints/IF2/sequential')
             
-            train_model(inception_model(4, inc_num_blocks, inc_channels), 
+            train_model(inception_model(2, inc_num_blocks, inc_channels), 
                         'inc_{0}_{1}_batch16_lr1e-4_{2}'.format(inc_num_blocks,
                                                                 inc_channels,
                                                                 label), 
                         train_gen, 
                         valid_gen,
                         test_gen,
-                        save_dir='checkpoints/ChACHex/inception')
+                        save_dir='checkpoints/IF2/inception')
 
 
 seq_val = np.empty((10, 12))
@@ -119,16 +111,15 @@ rows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Mean', 'Uncertainty'
 seq_cols = ['3, 4', '3, 8', '3, 16', '3, 32', '4, 4', '4, 8', '4, 16', '4, 32', '5, 4', '5, 8', '5, 16', '5, 32']
 pd.DataFrame(data=seq_val,
              index=rows,
-             columns=seq_cols).to_csv('multi train results/ChACHex/seq_val_accs.csv')
+             columns=seq_cols).to_csv('multi train results/IF2/seq_val_accs.csv')
 pd.DataFrame(data=seq_test,
              index=rows,
-             columns=seq_cols).to_csv('multi train results/ChACHex/seq_test_accs.csv')
+             columns=seq_cols).to_csv('multi train results/IF2/seq_test_accs.csv')
 
 inc_cols = ['1, 2', '1, 4', '1, 8', '1, 16', '2, 2', '2, 4', '2, 8', '2, 16', '3, 2', '3, 4', '3, 8', '3, 16']
 pd.DataFrame(data=inc_val,
              index=rows,
-             columns=inc_cols).to_csv('multi train results/ChACHex/inc_val_accs.csv')
+             columns=inc_cols).to_csv('multi train results/IF2/inc_val_accs.csv')
 pd.DataFrame(data=inc_test,
              index=rows,
-             columns=inc_cols).to_csv('multi train results/ChACHex/inc_test_accs.csv')
-"""
+             columns=inc_cols).to_csv('multi train results/IF2/inc_test_accs.csv')
