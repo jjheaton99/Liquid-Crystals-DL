@@ -55,18 +55,18 @@ ax1.legend(['validation', 'test'], loc='lower left')
 plt.show()
 plt.close()
 
-inc_archs = ['3, 2',
+inc_archs = ['1, 2',
+             '1, 4', 
+             '1, 8', 
+             '1, 16',
+             '2, 2',
+             '2, 4', 
+             '2, 8', 
+             '2, 16',
+             '3, 2',
              '3, 4', 
              '3, 8', 
-             '3, 16',
-             '4, 2',
-             '4, 4', 
-             '4, 8', 
-             '4, 16',
-             '5, 2',
-             '5, 4', 
-             '5, 8', 
-             '5, 16']
+             '3, 16']
 inc_ticks = np.arange(12)
 
 inc_val_accs = pd.read_csv('multi train results/ChACHex/inc_val_accs.csv').to_numpy()

@@ -26,9 +26,9 @@ train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    valid_dir,
                                                    test_dir,
                                                    batch_size=16)
-
-for run in range(10):
-    label = chr(run+97)
+"""
+for run in range(8):
+    label = chr(run+99)
     for i in range(1, 4):
         for j in range(1, 5):
             seq_num_layers = i + 2
@@ -55,7 +55,7 @@ for run in range(10):
                         test_gen,
                         save_dir='checkpoints/IF2/inception')
 
-
+"""
 seq_val = np.empty((10, 12))
 seq_test = np.empty((10, 12))
 
@@ -72,17 +72,21 @@ for run in range(10):
             inc_num_blocks = i
             inc_channels = 2**(j)
             
-            seq_val[run][(i-1)*4+j-1], seq_test[run][(i-1)*4+j-1] = evaluate_model(
-                load_model('checkpoints/ChACHex/sequential/seq_{0}_{1}_batch16_lr1e-4_{2}'.format(seq_num_layers,
+            seq_name = 'checkpoints/IF2/sequential/seq_{0}_{1}_batch16_lr1e-4_{2}'.format(seq_num_layers,
                                                                                                   seq_channels,
-                                                                                                  label)), 
+                                                                                                  label)
+            print(seq_name)
+            seq_val[run][(i-1)*4+j-1], seq_test[run][(i-1)*4+j-1] = evaluate_model(
+                load_model(), 
                 valid_gen, 
                 test_gen)
             
-            inc_val[run][(i-1)*4+j-1], inc_test[run][(i-1)*4+j-1] = evaluate_model(
-                load_model('checkpoints/ChACHex/inception/inc_{0}_{1}_batch16_lr1e-4_{2}'.format(inc_num_blocks,
+            inc_name = 'checkpoints/IF2/inception/inc_{0}_{1}_batch16_lr1e-4_{2}'.format(inc_num_blocks,
                                                                                                  inc_channels,
-                                                                                                 label)), 
+                                                                                                 label)
+            print(inc_name)
+            inc_val[run][(i-1)*4+j-1], inc_test[run][(i-1)*4+j-1] = evaluate_model(
+                load_model(inc_name), 
                 valid_gen, 
                 test_gen)
 
