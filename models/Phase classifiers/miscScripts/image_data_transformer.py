@@ -81,14 +81,14 @@ def transform_directory(input_path, output_path, nested_dirs=False, size=256, bl
 
 if __name__ == '__main__':
 
-    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF2/train', 
-                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/train',
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF3/train', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF3/train',
                         nested_dirs=True)
     
-    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF2/valid', 
-                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/valid',
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF3/valid', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF3/valid',
                         nested_dirs=True)
     
-    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF2/test', 
-                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/test',
+    transform_directory('C:/MPhys project/Liquid-Crystals-DL/data/Images/Colour unedited/IF3/test', 
+                        'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF3/test',
                         nested_dirs=True)

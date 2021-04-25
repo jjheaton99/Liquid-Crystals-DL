@@ -18,17 +18,35 @@ from vision_transformer import vision_transformer_model
 
 import ViT_hypermodel
 
-train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/train'
-valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/valid'
-test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/IF2/test'
+train_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/train'
+valid_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/valid'
+test_dir = 'C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/test'
 
 train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    valid_dir,
                                                    test_dir,
                                                    batch_size=16)
+
+val = np.empty(10)
+test = np.empty(10)
+
+for run in range(10):
+    label = chr(run + 97)
+    val[run], test[run] = train_model(sequential_model(5, 5, 32),
+                                      'seq_5_32_batch16_lr1e-4_{}'.format(label),
+                                      train_gen,
+                                      valid_gen,
+                                      test_gen,
+                                      save_dir='checkpoints/ChACIF/sequential')
+    
+print(np.mean(val))
+print(np.std(val))
+print(np.mean(test))
+print(np.std(test))   
+
 """
 for run in range(8):
-    label = chr(run+99)
+    label = chr(run+97)
     for i in range(1, 4):
         for j in range(1, 5):
             seq_num_layers = i + 2
@@ -55,7 +73,7 @@ for run in range(8):
                         test_gen,
                         save_dir='checkpoints/IF2/inception')
 
-"""
+
 seq_val = np.empty((10, 12))
 seq_test = np.empty((10, 12))
 
@@ -71,16 +89,16 @@ for run in range(10):
             
             inc_num_blocks = i
             inc_channels = 2**(j)
-            
+
             seq_name = 'checkpoints/IF2/sequential/seq_{0}_{1}_batch16_lr1e-4_{2}'.format(seq_num_layers,
                                                                                                   seq_channels,
                                                                                                   label)
             print(seq_name)
             seq_val[run][(i-1)*4+j-1], seq_test[run][(i-1)*4+j-1] = evaluate_model(
-                load_model(), 
+                load_model(seq_name), 
                 valid_gen, 
                 test_gen)
-            
+
             inc_name = 'checkpoints/IF2/inception/inc_{0}_{1}_batch16_lr1e-4_{2}'.format(inc_num_blocks,
                                                                                                  inc_channels,
                                                                                                  label)
@@ -89,6 +107,7 @@ for run in range(10):
                 load_model(inc_name), 
                 valid_gen, 
                 test_gen)
+            
 
 seq_val_mean = np.mean(seq_val, axis=0)
 seq_val_unc = np.std(seq_val, axis=0)
@@ -127,3 +146,4 @@ pd.DataFrame(data=inc_val,
 pd.DataFrame(data=inc_test,
              index=rows,
              columns=inc_cols).to_csv('multi train results/IF2/inc_test_accs.csv')
+"""

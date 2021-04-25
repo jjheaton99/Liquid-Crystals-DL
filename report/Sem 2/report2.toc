@@ -4,6 +4,8 @@
 \contentsline {subsection}{\numberline {2.1}Liquid crystals}{1}% 
 \contentsline {subsection}{\numberline {2.2}Supervised machine learning}{2}% 
 \contentsline {subsection}{\numberline {2.3}Convolutional neural networks}{3}% 
+\contentsline {subsubsection}{\numberline {2.3.1}Layers}{3}% 
+\contentsline {subsubsection}{\numberline {2.3.2}Training}{4}% 
 \contentsline {section}{\numberline {3}Summary of previous work}{4}% 
 \contentsline {section}{\numberline {4}CNN Models}{4}% 
 \contentsline {subsection}{\numberline {4.1}Sequential}{4}% 
