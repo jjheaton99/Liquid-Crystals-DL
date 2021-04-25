@@ -49,7 +49,7 @@ Machine learning (ML) is the term assigned to a wide range of computer algorithm
 
 There are many thousands of individual documented liquid crystal (LC) compounds, with each displaying a certain sequence of identifiable phases between that of a liquid and solid \cite{Dierking03}. Commonly, polarised microscopy is used to capture images of the textures produced by LC phases for identification by eye \cite{Dierking03}. Literature on machine learning for LC phase classification is sparse, with most studies focusing on the extraction of physical properties of LCs using simulated texture data \cite{Sigaki20, Sigaki19, Minor20, Walters19}, or other means \cite{Florin07, Butnariu13, Doi19, Inokuchi20}. Of most relevance is the work by Sigaki et al., in which they utilise CNNs to classify simulated isotropic and nematic phases to high accuracy \cite{Sigaki20}.
 
-In this project, we prepare a novel dataset of LC texture images captured by polarised microscopy (PM), spanning multiple phases of all orders. Subsequently, we apply CNN classifier models to various phase groupings, probing the limits of attainable model accuracy. The work expands on and consolidates that of the first semester report \cite{Heaton20}, in which we demonstrated the viability of CNNs in some simple LC phase classification tasks. This report will provide a brief overview of LC phases, supervised ML, and CNNs, with further detail found in the first report \cite{Heaton20}. Details of the models used will then be provided, followed by a presentation of the results when they are applied to each of the prepared datasets. Summary conclusions and the limitations of the study will then be discussed.
+In this project, we prepare a novel dataset of LC texture images captured by polarised microscopy (PM), spanning multiple phases of all orders. Subsequently, we apply CNN classifier models to various phase groupings, probing the limits of attainable model accuracy. The work expands on and consolidates that of the first semester report \cite{Heaton20}, in which we demonstrated the viability of CNNs in some simple LC phase classification tasks. This report will provide a brief overview of LC phases, supervised ML, and neural networks, with further detail found in the first report \cite{Heaton20}. Details of the models used will then be provided, followed by a presentation of the results when they are applied to each of the prepared datasets. Summary conclusions and the limitations of the study will then be discussed.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Background principles}
 
@@ -71,35 +71,62 @@ When deciding on the form of a supervised model, of great importance is its capa
 
 Measurement of a supervised model's performance is critical in determining how well it will generalise to new unseen data, by evaluating a metric on a dataset of samples. As an example, for classification tasks a common metric is the percentage of samples that the model assigned to the correct class. Often, the training dataset is split into three subsets: training, validation, and test. The training set contains the data samples used to update the trainable parameters of the model. The validation set is used to tune the hyperparameters of the model. Evaluation of a trained model on the training and validation sets can reveal if the model has underfitted or overfitted. In the former case a low performance on both sets will be observed, whereas for the latter a high performance on the training set and low on the validation set will occur. Hyperparameters can then be adjusted accordingly before retraining the model. After a satisfactory model configuration and validation performance are reached, it is evaluated on the as-of-yet unseen test set to give an indication of the model's generalisation error.
 
-\subsection{Convolutional neural networks}
+\subsection{Neural networks}
 \subsubsection{Layers}
 Neural networks are a type of ML algorithm that pass input data through a series of layers, each containing a number of units. Every unit of a layer is connected in a particular way to the units of the previous layer. Units can take various forms including ones with or without trainable parameters, and specific layers are engineered so as to identify, manipulate, and propagate data features from the input to the output of the network. Perhaps the most simple type, in a dense layer the input to each unit is the outputs of all units of the previous layer. The inputs are multiplied by the unit's learned weight parameters and summed together with a learned bias parameter to calculate the unit's output. An activation function can then be applied to the output of each unit of the layer to introduce non-linearity to the network. Such non-linearities are essential in allowing a neural network to act as a universal function approximator, allowing it to perform highly complex inference on input data. A dense layer can hence be represented in matrix form as
 \begin{equation}
-\bm{O}=A(\bm{W}\bm{I}+\bm{B}),
+\bm{O}=A(\bm{W}\bm{I}+\bm{B}), \label{dense}
 \end{equation}
 where $\bm{O}$ is the vector containing the outputs for the layer, $\bm{W}$ is the matrix of layer weights, $\bm{I}$ is the vector of layer inputs, $\bm{B}$ is the vector of bias parameters, and $A$ is the activation function applied element-wise.
-
-A common choice of activation function is the rectified linear unit (ReLU).
 
 Convolutional layers take grid-based input data such as two-dimensional images, and convolve it with a kernel of trainable parameters. The kernel has a width and height smaller than that of the input. The kernel is moved iteratively over the input, with the distance moved each iteration known as the stride of the convolution. At each step the kernel's parameters are multiplied with aligned input values, with the results summed together to produce the final output value. An activation function is often applied to this output value. The complete layer output is formed as a grid containing the ordered output values from the convolution. The size of the output grid depends on the dimensions of the kernel and the stride of the convolution, as these together determine the number of convolution steps in each direction. The input and output of the layer can have a third dimension, for example with the three colour channels of an RGB image. In this case, the kernel will have a different set of parameters for each channel. The number of channels can be increased from input to output by stacking the results from multiple kernels. A convolutional layer's padding refers to the behaviour of the kernel at the edges of the input. When the kernel is confined completely within the input space it is called valid padding. Same padding is when the kernel extends beyond the input space such that each value is visited by the kernel the same number of times, with kernel values outside the space multiplied by zero. For a stride of one in both directions, same padding will result in an output with the same shape as the input, and valid padding will result in dimensionality reduction.
 
 The main advantage of convolutional layers over dense layers is the greatly reduced computational and memory cost, since they require far fewer parameters. The kernel parameters are shared over the entire input, which can also improve regularisation. Each kernel can be thought of as learning to extract a particular feature from the input to be passed on to the next layer, such as edges of objects in an image.
 
-Pooling layers are often used after convolutional layers to reduce the dimensions of the network. They work in an analogous way to convolutional layers, however, the kernel has no trainable parameters to convolve and instead performs a specific operation. This could be, for example, taking the maximum value from the aligned input values at each step, known as max pooling. For pooling layers the kernel size is instead known as the pool size, and the pooling operation is applied to each input channel individually. Global pooling refers to the case in which the pool size is equal to the input size, which results in a vector output with one value for each of the input channels. Pooling layers are utilised to reduce the overall size and computational cost of the network whilst providing it with some invariance to translations of the input.
+Pooling layers are often used after convolutional layers to reduce the dimensions of the network. They work in an analogous way to convolutional layers, however, the kernel has no trainable parameters to convolve and instead performs a specific operation. This could be, for example, taking the maximum value from the aligned input values at each step, known as max pooling. Average pooling takes the mean of the aligned input values. For pooling layers the kernel size is instead known as the pool size, and the pooling operation is applied to each input channel individually. Global pooling refers to the case in which the pool size is equal to the input size, which results in a vector output with one value for each of the input channels. Pooling layers are utilised to reduce the overall size and computational cost of the network whilst providing it with some invariance to translations of the input.
+
+A common choice of activation function for dense and convolutional layers is the rectified linear unit (ReLU), defined as, for unit output $z$,
+\begin{equation}
+A(z)=\mathrm{max}(0, z), \label{relu}
+\end{equation}
+which is inspired by the behaviour of neurons in the brain. It has the advantage of introducing non-linearity without the potential for vanishing or exploding gradients when training the network. For classifier neural networks, the final output layer is a dense layer with a number of units equal to the number of classes. The softmax activation function is applied, which converts the output of each unit into a probability that the input sample belongs to the unit's corresponding class. For output unit $i$, this is defined as
+\begin{equation}
+\sigma(\bm{z})_i=\frac{e^{z_i}}{\sum_{j=1}^Ne^{z_j}}, \label{softmax}
+\end{equation}
+where $N$ is the total number of classes. The final output of the network is generally taken as the class with greatest assigned probability.
 
 \subsubsection{Training}
+Before training begins, a neural network's trainable parameters are randomly initialised from a particular distribution such as a normal distribution. A training step is performed by first selecting a "minibatch" containing a set number of random samples from the training set of data. The samples are passed through the network and a loss function is evaluated for each output. For classifier models, a widely used loss function is the categorical cross-entropy, defined as
+\begin{equation}
+L(p)=-\mathrm{log}p
+\end{equation}
+where $p$ is the model's output probability that the sample belongs to the true labelled class. The cost function is then calculated as the average of the loss for all samples in the minibatch. An algorithm called backpropagation is then applied to calculate the gradient of the cost function with respect to the trainable parameters, $\bm{g}=\bm{\nabla}_{\theta}J(\bm{y},\hat{\bm{y}};\bm{\theta})$. A chosen optimisation algorithm is then applied to update the parameters, with a simple example being stochastic gradient descent. In this case, the parameters are updated against the gradient as
+\begin{equation}
+\bm{\theta}\leftarrow\bm{\theta}-\alpha\bm{g},
+\end{equation}
+where $\alpha$ is a hyperparameter called the learning rate, which modulates how much the parameters are adjusted with each step. This act of descending the cost function aims to reduce the loss when the model is evaluated on future samples, and in doing so improve its accuracy. Minibatches are sampled without replacement until the entire training set has been observed by the model, completing an epoch of training.
 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Summary of previous work}
+\subsubsection{Regularisation methods}
+There are numerous methods of regularising neural networks in order to negate overfitting. Here the details are provided for methods utilised in this project.
+
+Dataset augmentation aims to effectively increase the overall number of samples in the training set by performing transformations on the samples when they are selected for a minibatch, with the result taking the same label as the base sample. In the case of image data, alterations can be applied randomly and can include flipping the image, rotations, translations, and magnification within certain ranges. When used well, augmentations are a powerful and simple way to improve model generalisation.
+
+Another simple yet highly effective regularisation method is early stopping. During training the model's performance on the validation set, usually simply the cost evaluated on the entire set, is recorded after every training epoch. Training stops if the cost has not decreased by more than a tolerance value after a certain number of epochs, defined by the patience hyperparameter. This helps greatly with regularisation because the model can overfit the training set if trained for too many epochs.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{CNN Models}
+In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers.
 
 \subsection{Sequential}
+The simplest models used are sequential CNNs. They consist of a series of convolutional layers with kernel size $3\times3$, stride of $1\times1$, same padding, and ReLU activation. Each convolutional layer is followed by max pooling with pool size and stride of $2\times2$ and same padding. The number of channels is doubled with each successive convolutional layer. Batch normalisation is applied between each convolutional and pooling layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation, batch normalisation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation. 
 
 \subsection{Inception}
 
+
 \subsection{ResNet}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Summary of previous work}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Methodology}
