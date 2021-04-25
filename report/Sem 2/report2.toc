@@ -5,19 +5,19 @@
 \contentsline {subsection}{\numberline {2.2}Supervised machine learning}{2}% 
 \contentsline {subsection}{\numberline {2.3}Convolutional neural networks}{3}% 
 \contentsline {subsubsection}{\numberline {2.3.1}Layers}{3}% 
-\contentsline {subsubsection}{\numberline {2.3.2}Training}{4}% 
-\contentsline {section}{\numberline {3}Summary of previous work}{4}% 
-\contentsline {section}{\numberline {4}CNN Models}{4}% 
-\contentsline {subsection}{\numberline {4.1}Sequential}{4}% 
-\contentsline {subsection}{\numberline {4.2}Inception}{4}% 
-\contentsline {subsection}{\numberline {4.3}ResNet}{4}% 
-\contentsline {section}{\numberline {5}Methodology}{4}% 
-\contentsline {subsection}{\numberline {5.1}Data preparation}{4}% 
-\contentsline {subsection}{\numberline {5.2}Model training configurations}{4}% 
-\contentsline {section}{\numberline {6}Classification tasks and results}{4}% 
-\contentsline {subsection}{\numberline {6.1}Cholesteric and smectic}{4}% 
-\contentsline {subsection}{\numberline {6.2}Smectic A and C}{4}% 
-\contentsline {subsection}{\numberline {6.3}Smectic I and F}{4}% 
-\contentsline {subsection}{\numberline {6.4}Cholesteric, fluid smectic and hexatic smectic}{4}% 
-\contentsline {subsection}{\numberline {6.5}Cholesteric, smectic A, C, and hexatic smectic}{4}% 
-\contentsline {section}{\numberline {7}Conclusions}{4}% 
+\contentsline {subsubsection}{\numberline {2.3.2}Training}{5}% 
+\contentsline {section}{\numberline {3}Summary of previous work}{5}% 
+\contentsline {section}{\numberline {4}CNN Models}{5}% 
+\contentsline {subsection}{\numberline {4.1}Sequential}{5}% 
+\contentsline {subsection}{\numberline {4.2}Inception}{5}% 
+\contentsline {subsection}{\numberline {4.3}ResNet}{5}% 
+\contentsline {section}{\numberline {5}Methodology}{5}% 
+\contentsline {subsection}{\numberline {5.1}Data preparation}{5}% 
+\contentsline {subsection}{\numberline {5.2}Model training configurations}{5}% 
+\contentsline {section}{\numberline {6}Classification tasks and results}{5}% 
+\contentsline {subsection}{\numberline {6.1}Cholesteric and smectic}{5}% 
+\contentsline {subsection}{\numberline {6.2}Smectic A and C}{5}% 
+\contentsline {subsection}{\numberline {6.3}Smectic I and F}{5}% 
+\contentsline {subsection}{\numberline {6.4}Cholesteric, fluid smectic and hexatic smectic}{5}% 
+\contentsline {subsection}{\numberline {6.5}Cholesteric, smectic A, C, and hexatic smectic}{5}% 
+\contentsline {section}{\numberline {7}Conclusions}{5}% 
