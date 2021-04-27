@@ -113,6 +113,14 @@ Dataset augmentation aims to effectively increase the overall number of samples 
 
 Another simple yet highly effective regularisation method is early stopping. During training the model's performance on the validation set, usually simply the cost evaluated on the entire set, is recorded after every training epoch. Training stops if the cost has not decreased by more than a tolerance value after a certain number of epochs, defined by the patience hyperparameter. This helps greatly with regularisation because the model can overfit the training set if trained for too many epochs.
 
+Dropout is a regularisation technique in which unit outputs in a layer are multiplied by zero with a set probability, called the dropout rate, with random units selected each training update step. This can viewed as training multiple sub-models with shared parameters, and it has the effect of reducing the neural network's sensitivity to noise.
+
+For a layer with batch normalisation, after calculating the layer output values for each sample in a minibatch, the outputs are rescaled by subtracting the minibatch mean for each unit output and dividing by the standard deviation. The result for each unit is then rescaled linearly with extra learnable parameters. For output $z$ of a layer's unit this change is represented as
+\begin{equation}
+z\leftarrow\gamma\left(\frac{z-\mu}{\sigma}\right)+\beta, \label{batchnorm}
+\end{equation}
+where $\gamma$ and $\beta$ are the extra learnable parameters, $\mu$ is the mean and $\sigma$ is the standard deviation of the unit's output over the minibatch. For future computations on single samples, during training running averages of the means and standard deviations are recorded. Batch normalisation improves model stability whilst training and provides a regularising effect by introducing a form of noise.
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{CNN Models}
 In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers.

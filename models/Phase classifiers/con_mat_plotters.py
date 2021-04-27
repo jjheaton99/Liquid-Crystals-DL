@@ -201,23 +201,35 @@ def rearrange_ChACHex_phase_labels(labels):
     
     return new_labels
 
-test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACHex/test')
+test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/test')
 
-display_mean_confusion_matrix(['checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_a',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_b',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_c',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_d',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_e',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_f',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_g',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_h',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_i',
-                               'checkpoints/ChACHex/inception/inc_2_16_batch16_lr1e-4_j'], 
+display_mean_confusion_matrix(['checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_a',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_b',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_c',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_d',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_e',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_f',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_g',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_h',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_i',
+                               'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_j'], 
                               test_gen, 
-                              ['N*', 'SmA', 'SmC', 'HSm'],
-                              'Inception 2 blocks, 16 starting channels',
-                              #figsize=(5, 2.5),
-                              reorder_ChACHex=True)
+                              ['N*', 'SmA', 'SmC', 'SmI', 'SmF'],
+                              'Sequential 4 blocks, 32 starting channels')
+
+display_mean_confusion_matrix(['checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_a',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_b',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_c',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_d',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_e',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_f',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_g',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_h',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_i',
+                               'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_j'], 
+                              test_gen, 
+                              ['N*', 'SmA', 'SmC', 'SmI', 'SmF'],
+                              'Inception 2 blocks, 4 starting channels')
 
 """ 
 def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, title='Confusion Matrix', 
