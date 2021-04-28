@@ -66,4 +66,19 @@ T.~Inokuchi, R.~Okamoto, and N.~Arai, ``Predicting molecular ordering in a
 J.~Heaton, ``Classification of liquid crystal textures using machine
   learning,'' 2020.
 
+\bibitem{Dierking94}
+I.~Dierking, F.~Gie{\ss}elmann, J.~K{\ss}erow, and P.~Zugenmaier, ``Properties
+  of higher-ordered ferroelectric liquid crystal phases of a homologous
+  series,'' {\em Liquid Crystals}, vol.~17, pp.~243--261, 1994.
+
+\bibitem{Schacht95}
+J.~Schacht, I.~Dierking, F.~Gie{\ss}elmann, K.~Mohr, H.~Zaschke,
+  W.~Kuczy{\'n}ski, and P.~Zugenmaier, ``Mesomorphic properties of a homologous
+  series of chiral liquid crystals containing the {$\alpha$}-chloroester
+  group,'' {\em Liquid Crystals}, vol.~19, pp.~151--157, 1995.
+
+\bibitem{VideoLan06}
+VideoLan, ``Vlc media player.'' \url{https://www.videolan.org/vlc/index.html},
+  2006.
+
 \end{thebibliography}

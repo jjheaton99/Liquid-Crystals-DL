@@ -1,7 +1,9 @@
+**/__pycache__/
 /data
 /models/Phase classifiers/checkpoints
 /models/Phase classifiers/multi train results
 /models/Phase classifiers/hyperband
+/models/Phase classifiers/saved preds
 /models/WGAN-GP/cholesteric
 /models/WGAN-GP/nematic
 /models/WGAN-GP/smectic

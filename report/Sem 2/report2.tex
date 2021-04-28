@@ -96,11 +96,11 @@ which is inspired by the behaviour of neurons in the brain. It has the advantage
 where $N$ is the total number of classes. The final output of the network is generally taken as the class with greatest assigned probability.
 
 \subsubsection{Training}
-Before training begins, a neural network's trainable parameters are randomly initialised from a particular distribution such as a normal distribution. A training step is performed by first selecting a "minibatch" containing a set number of random samples from the training set of data. The samples are passed through the network and a loss function is evaluated for each output. For classifier models, a widely used loss function is the categorical cross-entropy, defined as
+Before training begins, a neural network's trainable parameters are randomly initialised from a particular distribution such as a normal distribution. A training step is performed by first selecting a "minibatch" containing a set number of random samples from the training set of data. The samples are passed through the network and a loss function is evaluated for each output. For classifier models, a widely used loss function, derived from the Kullback–Leibler divergence and maximum likelihood estimation, is the categorical cross-entropy, defined as
 \begin{equation}
 L(p)=-\mathrm{log}p
 \end{equation}
-where $p$ is the model's output probability that the sample belongs to the true labelled class. The cost function is then calculated as the average of the loss for all samples in the minibatch. An algorithm called backpropagation is then applied to calculate the gradient of the cost function with respect to the trainable parameters, $\bm{g}=\bm{\nabla}_{\theta}J(\bm{y},\hat{\bm{y}};\bm{\theta})$. A chosen optimisation algorithm is then applied to update the parameters, with a simple example being stochastic gradient descent. In this case, the parameters are updated against the gradient as
+where $p$ is the model's output probability that the sample belongs to the true labelled class. The cost function is then calculated as the average of the loss for all samples in the minibatch. An algorithm called backpropagation is then applied to calculate the gradient of the cost function with respect to the trainable parameters, $\bm{g}=\bm{\nabla}_{\theta}J(\bm{y},\hat{\bm{y}};\bm{\theta})$. Backpropagation, in summary, applies the chain rule of differentiation sequentially from the final network layer going backwards to the input layer, extracting the gradients at each unit output. A chosen optimisation algorithm is then applied to update the parameters, with a simple example being stochastic gradient descent. In this case, the parameters are updated against the gradient as
 \begin{equation}
 \bm{\theta}\leftarrow\bm{\theta}-\alpha\bm{g},
 \end{equation}
@@ -123,25 +123,28 @@ where $\gamma$ and $\beta$ are the extra learnable parameters, $\mu$ is the mean
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{CNN Models}
-In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers.
+In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers. All convolutional layers use a stride of $1\times1$, same padding, and ReLU activation, and all dense and convolutional layers have batch normalisation. A standard convolutional layer has kernel size $3\times3$, and a standard pooling layer refers to a max pooling layer with pool size and stride of $2\times2$ and same padding.
 
 \subsection{Sequential}
-The simplest models used are sequential CNNs. They consist of a series of convolutional layers with kernel size $3\times3$, stride of $1\times1$, same padding, and ReLU activation. Each convolutional layer is followed by max pooling with pool size and stride of $2\times2$ and same padding. The number of channels is doubled with each successive convolutional layer. Batch normalisation is applied between each convolutional and pooling layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation, batch normalisation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation. 
+The simplest models used are sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation. 
 
 \subsection{Inception}
-
+A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers sharing inputs and outputs. The  structure of an inception block is detailed in Figure . An inception network begins with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the sequential models starting with global average pooling.
 
 \subsection{ResNet}
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Summary of previous work}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Methodology}
 
 \subsection{Data preparation}
+All LC texture image data used has been obtained from polarised microscopy videos of LCs, labelled by compound and temperature range. If not provided, the phases displayed in the videos are identified using project supervisor Ingo Dierking's co-authored papers on homologous LC series \cite{Dierking94, Schacht95}. The software VLC Media Player \cite{VideoLan06} is used to extract image frames from the videos, and they are classified  according to the LC phase displayed at the point of extraction. The raw images have a resolution of $2048\times1088$. They are split into six smaller images of size $682\times544$ without compromising on the features displayed by each image. The images are then cropped to square $544\times544$ before being scaled down to the model input size of $256\times256$ and converted to greyscale with pixel value range [0, 1].
+
+In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy.
 
 \subsection{Model training configurations}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Summary of previous work}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Classification tasks and results}
@@ -154,7 +157,7 @@ The simplest models used are sequential CNNs. They consist of a series of convol
 
 \subsection{Cholesteric, fluid smectic and hexatic smectic}
 
-\subsection{Cholesteric, smectic A, C, and hexatic smectic}
+\subsection{Cholesteric, smectic A, C, I, and F}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Conclusions}

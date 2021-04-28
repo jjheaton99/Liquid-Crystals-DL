@@ -9,7 +9,7 @@ from PIL import Image
 from skimage.color import rgb2gray
 from skimage.transform import resize
 
-def load_images(path):
+def load_images(path, numpy=False):
     #lists all files not including directories
     img_list = [file for file in listdir(path) if isdir(join(path, file)) == False]
     loaded_imgs = []
@@ -17,7 +17,10 @@ def load_images(path):
     for image in img_list:
         img = Image.open(join(path, image))
         loaded_imgs.append(img)
-        
+    
+    if numpy:
+        return np.array([np.array(img) for img in loaded_imgs])
+    
     return loaded_imgs
 
 #crops images to square and resizes to given size
