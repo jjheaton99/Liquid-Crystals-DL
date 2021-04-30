@@ -129,9 +129,18 @@ In this project we use three different types of CNN architectures, with each bui
 The simplest models used are sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation. 
 
 \subsection{Inception}
-A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers sharing inputs and outputs. The  structure of an inception block is detailed in Figure . An inception network begins with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the sequential models starting with global average pooling.
+A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{incblock}. 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=4in]{images/inception_block.png}
+\caption{Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input.}
+\label{incblock}
+\end{figure}
+Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the sequential models starting with global average pooling. Similarly to the sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer. 
 
 \subsection{ResNet}
+The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of architecture is presented in Figure .
+
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Methodology}
@@ -142,9 +151,27 @@ All LC texture image data used has been obtained from polarised microscopy video
 In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy.
 
 \subsection{Model training configurations}
+We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training. These are the only augmentations used. Model accuracy is evaluated by the percentage of correctly classified images in the set. 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary of previous work}
+The work of the first semester focussed on applying sequential, Inception and ResNet models to three different LC phase classification tasks. These included a four-phase set with isotropic, nematic, cholesteric, and smectic, a binary set with smectic A and C, and a general smectic set including fluid smectic, hexatic smectic, and soft crystal. The final models were trained three times each and the mean accuracy over all three runs calculated for the test sets. The error was calculated as half the range in accuracy. The results are summarised in Table \ref{sem1}.
+\begin{table}[!htb]
+\begin{center}
+\caption{First semester mean test set percentage accuracies for final models and phase classification tasks.}
+\begin{tabular}{l|c|c|c}
+\toprule
+& \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet}\\
+\midrule
+\textbf{Four-phase} & $91\pm4\%$ & $0\pm0\%$ & $0\pm0\%$\\
+\textbf{Smectic A and C} & $97\pm1\%$ & $97\pm2\%$ & $92\pm4\%$\\
+\textbf{General smectic} & $86\pm6\%$ & $0\pm0\%$ & $0\pm0\%$\\
+\bottomrule
+\omit
+\label{sem1}
+\end{tabular}
+\end{center}
+\end{table}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Classification tasks and results}

@@ -66,6 +66,16 @@ T.~Inokuchi, R.~Okamoto, and N.~Arai, ``Predicting molecular ordering in a
 J.~Heaton, ``Classification of liquid crystal textures using machine
   learning,'' 2020.
 
+\bibitem{Szegedy15}
+C.~Szegedy {\em et~al.}, ``Going deeper with convolutions,'' in {\em
+  Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, 2015.
+
+\bibitem{He15}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image
+  recognition,'' in {\em 2016 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pp.~770--778, 2016.
+
 \bibitem{Dierking94}
 I.~Dierking, F.~Gie{\ss}elmann, J.~K{\ss}erow, and P.~Zugenmaier, ``Properties
   of higher-ordered ferroelectric liquid crystal phases of a homologous
@@ -80,5 +90,27 @@ J.~Schacht, I.~Dierking, F.~Gie{\ss}elmann, K.~Mohr, H.~Zaschke,
 \bibitem{VideoLan06}
 VideoLan, ``Vlc media player.'' \url{https://www.videolan.org/vlc/index.html},
   2006.
+
+\bibitem{Abadi16}
+M.~Abadi {\em et~al.}, ``Tensorflow: A system for large-scale machine
+  learning,'' in {\em 12th $\{$USENIX$\}$ Symposium on Operating Systems Design
+  and Implementation ($\{$OSDI$\}$ 16)}, pp.~265--283, 2016.
+
+\bibitem{Gulli17}
+A.~Gulli and S.~Pal, {\em Deep learning with Keras}.
+\newblock Packt Publishing Ltd, 2017.
+
+\bibitem{Cook12}
+S.~Cook, {\em CUDA Programming: A Developer’s Guide to Parallel Computing
+  with GPUs}.
+\newblock Morgan Kaufmann Publishers Inc., 1st~ed., 2012.
+
+\bibitem{Bisong19}
+E.~Bisong, {\em Google Colaboratory}, pp.~59--64.
+\newblock 2019.
+
+\bibitem{Kingma14}
+D.~Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' {\em
+  International Conference on Learning Representations}, 2014.
 
 \end{thebibliography}

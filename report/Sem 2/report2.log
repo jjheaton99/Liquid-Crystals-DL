@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  27 APR 2021 22:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  30 APR 2021 17:35
 entering extended mode
 **./report2.tex
 (report2.tex
@@ -750,36 +750,45 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write3
 \openout3 = `report2.toc'.
 
- [1] [1] [2] [3] [4] [5] [6] (report2.bbl [7]) [8] (report2.aux) ) 
+ [1] [1] [2] [3] [4] [5]
+<images/inception_block.png, id=37, 715.67375pt x 565.11125pt>
+File: images/inception_block.png Graphic file (type png)
+<use images/inception_block.png>
+Package pdftex.def Info: images/inception_block.png  used on input line 135.
+(pdftex.def)             Requested size: 289.07999pt x 228.2652pt.
+ [6] [7 <./images/inception_block.png>]
+(report2.bbl [8] [9]) [10] (report2.aux) ) 
 Here is how much of TeX's memory you used:
- 18267 strings out of 492895
- 353356 string characters out of 3123736
- 398076 words of memory out of 3000000
- 22026 multiletter control sequences out of 15000+200000
- 544582 words of font info for 68 fonts, out of 3000000 for 9000
+ 18298 strings out of 492895
+ 353829 string characters out of 3123736
+ 398127 words of memory out of 3000000
+ 22052 multiletter control sequences out of 15000+200000
+ 546916 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,5n,63p,1703b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/jj_
-he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb
-><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmbx10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmbx12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_h
-e/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C
-:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmmib10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/App
+ 41i,9n,63p,1703b,574s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/jj_he/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/jj_he/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/
+jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.p
+fb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmex10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmmi12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jj_he/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jj_he/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/jj
+_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+<C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmr12.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr17.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/App
 Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Us
 ers/jj_he/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt
 12.pfb>
-Output written on report2.pdf (10 pages, 187202 bytes).
+Output written on report2.pdf (12 pages, 247764 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
+ 108 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

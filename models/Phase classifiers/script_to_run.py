@@ -26,6 +26,17 @@ train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    valid_dir,
                                                    test_dir,
                                                    batch_size=16)
+
+model = inception_model(5, 3, 4)
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
+    metrics='accuracy')
+model.summary()
+plot_model(model,
+           to_file = 'plots/architecture diagrams/inc_3_4.png',
+           show_shapes=True)
+
 """
 for run in range(10):
     label = chr(run + 97)
@@ -64,7 +75,7 @@ for run in range(10):
                         valid_gen,
                         test_gen,
                         save_dir='checkpoints/IF2/inception')
-"""
+
 #seq_val = np.empty((10, 9))
 #seq_test = np.empty((10, 9))
 
@@ -80,7 +91,7 @@ for run in range(10):
             
             inc_num_blocks = i
             inc_channels = 2**(j + 1)
-            """
+
             seq_name = 'checkpoints/ChACIF/sequential/seq_{0}_{1}_batch16_lr1e-4_{2}'.format(seq_num_layers,
                                                                                                   seq_channels,
                                                                                                   label)
@@ -89,7 +100,7 @@ for run in range(10):
                 load_model(seq_name), 
                 valid_gen, 
                 test_gen)
-            """
+
             inc_name = 'checkpoints/ChACIF/inception/inc_{0}_{1}_batch16_lr1e-4_{2}'.format(inc_num_blocks,
                                                                                                  inc_channels,
                                                                                                  label)
@@ -99,7 +110,7 @@ for run in range(10):
                 valid_gen, 
                 test_gen)
 
-"""
+
 seq_val_mean = np.mean(seq_val, axis=0)
 seq_val_unc = np.std(seq_val, axis=0)
 
@@ -109,7 +120,7 @@ seq_test_mean = np.mean(seq_test, axis=0)
 seq_test_unc = np.std(seq_test, axis=0)
 
 seq_test = np.round(100*np.append(seq_test, np.array([seq_test_mean, seq_test_unc]), axis=0), 2)
-"""
+
 inc_val_mean = np.mean(inc_val, axis=0)
 inc_val_unc = np.std(inc_val, axis=0)
 
@@ -121,7 +132,7 @@ inc_test_unc = np.std(inc_test, axis=0)
 inc_test = np.round(100*np.append(inc_test, np.array([inc_test_mean, inc_test_unc]), axis=0), 2)
 
 rows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Mean', 'Uncertainty']
-"""
+
 seq_cols = ['3, 8', '3, 16', '3, 32', '4, 8', '4, 16', '4, 32', '5, 8', '5, 16', '5, 32']
 pd.DataFrame(data=seq_val,
              index=rows,
@@ -129,7 +140,7 @@ pd.DataFrame(data=seq_val,
 pd.DataFrame(data=seq_test,
              index=rows,
              columns=seq_cols).to_csv('multi train results/ChACIF/seq_test_accs.csv')
-"""
+
 inc_cols = ['1, 4', '1, 8', '1, 16', '2, 4', '2, 8', '2, 16', '3, 4', '3, 8', '3, 16']
 pd.DataFrame(data=inc_val,
              index=rows,
@@ -137,3 +148,4 @@ pd.DataFrame(data=inc_val,
 pd.DataFrame(data=inc_test,
              index=rows,
              columns=inc_cols).to_csv('multi train results/ChACIF/inc_test_accs.csv')
+"""
