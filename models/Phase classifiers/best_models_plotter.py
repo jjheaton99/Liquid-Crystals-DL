@@ -1,9 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.transforms import ScaledTranslation
-from matplotlib.ticker import MaxNLocator
-from matplotlib import gridspec
-import pandas as pd
 
 def plot_best_models(val_accs, val_errs, test_accs, test_errs, 
                      lower_bound=50, upper_bound=100, linestyle='solid'):
