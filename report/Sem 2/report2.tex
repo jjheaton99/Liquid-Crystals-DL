@@ -56,9 +56,9 @@ In this project, we prepare a novel dataset of LC texture images captured by pol
 \subsection{Liquid crystals}
 Liquid crystal phases are characterised by the positional and orientational order of the molecular arrangement. In general, the phase of lyotropic LCs depends on the concentration of the sample in a solvent whilst thermotropic LCs, studied in this project, become more ordered with decreasing temperature \cite{Dierking03}. The order and overall structure of the LC phase determines its optical properties, in particular its birefringence. This enables images of the textures of a liquid crystal to be obtained by polarised microscopy, in which the sample is placed between two perpendicularly aligned polarisers. Polarised light incident on the set-up is altered in accordance with the current phase of the LC sample, producing characteristic features in the resulting image \cite{Dierking03}.
 
-At sufficiently high temperatures, thermotropic LCs take the form of a fully anisotropic liquid with no structural order and hence birefringence, resulting in completely dark PM textures. Upon cooling, they will display at least one higher ordered phase before reaching the fully crystalline stage. Of lowest order, just orientational, is the nematic (N) phase, in which the molecules are aligned along a particular axis, called the director, and are still free to move around as in a liquid. Compounds with chiral molecules may instead display the cholesteric (N*) phase, which is the same as the nematic phase except with helical variation of the director. Layered positional order is introduced in the smectic phase, which is divided into three distinct phase groupings. The orientation of the director further categorises these groupings. The fluid smectic (FSm) phases have no positional order within molecular layers. The orientation of the director with respect to the layer planes determines whether the phase is smectic A (SmA), in which it is perpendicular, or C (SmC) otherwise. The smectic B (SmB), I (SmI), and F (SmF) phases are placed into the hexatic smectic (HSm) group, with short-range hexagonal structures generating positional order within the layers. The soft crystal phases differ in that the layers show long-range positional order \cite{Dierking03}.
+At sufficiently high temperatures, thermotropic LCs take the form of a fully anisotropic liquid with no structural order and hence birefringence, resulting in completely dark PM textures. Upon cooling, they will display at least one higher ordered phase before reaching the fully crystalline stage. Of lowest order, just orientational, is the nematic (N) phase, in which the molecules are aligned along a particular axis, called the director, and are still free to move around as in a liquid. Compounds with chiral molecules may instead display the cholesteric (Ch) phase, which is the same as the nematic phase except with helical variation of the director. Layered positional order is introduced in the smectic phase (Sm), which is divided into three distinct phase groupings. The orientation of the director further categorises these groupings. The fluid smectic (FSm) phases have no positional order within molecular layers. The orientation of the director with respect to the layer planes determines whether the phase is smectic A (SmA), in which it is perpendicular, or C (SmC) otherwise. The smectic B (SmB), I (SmI), and F (SmF) phases are placed into the hexatic smectic (HSm) group, with short-range hexagonal structures generating positional order within the layers. The soft crystal phases differ in that the layers show long-range positional order \cite{Dierking03}.
 
-This project uses CNNs to classify PM textures from thermotropic chiral LC compounds, including the phases N*, SmA, SmC, SmI, and SmF.  
+This project uses CNNs to classify PM textures from thermotropic chiral LC compounds, including the phases Ch, SmA, SmC, SmI, and SmF.  
 
 \subsection{Supervised machine learning}
 Machine learning algorithms can in general be categorised as supervised, unsupervised, or reinforcement learning \cite{Murphy12}. The ML implementations of this project are purely supervised learning algorithms. In this case, the ML model is defined as a function, parametrised by learned values $\bm{\theta}$, that maps an input data sample $\bm{x}$ containing various features to an output predicted label $\hat{\bm{y}}$ \cite{Murphy12},
@@ -96,7 +96,7 @@ which is inspired by the behaviour of neurons in the brain \cite{Glorot11}. It h
 where $N$ is the total number of classes. The final output of the network is generally taken as the class with greatest assigned probability \cite{Goodfellow16}.
 
 \subsubsection{Training}
-Before training begins, a neural network's trainable parameters are randomly initialised from a particular distribution such as a normal distribution \cite{Goodfellow16}. A training step is performed by first selecting a "minibatch" containing a set number of random samples from the training set of data. The samples are passed through the network and a loss function is evaluated for each output \cite{Goodfellow16}. For classifier models, a widely used loss function, derived from the Kullback–Leibler divergence and maximum likelihood estimation, is the categorical cross-entropy, defined as
+Before training begins, a neural network's trainable parameters are randomly initialised from a particular distribution such as a normal distribution \cite{Goodfellow16}. A training step is performed by first selecting a "minibatch" containing a set number, called the batch size, of random samples from the training set of data. The samples are passed through the network and a loss function is evaluated for each output \cite{Goodfellow16}. For classifier models, a widely used loss function, derived from the Kullback–Leibler divergence and maximum likelihood estimation, is the categorical cross-entropy, defined as
 \begin{equation}
 L(p)=-\mathrm{log}p
 \end{equation}
@@ -126,7 +126,7 @@ where $\gamma$ and $\beta$ are the extra learnable parameters, $\mu$ is the mean
 In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers. All convolutional layers use a stride of $1\times1$, same padding, and ReLU activation, and all dense and convolutional layers have batch normalisation. A standard convolutional layer has kernel size $3\times3$, and a standard pooling layer refers to a max pooling layer with pool size and stride of $2\times2$ and same padding.
 
 \subsection{Sequential}
-The simplest and lowest capacity models used are sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation. 
+The simplest and lowest capacity models used are sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation.
 
 \subsection{Inception}
 A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{incblock}. 
@@ -138,7 +138,7 @@ A set of models based on Google's Inception CNN architecture contain modules cal
 \end{figure}
 Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the sequential models starting with global average pooling. Similarly to the sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
 
-\subsection{ResNet}
+\subsection{ResNet50}
 The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{resnet50}.
 \begin{figure}[!h]
 \centering
@@ -156,8 +156,27 @@ All LC texture image data used has been obtained from polarised microscopy video
 
 In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy \cite{Kaufman12}.
 
+The distribution of the complete dataset over all LC phases is presented in Figure . From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix .
+\begin{table}[!htb]
+\begin{center}
+\caption{The LC phases contained in each dataset.}
+\begin{tabular}{l|c|c|c|c|c}
+\toprule
+\textbf{Dataset} & ChSm & AC & IF & ChFluHex & ChACIF\\
+\midrule
+\textbf{Phases} & Ch, Sm & SmA, SmC & SmI, SmF & Ch, FSm, HSm & Ch, SmA, SmC, SmI, SmF\\
+\bottomrule
+\omit
+\label{datasets}
+\end{tabular}
+\end{center}
+\end{table}
+
 \subsection{Model training configurations}
-We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training. These are the only augmentations used. Model accuracy is evaluated by the percentage of correctly classified images in the set. 
+We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training \cite{Heaton20}. These are the only augmentations used. Model accuracy on a dataset is evaluated as the percentage of correctly classified images in the set. 
+
+\subsection{Model tuning}
+For each dataset, we train and tune sequential, inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the sequential models we also vary the number of convolutional layers and starting channels, and for the inception models we vary the number inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train the model ten times, recording the validation and test set accuracies for each final model. The mean accuracies are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary of previous work}
@@ -169,10 +188,10 @@ The work of the first semester focussed on applying sequential, Inception and Re
 \toprule
 \textbf{Dataset} & \textbf{No. of phases} & \textbf{Best model} & \textbf{Test accuracy/\%}\\
 \midrule
-\textbf{Four-phase} & 4 & Sequential 2 layers & $91\pm4$\\
-\textbf{Smectic A and C} & 2 & Sequential 4 layers & $97\pm1$\\
-\textbf{General smectic} & 3 & ResNet50 & $92\pm4$\\
-\textbf{Six-phase smectic} & 6 & ResNet50 & $54\pm1$\\
+Four-phase & 4 & Sequential 2 layers & $91\pm4$\\
+Smectic A and C & 2 & Sequential 4 layers & $97\pm1$\\
+General smectic & 3 & ResNet50 & $92\pm4$\\
+Six-phase smectic & 6 & ResNet50 & $54\pm1$\\
 \bottomrule
 \omit
 \label{sem1}
@@ -184,15 +203,19 @@ It was concluded that the poor performance in the more complex six-phase smectic
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Classification tasks and results}
 
-\subsection{Cholesteric and smectic}
+\subsection{Confusion matrices}
 
-\subsection{Smectic A and C}
+\subsection{Binary classifiers}
+\subsubsection{ChSm}
 
-\subsection{Smectic I and F}
+\subsubsection{AC}
 
-\subsection{Cholesteric, fluid smectic and hexatic smectic}
+\subsubsection{IF}
 
-\subsection{Cholesteric, smectic A, C, I, and F}
+\subsection{Multi-phase classifiers}
+\subsubsection{ChFluHex}
+
+\subsubsection{ChACIF}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Conclusions}

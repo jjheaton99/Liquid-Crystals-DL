@@ -10,15 +10,19 @@
 \contentsline {section}{\numberline {3}CNN Models}{6}% 
 \contentsline {subsection}{\numberline {3.1}Sequential}{6}% 
 \contentsline {subsection}{\numberline {3.2}Inception}{6}% 
-\contentsline {subsection}{\numberline {3.3}ResNet}{7}% 
+\contentsline {subsection}{\numberline {3.3}ResNet50}{7}% 
 \contentsline {section}{\numberline {4}Methodology}{7}% 
 \contentsline {subsection}{\numberline {4.1}Data preparation}{7}% 
 \contentsline {subsection}{\numberline {4.2}Model training configurations}{8}% 
+\contentsline {subsection}{\numberline {4.3}Model tuning}{9}% 
 \contentsline {section}{\numberline {5}Summary of previous work}{9}% 
-\contentsline {section}{\numberline {6}Classification tasks and results}{9}% 
-\contentsline {subsection}{\numberline {6.1}Cholesteric and smectic}{9}% 
-\contentsline {subsection}{\numberline {6.2}Smectic A and C}{9}% 
-\contentsline {subsection}{\numberline {6.3}Smectic I and F}{9}% 
-\contentsline {subsection}{\numberline {6.4}Cholesteric, fluid smectic and hexatic smectic}{9}% 
-\contentsline {subsection}{\numberline {6.5}Cholesteric, smectic A, C, I, and F}{9}% 
-\contentsline {section}{\numberline {7}Conclusions}{9}% 
+\contentsline {section}{\numberline {6}Classification tasks and results}{10}% 
+\contentsline {subsection}{\numberline {6.1}Confusion matrices}{10}% 
+\contentsline {subsection}{\numberline {6.2}Binary classifiers}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.1}ChSm}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.2}AC}{10}% 
+\contentsline {subsubsection}{\numberline {6.2.3}IF}{10}% 
+\contentsline {subsection}{\numberline {6.3}Multi-phase classifiers}{10}% 
+\contentsline {subsubsection}{\numberline {6.3.1}ChFluHex}{10}% 
+\contentsline {subsubsection}{\numberline {6.3.2}ChACIF}{10}% 
+\contentsline {section}{\numberline {7}Conclusions}{10}% 

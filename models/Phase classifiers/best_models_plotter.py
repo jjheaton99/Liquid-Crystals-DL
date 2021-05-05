@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.transforms import ScaledTranslation
 
 def plot_best_models(val_accs, val_errs, test_accs, test_errs, 
-                     lower_bound=50, upper_bound=100, linestyle='solid'):
+                     lower_bound=50, upper_bound=100, linestyle='none'):
     plt.rcParams['axes.titley'] = 1.05
     plt.rcParams['axes.titlesize'] = 16
     plt.rcParams['axes.labelsize'] = 14
