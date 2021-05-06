@@ -26,20 +26,30 @@ train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    valid_dir,
                                                    test_dir,
                                                    batch_size=16)
-           
+"""
+train_model(inception_model(2, 2, 8),
+            'inc2_2_8_batch16_lr1e-4_b',
+            train_gen,
+            valid_gen,
+            test_gen,
+            save_dir='checkpoints/IF2/inception')
+
+"""     
 val_accs = np.empty(10)
 test_accs = np.empty(10)
 
 for run in range(10):
     label=chr(run+97)
-    val_accs[run], test_accs[run] = train_model(inception_model(2, 2, 8), 
-                'inc2_2_8_batch16_lr1e-4_{}'.format(label), 
-                train_gen, 
+    val_accs[run], test_accs[run] = evaluate_model(
+                load_model('checkpoints/IF2/inception/inc2_2_8_batch16_lr1e-4_{}'.format(label)),
                 valid_gen,
-                test_gen,
-                save_dir='checkpoints/IF2/inception')
-    
+                test_gen)
+
+print(np.mean(val_accs))
+print(np.std(val_accs))
 print(np.mean(test_accs))
+print(np.std(test_accs))
+
 
 """
 for i in range(1, 4):

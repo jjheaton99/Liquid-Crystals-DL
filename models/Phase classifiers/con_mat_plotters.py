@@ -33,7 +33,7 @@ def create_test_gen(test_dir, binary=False, image_size=256):
     
     test_gen = test_datagen.flow_from_directory(
         directory=test_dir,
-        target_size=(image_size//1, image_size//1),
+        target_size=(int(image_size), int(image_size)),
         color_mode='grayscale',
         class_mode=class_mode,
         batch_size=NUM_IMAGES,
@@ -110,31 +110,41 @@ def display_confusion_matrix(model_dir, test_gen, class_names, title='Confusion 
     plt.show()
     
 def display_mean_confusion_matrix(model_dirs, test_gen, class_names, title='Confusion Matrix', 
-                                  sub_title_1='mean', sub_title_2='uncertainty', binary=False, sequential=False, 
+                                  sub_title_1='(b)', sub_title_2='(c)', binary=False, sequential=False, 
                                   focal_loss=False, evaluate=True, figsize=None, font_scale=1.0, reorder_2_phase=False,
-                                  reorder_ChACHex=False):
-    labels_preds = get_multi_labels_preds(model_dirs, test_gen, binary, sequential, 
-                           focal_loss, evaluate)
-    
-    matrix_dim = len(class_names)
-    con_mats = np.empty((len(labels_preds), matrix_dim, matrix_dim))
-    for index, label_pred in enumerate(labels_preds):
-        labels = label_pred[0]
-        preds = label_pred[1]
-        if reorder_2_phase:
-            labels = rearrange_2_phase_labels(labels)
-            preds = rearrange_2_phase_labels(preds)
-        elif reorder_ChACHex:
-            labels = rearrange_ChACHex_phase_labels(labels)
-            preds = rearrange_ChACHex_phase_labels(preds)
-        con_mat = confusion_matrix(labels=labels, predictions=preds).numpy()
-        con_mats[index] = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], decimals=2)
+                                  reorder_ChACHex=False, from_csv=False, csv_path_mean='', csv_path_err='', 
+                                  save_csv=False, csv_save_dir='', csv_name='csv'):
+    if from_csv:
+        con_mats_mean_df = pd.read_csv(csv_path_mean, header=0, names=class_names)
+        con_mats_err_df = pd.read_csv(csv_path_err, header=0, names=class_names)
         
-    con_mats_mean = np.mean(con_mats, axis=0)
-    con_mats_mean_df = pd.DataFrame(con_mats_mean, index=class_names, columns=class_names)
-    
-    con_mats_err = np.std(con_mats, axis=0)
-    con_mats_err_df = pd.DataFrame(con_mats_err, index=class_names, columns=class_names)
+    else:
+        labels_preds = get_multi_labels_preds(model_dirs, test_gen, binary, sequential, 
+                               focal_loss, evaluate)
+        
+        matrix_dim = len(class_names)
+        con_mats = np.empty((len(labels_preds), matrix_dim, matrix_dim))
+        for index, label_pred in enumerate(labels_preds):
+            labels = label_pred[0]
+            preds = label_pred[1]
+            if reorder_2_phase:
+                labels = rearrange_2_phase_labels(labels)
+                preds = rearrange_2_phase_labels(preds)
+            elif reorder_ChACHex:
+                labels = rearrange_ChACHex_phase_labels(labels)
+                preds = rearrange_ChACHex_phase_labels(preds)
+            con_mat = confusion_matrix(labels=labels, predictions=preds).numpy()
+            con_mats[index] = np.around(con_mat.astype('float') / con_mat.sum(axis=1)[:, np.newaxis], 2)
+            
+        con_mats_mean = np.around(np.mean(con_mats, axis=0), 2)
+        con_mats_mean_df = pd.DataFrame(con_mats_mean, index=class_names, columns=class_names)
+        
+        con_mats_err = np.around(np.std(con_mats, axis=0), 2)
+        con_mats_err_df = pd.DataFrame(con_mats_err, index=class_names, columns=class_names)
+        
+        if save_csv:
+            con_mats_mean_df.to_csv(csv_save_dir + '/' + csv_name + 'mean.csv')
+            con_mats_err_df.to_csv(csv_save_dir + '/' + csv_name + 'err.csv')
     
     if figsize is None:
         figsize=(matrix_dim*2, matrix_dim)
@@ -143,7 +153,7 @@ def display_mean_confusion_matrix(model_dirs, test_gen, class_names, title='Conf
     
     sns.set(font_scale=font_scale)
     sns.heatmap(con_mats_mean_df, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax1)
-    sns.heatmap(con_mats_err_df, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax2)
+    sns.heatmap(con_mats_err_df, annot=True, cmap=plt.cm.BuPu, cbar=False, square=True, ax=ax2)
     
     ax1.set_title(sub_title_1)
     ax1.set_ylabel('True phase')
@@ -202,62 +212,58 @@ def rearrange_ChACHex_phase_labels(labels):
     return new_labels
 
 if __name__ == '__main__':
-    test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/test')
-    valid_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChACIF/valid')
+    csv_path = 'C:/MPhys project/Liquid-Crystals-DL/models/Phase classifiers/plots/con mats/FINAL'
     
-    display_mean_confusion_matrix(['checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_a',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_b',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_c',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_d',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_e',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_f',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_g',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_h',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_i',
-                                   'checkpoints/ChACIF/sequential/seq_4_32_batch16_lr1e-4_j'], 
-                                  valid_gen, 
-                                  ['N*', 'SmA', 'SmC', 'SmI', 'SmF'],
-                                  'Sequential 4 blocks, 32 starting channels')
+    plt.rcParams['axes.titley'] = 1.05
+    plt.rcParams['axes.titlesize'] = 16
+    plt.rcParams['axes.labelsize'] = 14
+    plt.rcParams['xtick.labelsize'] = 14
+    plt.rcParams['ytick.labelsize'] = 14
     
-    display_mean_confusion_matrix(['checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_a',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_b',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_c',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_d',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_e',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_f',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_g',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_h',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_i',
-                                   'checkpoints/ChACIF/inception/inc_2_4_batch16_lr1e-4_j'], 
-                                  valid_gen, 
-                                  ['N*', 'SmA', 'SmC', 'SmI', 'SmF'],
-                                  'Inception 2 blocks, 4 starting channels')
+    test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/ChSm/test')
 
-""" 
-def display_2_confusion_matrices(y_true_1, y_pred_1, y_true_2, y_pred_2, class_names, title='Confusion Matrix', 
-                                 sub_title_1='', sub_title_2='', figsize=(10, 5), font_scale=1.2):
-    con_mat_1 = confusion_matrix(labels=y_true_1, predictions=y_pred_1).numpy()
-    con_mat_norm_1 = np.around(con_mat_1.astype('float') / con_mat_1.sum(axis=1)[:, np.newaxis], decimals=2)
-    con_mat_df_1 = pd.DataFrame(con_mat_norm_1, index=class_names, columns=class_names)
     
-    con_mat_2 = confusion_matrix(labels=y_true_2, predictions=y_pred_2).numpy()
-    con_mat_norm_2 = np.around(con_mat_2.astype('float') / con_mat_2.sum(axis=1)[:, np.newaxis], decimals=2)
-    con_mat_df_2 = pd.DataFrame(con_mat_norm_2, index=class_names, columns=class_names)
+    display_mean_confusion_matrix(['checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_a',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_b',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_c',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_d',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_e',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_f',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_g',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_h',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_i',
+                                   'checkpoints/ChSm/inception/inc_1_16_batch16_lr1e-4_j'], 
+                                  test_gen, 
+                                  ['Ch', 'Sm'],
+                                  '',
+                                  figsize=(7, 3.5),
+                                  font_scale=1.2,
+                                  from_csv=True,
+                                  csv_path_mean=csv_path+'/inc_ChSm_mean.csv',
+                                  csv_path_err=csv_path+'/inc_ChSm_err.csv',
+                                  csv_save_dir=csv_path,
+                                  csv_name='inc_ChSm_')
+
+    test_gen = create_test_gen('C:/MPhys project/Liquid-Crystals-DL/data/Prepared data/AC/test')
+ 
+    display_mean_confusion_matrix(['checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_a',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_b',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_c',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_d',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_e',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_f',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_g',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_h',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_i',
+                                   'checkpoints/AC/Sem2/inception/inc_2_2_batch16_lr1e-4_j'], 
+                                  test_gen, 
+                                  ['SmA', 'SmC'],
+                                  '',
+                                  figsize=(8, 4),
+                                  font_scale=1.5,
+                                  from_csv=True,
+                                  csv_path_mean=csv_path+'/inc_AC_mean.csv',
+                                  csv_path_err=csv_path+'/inc_AC_err.csv',
+                                  csv_save_dir=csv_path,
+                                  csv_name='inc_AC_')
     
-    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=figsize)
-    fig.suptitle(title, fontsize=16)
-    
-    sns.set(font_scale=font_scale)
-    sns.heatmap(con_mat_df_1, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax1)
-    sns.heatmap(con_mat_df_2, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax2)
-    
-    ax1.set_title(sub_title_1)
-    ax1.set_ylabel('True phase')
-    ax1.set_xlabel('Predicted phase')
-    ax2.set_title(sub_title_2)
-    ax2.set_ylabel('True phase')
-    ax2.set_xlabel('Predicted phase')
-    
-    plt.tight_layout(w_pad=4.0, h_pad=1.5)
-    plt.show()
-"""
