@@ -147,22 +147,30 @@ def display_mean_confusion_matrix(model_dirs, test_gen, class_names, title='Conf
             con_mats_err_df.to_csv(csv_save_dir + '/' + csv_name + 'err.csv')
     
     if figsize is None:
-        figsize=(matrix_dim*2, matrix_dim)
-    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=figsize)
-    fig.suptitle(title, fontsize=16)
-    
+        figsize=(matrix_dim, matrix_dim)
+        
     sns.set(font_scale=font_scale)
+    
+    fig, ax1 = plt.subplots(nrows=1, ncols=1, figsize=figsize)
+    
     sns.heatmap(con_mats_mean_df, annot=True, cmap=plt.cm.Blues, cbar=False, square=True, ax=ax1)
+    
+    #ax1.set_title(sub_title_1)
+    ax1.set_ylabel('True Phase')
+    ax1.set_xlabel('Predicted Phase')
+    
+    #plt.tight_layout(w_pad=0.0, h_pad=1.5)
+    plt.show()
+    
+    fig, ax2 = plt.subplots(nrows=1, ncols=1, figsize=figsize)
+    
     sns.heatmap(con_mats_err_df, annot=True, cmap=plt.cm.BuPu, cbar=False, square=True, ax=ax2)
     
-    ax1.set_title(sub_title_1)
-    ax1.set_ylabel('True phase')
-    ax1.set_xlabel('Predicted phase')
-    ax2.set_title(sub_title_2)
-    ax2.set_ylabel('True phase')
-    ax2.set_xlabel('Predicted phase')
-    
-    plt.tight_layout(w_pad=0.0, h_pad=1.5)
+    #ax2.set_title(sub_title_2)
+    ax2.set_ylabel('True Phase')
+    ax2.set_xlabel('Predicted Phase')
+
+    #plt.tight_layout(w_pad=0.0, h_pad=1.5)
     plt.show()
 
 #sort true and predicted labels into correct phase order 
@@ -236,8 +244,8 @@ if __name__ == '__main__':
                                   test_gen, 
                                   ['Ch', 'Sm'],
                                   '',
-                                  figsize=(7, 3.5),
-                                  font_scale=1.2,
+                                  figsize=(4, 4),
+                                  font_scale=1.8,
                                   from_csv=True,
                                   csv_path_mean=csv_path+'/inc_ChSm_mean.csv',
                                   csv_path_err=csv_path+'/inc_ChSm_err.csv',
@@ -259,8 +267,8 @@ if __name__ == '__main__':
                                   test_gen, 
                                   ['SmA', 'SmC'],
                                   '',
-                                  figsize=(8, 4),
-                                  font_scale=1.5,
+                                  figsize=(4, 4),
+                                  font_scale=1.8,
                                   from_csv=True,
                                   csv_path_mean=csv_path+'/inc_AC_mean.csv',
                                   csv_path_err=csv_path+'/inc_AC_err.csv',

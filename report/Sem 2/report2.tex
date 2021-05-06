@@ -126,7 +126,7 @@ where $\gamma$ and $\beta$ are the extra learnable parameters, $\mu$ is the mean
 In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers. All convolutional layers use a stride of $1\times1$, same padding, and ReLU activation, and all dense and convolutional layers have batch normalisation. A standard convolutional layer has kernel size $3\times3$, and a standard pooling layer refers to a max pooling layer with pool size and stride of $2\times2$ and same padding.
 
 \subsection{Sequential}
-The simplest and lowest capacity models used are sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation.
+The simplest and lowest capacity models used are Sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation.
 
 \subsection{Inception}
 A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{incblock}. 
@@ -136,10 +136,10 @@ A set of models based on Google's Inception CNN architecture contain modules cal
 \caption{Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input.}
 \label{incblock}
 \end{figure}
-Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the sequential models starting with global average pooling. Similarly to the sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
+Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the Sequential models starting with global average pooling. Similarly to the Sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
 
 \subsection{ResNet50}
-The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{resnet50}.
+The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{resnet50}.
 \begin{figure}[!h]
 \centering
 \includegraphics[width=4.5in]{images/resnet50.png}
@@ -156,13 +156,20 @@ All LC texture image data used has been obtained from polarised microscopy video
 
 In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy \cite{Kaufman12}.
 
-The distribution of the complete dataset over all LC phases is presented in Figure . From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix .
+The distribution of the complete dataset over all LC phases is presented in Figure \ref{datasetgraph}. 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=4in]{images/Graphs/overalldataset.png}
+\caption{The number of images in the complete dataset belonging to each phase.}
+\label{datasetgraph}
+\end{figure}
+From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix .
 \begin{table}[!htb]
 \begin{center}
 \caption{The LC phases contained in each dataset.}
 \begin{tabular}{l|c|c|c|c|c}
 \toprule
-\textbf{Dataset} & ChSm & AC & IF & ChFluHex & ChACIF\\
+\textbf{Dataset} & ChSm & SmAC & SmIF & ChSm2 & ChSm4\\
 \midrule
 \textbf{Phases} & Ch, Sm & SmA, SmC & SmI, SmF & Ch, FSm, HSm & Ch, SmA, SmC, SmI, SmF\\
 \bottomrule
@@ -176,11 +183,11 @@ The distribution of the complete dataset over all LC phases is presented in Figu
 We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training \cite{Heaton20}. These are the only augmentations used. Model accuracy on a dataset is evaluated as the percentage of correctly classified images in the set. 
 
 \subsection{Model tuning}
-For each dataset, we train and tune sequential, inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the sequential models we also vary the number of convolutional layers and starting channels, and for the inception models we vary the number inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train ten models, recording the validation and test set accuracies at the end of each run. The mean accuracies for the configuration are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods. In a grid-search lists of values are specified for two or more hyperparameters, and models are trained with all possible combinations of the values \cite{Goodfellow16}.
+For each dataset, we train and tune Sequential, Inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the Sequential models we also vary the number of convolutional layers and starting channels, and for the Inception models we vary the number Inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train ten models, recording the validation and test set accuracies at the end of each run. The mean accuracies for the configuration are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods. In a grid-search lists of values are specified for two or more hyperparameters, and models are trained with all possible combinations of the values \cite{Goodfellow16}.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary of previous work}
-The work of the first semester focussed on applying sequential, Inception and ResNet models to three different LC phase classification tasks. These included a four-phase set with isotropic, nematic, cholesteric, and smectic, a binary set with smectic A and C, a general smectic set including fluid smectic, hexatic smectic, and soft crystal, and a six-phase smectic set including smectic A, C, I, F, and two soft crystal phases. The final models were trained three times each and the mean accuracy over all three runs calculated for the test sets. The error was calculated as half the range in accuracy. The results are summarised in Table \ref{sem1}.
+The work of the first semester focussed on applying Sequential, Inception and ResNet models to three different LC phase classification tasks. These included a four-phase set with isotropic, nematic, cholesteric, and smectic, a binary set with smectic A and C, a general smectic set including fluid smectic, hexatic smectic, and soft crystal, and a six-phase smectic set including smectic A, C, I, F, and two soft crystal phases. The final models were trained three times each and the mean accuracy over all three runs calculated for the test sets. The error was calculated as half the range in accuracy. The results are summarised in Table \ref{sem1}.
 \begin{table}[!htb]
 \begin{center}
 \caption{First semester mean test set percentage accuracies for final models and phase classification tasks.}
@@ -206,15 +213,131 @@ Here, the results for the models of each type achieving the highest test set acc
 
 \subsection{Binary classifiers}
 \subsubsection{ChSm}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/Graphs/ChSm.png}
+	\caption{}
+	\label{chsm:graph}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/ChSm_mean.png}
+	\caption{}
+	\label{chsm:mean}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/ChSm_std.png}
+	\caption{}
+	\label{chsm:std}
+\end{subfigure}%
+\caption{}
+\label{chsm:chsm}
+\end{figure}
 
-\subsubsection{AC}
+\subsubsection{SmAC}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/Graphs/SmAC.png}
+	\caption{}
+	\label{smac:graph}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/SmAC_mean.png}
+	\caption{}
+	\label{smac:mean}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/SmAC_std.png}
+	\caption{}
+	\label{smac:std}
+\end{subfigure}%
+\caption{}
+\label{smac:smac}
+\end{figure}
 
-\subsubsection{IF}
+\subsubsection{SmIF}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/Graphs/SmIF.png}
+	\caption{}
+	\label{smif:graph}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/SmIF_mean.png}
+	\caption{}
+	\label{smif:mean}
+\end{subfigure}%
+\begin{subfigure}{0.25\textwidth}
+	\centering
+	\includegraphics[width=1.5in]{images/ConMats/SmIF_std.png}
+	\caption{}
+	\label{smif:std}
+\end{subfigure}%
+\caption{}
+\label{smif:smif}
+\end{figure}
 
 \subsection{Multi-phase classifiers}
-\subsubsection{ChFluHex}
+\subsubsection{ChSm2}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{0.37\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/Graphs/ChSm2.png}
+	\caption{}
+	\label{chsm2:graph}
+\end{subfigure}%
+\begin{subfigure}{0.3\textwidth}
+	\centering
+	\includegraphics[width=2in]{images/ConMats/ChSm2_mean.png}
+	\caption{}
+	\label{chsm2:mean}
+\end{subfigure}%
+\begin{subfigure}{0.3\textwidth}
+	\centering
+	\includegraphics[width=2in]{images/ConMats/ChSm2_std.png}
+	\caption{}
+	\label{chsm2:std}
+\end{subfigure}%
+\caption{}
+\label{chsm2:chsm2}
+\end{figure}
 
-\subsubsection{ChACIF}
+\subsubsection{ChSm4}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/Graphs/ChSm4.png}
+	\caption{}
+	\label{chsm4:graph}
+\end{subfigure}
+
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/ConMats/ChSm4_mean.png}
+	\caption{}
+	\label{chsm4:mean}
+\end{subfigure}%
+\begin{subfigure}{0.4\textwidth}
+	\centering
+	\includegraphics[width=2.5in]{images/ConMats/ChSm4_std.png}
+	\caption{}
+	\label{chsm4:std}
+\end{subfigure}%
+\caption{}
+\label{chsm4:chsm4}
+\end{figure}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Conclusions}
