@@ -129,24 +129,43 @@ In this project we use three different types of CNN architectures, with each bui
 The simplest and lowest capacity models used are Sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation.
 
 \subsection{Inception}
-A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{incblock}. 
-\begin{figure}[!h]
-\centering
-\includegraphics[width=4in]{images/inception_block.png}
-\caption{Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input.}
-\label{incblock}
-\end{figure}
-Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the Sequential models starting with global average pooling. Similarly to the Sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
+A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{arch:inc}. Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the Sequential models starting with global average pooling. Similarly to the Sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
 
 \subsection{ResNet50}
-The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{resnet50}.
+The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{arch:res}. This is an extremely high capacity model owing to the number of layers and channels within each layer, amounting to more than 23 million trainable parameters \cite{He15}.
+
 \begin{figure}[!h]
 \centering
-\includegraphics[width=4.5in]{images/resnet50.png}
-\caption{The architecture of ResNet50, adapted from \cite{He15}. "Conv 1x1, N" is a convolutional layer with kernel size $1\times1$ and $N$ channels. All convolutional layers have stride of $1\times1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that many blocks.}
-\label{resnet50}
+\begin{subfigure}{0.5\textwidth}
+	\centering
+	\hspace{-1cm}\includegraphics[width=2.5in]{images/inception_block.png}
+	\caption{}
+	\label{arch:inc}
+\end{subfigure}%
+\begin{subfigure}{0.5\textwidth}
+	\centering
+	\hspace{-1cm}\includegraphics[width=3.5in]{images/resnet50.png}
+	\caption{}
+	\label{arch:res}
+\end{subfigure}
+\caption{(a) Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 		1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input. 
+(b) The architecture of ResNet50, adapted from \cite{He15}. "Conv 1x1, N" is a convolutional layer with kernel size $1\times1$ and $N$ channels. All convolutional layers have stride of $1\times1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that many blocks.}
+\label{arch:arch}
 \end{figure}
-This is an extremely high capacity model owing to the number of layers and channels within each layer, amounting to more than 23 million trainable parameters \cite{He15}.
+
+%\begin{figure}[!h]
+%\centering
+%\includegraphics[width=4in]{images/inception_block.png}
+%\caption{Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input.}
+%\label{incblock}
+%\end{figure}
+
+%\begin{figure}[!h]
+%\centering
+%\includegraphics[width=4.5in]{images/resnet50.png}
+%\caption{The architecture of ResNet50, adapted from \cite{He15}. "Conv 1x1, N" is a convolutional layer with kernel size $1\times1$ and $N$ channels. All convolutional layers have stride of $1\times1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that many blocks.}
+%\label{arch:res}
+%\end{figure}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Methodology}
@@ -180,7 +199,7 @@ From this we construct five individual model training datasets, split by video i
 \end{table}
 
 \subsection{Model training configurations}
-We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training \cite{Heaton20}. These are the only augmentations used. Model accuracy on a dataset is evaluated as the percentage of correctly classified images in the set. 
+We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models use the categorical cross-entropy loss function and are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training \cite{Heaton20}. These are the only augmentations used. Model accuracy on a dataset is evaluated as the percentage of correctly classified images in the set. 
 
 \subsection{Model tuning}
 For each dataset, we train and tune Sequential, Inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the Sequential models we also vary the number of convolutional layers and starting channels, and for the Inception models we vary the number Inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train ten models, recording the validation and test set accuracies at the end of each run. The mean accuracies for the configuration are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods. In a grid-search lists of values are specified for two or more hyperparameters, and models are trained with all possible combinations of the values \cite{Goodfellow16}.
@@ -209,10 +228,40 @@ It was concluded that the poor performance in the more complex six-phase smectic
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Classification tasks and results}
-Here, the results for the models of each type achieving the highest test set accuracies for each phase classification task are presented. The test set mean and standard deviation confusion matrices are given for the best model type and configuration in each case. Confusion matrix values represent the fraction of test set samples with a particular true label that the model assigned a particular predicted label. For the best performing model configurations, the confusion matrices are calculated for all ten individual trained models, and the mean and standard deviation are calculated for each value.
+Here, the results for the models of each type achieving the highest mean test set accuracies for each phase classification task are presented. Architecture details are listed as number of convolutional layers, number of starting channels for Sequential models, and number of blocks, number of starting channels for Inception models. The error bars on the results summary graphs for each dataset represent the standard deviation of the test set accuracy. Model types are abbreviated as "Seq" for Sequential, "Inc" for Inception, and "RN50" for ResNet50. The y-axis scale is fixed at 50 to 100 percent to aid comparison of the results between each dataset.
+
+The test set mean and standard deviation confusion matrices are given for the best model type and configuration in each case. Confusion matrix values represent the fraction of test set samples with a particular true label that the model assigned a particular predicted label. For the best performing model configurations, the confusion matrices are calculated for all ten individual trained models, and the mean and standard deviation are calculated for each value.
+
+%Describe task
+%Model specfifics
+%Accuracy results
+%Standard deviations
+%Difference between validation and test
+%Discussion of best con mat
+%Interpretation
 
 \subsection{Binary classifiers}
 \subsubsection{ChSm}
+Models in this first binary phase classification task attempt to differentiate between the cholesteric phase and all smectic phases in the dataset. The final results for the tuned models are displayed in \ref{chsm:chsm} and the model configurations and accuracies are given in Table \ref{chsmtab}.
+\begin{table}[!htb]
+\begin{center}
+\caption{Best results and corresponding model configuration details for the ChSm dataset.}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{ChSm} & \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet50}\\
+\midrule
+\textbf{Mean test accuracy /\%} & $96\pm3$ & $98\pm2$ & $93\pm3$\\
+\textbf{Mean validation accuracy /\%} & $93\pm1$ & $95\pm2$ & $91\pm2$\\
+\textbf{Architecture details} & 3, 64 & 1, 16 & N/A\\
+\textbf{Batch size} & 16 & 16 & 16\\
+\textbf{Learning rate} & $5\times10^{-5}$ & $1\times10^{-4}$ & $1\times10^{-4}$\\
+\textbf{Trainable parameters} & 470 k & 497 k & 23 m\\
+\bottomrule
+\omit
+\label{chsmtab}
+\end{tabular}
+\end{center}
+\end{table} 
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{0.4\textwidth}
@@ -233,11 +282,31 @@ Here, the results for the models of each type achieving the highest test set acc
 	\caption{}
 	\label{chsm:std}
 \end{subfigure}%
-\caption{}
+\caption{(a) Mean test and validation set accuracies for the best model of each type trained on the ChSm dataset. (b) Mean test set confusion matrix for the ChSm Inception model. (c) Standard deviations of test set confusion matrices for the ChSm Inception model.}
 \label{chsm:chsm}
 \end{figure}
+All three model types achieved over 90\% mean test acuracy, with the highest at $98\pm2\%$ from the Inception model.
 
 \subsubsection{SmAC}
+\begin{table}[!htb]
+\begin{center}
+\caption{Best results and corresponding model configuration details for the SmAC dataset.}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{SmAC} & \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet50}\\
+\midrule
+\textbf{Mean test accuracy /\%} & $99\pm1$ & $99\pm1$ & $91\pm2$\\
+\textbf{Mean validation accuracy /\%} & $92\pm3$ & $95\pm3$ & $90\pm1$\\
+\textbf{Architecture details} & 4, 8 & 2, 2 & N/A\\
+\textbf{Batch size} & 16 & 16 & 16\\
+\textbf{Learning rate} & $1\times10^{-4}$ & $1\times10^{-4}$ & $1\times10^{-5}$\\
+\textbf{Trainable parameters} & 31 k & 34 k & 23 m\\
+\bottomrule
+\omit
+\label{smactab}
+\end{tabular}
+\end{center}
+\end{table}
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{0.4\textwidth}
@@ -258,11 +327,30 @@ Here, the results for the models of each type achieving the highest test set acc
 	\caption{}
 	\label{smac:std}
 \end{subfigure}%
-\caption{}
+\caption{(a) Mean test and validation set accuracies for the best model of each type trained on the SmAC dataset. (b) Mean test set confusion matrix for the SmAC Inception model. (c) Standard deviations of test set confusion matrices for the SmAC Inception model.}
 \label{smac:smac}
 \end{figure}
 
 \subsubsection{SmIF}
+\begin{table}[!htb]
+\begin{center}
+\caption{Best results and corresponding model configuration details for the SmIF dataset.}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{SmIF} & \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet50}\\
+\midrule
+\textbf{Mean test accuracy /\%} & $93\pm6$ & $82\pm14$ & $66\pm12$\\
+\textbf{Mean validation accuracy /\%} & $84\pm12$ & $88\pm12$ & $68\pm8$\\
+\textbf{Architecture details} & 3, 128 & 2, 8 & N/A\\
+\textbf{Batch size} & 16 & 16 & 16\\
+\textbf{Learning rate} & $1\times10^{-4}$ & $1\times10^{-4}$ & $1\times10^{-5}$\\
+\textbf{Trainable parameters} & 1.9 m & 538 k & 23 m\\
+\bottomrule
+\omit
+\label{smiftab}
+\end{tabular}
+\end{center}
+\end{table}
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{0.4\textwidth}
@@ -273,22 +361,41 @@ Here, the results for the models of each type achieving the highest test set acc
 \end{subfigure}%
 \begin{subfigure}{0.25\textwidth}
 	\centering
-	\includegraphics[width=1.5in]{images/ConMats/SmIF_mean.png}
+	\includegraphics[width=1.7in]{images/ConMats/SmIF_mean.png}
 	\caption{}
 	\label{smif:mean}
 \end{subfigure}%
 \begin{subfigure}{0.25\textwidth}
 	\centering
-	\includegraphics[width=1.5in]{images/ConMats/SmIF_std.png}
+	\includegraphics[width=1.7in]{images/ConMats/SmIF_std.png}
 	\caption{}
 	\label{smif:std}
 \end{subfigure}%
-\caption{}
+\caption{(a) Mean test and validation set accuracies for the best model of each type trained on the SmIF dataset. (b) Mean test set confusion matrix for the SmIF Sequential model. (c) Standard deviations of test set confusion matrices for the SmIF Sequential model.}
 \label{smif:smif}
 \end{figure}
 
 \subsection{Multi-phase classifiers}
 \subsubsection{ChSm2}
+\begin{table}[!htb]
+\begin{center}
+\caption{Best results and corresponding model details for the ChSm2 dataset.}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{ChSm2} & \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet50}\\
+\midrule
+\textbf{Mean test accuracy /\%} & $85\pm2$ & $85\pm3$ & $72\pm2$\\
+\textbf{Mean validation accuracy /\%} & $82\pm2$ & $83\pm3$ & $67\pm3$\\
+\textbf{Architecture details} & 3, 64 & 1, 8 & N/A\\
+\textbf{Batch size} & 16 & 16 & 16\\
+\textbf{Learning rate} & $5\times10^{-5}$ & $1\times10^{-4}$ & $1\times10^{-4}$\\
+\textbf{Trainable parameters} & 470 k & 125 k & 23 m\\
+\bottomrule
+\omit
+\label{chsm2tab}
+\end{tabular}
+\end{center}
+\end{table}
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{0.37\textwidth}
@@ -309,11 +416,30 @@ Here, the results for the models of each type achieving the highest test set acc
 	\caption{}
 	\label{chsm2:std}
 \end{subfigure}%
-\caption{}
+\caption{(a) Mean test and validation set accuracies for the best model of each type trained on the ChSm2 dataset. (b) Mean test set confusion matrix for the ChSm2 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm2 Sequential model.}
 \label{chsm2:chsm2}
 \end{figure}
 
 \subsubsection{ChSm4}
+\begin{table}[!htb]
+\begin{center}
+\caption{Best results and corresponding model configuration details for the ChSm4 dataset.}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{ChSm4} & \textbf{Sequential} & \textbf{Inception} & \textbf{ResNet50}\\
+\midrule
+\textbf{Mean test accuracy /\%} & $87\pm3$ & $86\pm4$ & $66\pm7$\\
+\textbf{Mean validation accuracy /\%} & $65\pm2$ & $68\pm5$ & $60\pm5$\\
+\textbf{Architecture details} & 3, 128 & 2, 4 & N/A\\
+\textbf{Batch size} & 16 & 16 & 16\\
+\textbf{Learning rate} & $1\times10^{-5}$ & $1\times10^{-4}$ & $5\times10^{-4}$\\
+\textbf{Trainable parameters} & 1.9 m & 135 k & 23 m\\
+\bottomrule
+\omit
+\label{chsm4tab}
+\end{tabular}
+\end{center}
+\end{table}
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{0.4\textwidth}
@@ -335,7 +461,7 @@ Here, the results for the models of each type achieving the highest test set acc
 	\caption{}
 	\label{chsm4:std}
 \end{subfigure}%
-\caption{}
+\caption{(a) Mean test and validation set accuracies for the best model of each type trained on the ChSm4 dataset. (b) Mean test set confusion matrix for the ChSm4 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm4 Sequential model.}
 \label{chsm4:chsm4}
 \end{figure}
 
