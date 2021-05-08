@@ -1,0 +1,5 @@
+,smectic A,smectic C,Totals
+Training,722.0,1388.0,2110.0
+Validation,180.0,301.0,481.0
+Test,204.0,311.0,515.0
+Totals,1106.0,2000.0,3106.0

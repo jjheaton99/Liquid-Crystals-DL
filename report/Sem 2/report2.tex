@@ -132,7 +132,7 @@ The simplest and lowest capacity models used are Sequential CNNs. They consist o
 A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{arch:inc}. Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the Sequential models starting with global average pooling. Similarly to the Sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
 
 \subsection{ResNet50}
-The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{arch:res}. This is an extremely high capacity model owing to the number of layers and channels within each layer, amounting to more than 23 million trainable parameters \cite{He15}.
+The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{arch:res}. This is an extremely high capacity model owing to the number of layers and channels within each layer, amounting to more than 25.5 million trainable parameters \cite{He15}.
 
 \begin{figure}[!h]
 \centering
@@ -179,7 +179,7 @@ The distribution of the complete dataset over all LC phases is presented in Figu
 \begin{figure}[!h]
 \centering
 \includegraphics[width=4in]{images/Graphs/overalldataset.png}
-\caption{The number of images in the complete dataset belonging to each phase.}
+\caption{The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.}
 \label{datasetgraph}
 \end{figure}
 From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix .
@@ -235,6 +235,7 @@ The test set mean and standard deviation confusion matrices are given for the be
 %Describe task
 %Model specfifics
 %Accuracy results
+%Model comparisons
 %Standard deviations
 %Difference between validation and test
 %Discussion of best con mat
@@ -255,7 +256,7 @@ Models in this first binary phase classification task attempt to differentiate b
 \textbf{Architecture details} & 3, 64 & 1, 16 & N/A\\
 \textbf{Batch size} & 16 & 16 & 16\\
 \textbf{Learning rate} & $5\times10^{-5}$ & $1\times10^{-4}$ & $1\times10^{-4}$\\
-\textbf{Trainable parameters} & 470 k & 497 k & 23 m\\
+\textbf{Trainable parameters} & 470 k & 497 k & 25.5 m\\
 \bottomrule
 \omit
 \label{chsmtab}
@@ -285,9 +286,14 @@ Models in this first binary phase classification task attempt to differentiate b
 \caption{(a) Mean test and validation set accuracies for the best model of each type trained on the ChSm dataset. (b) Mean test set confusion matrix for the ChSm Inception model. (c) Standard deviations of test set confusion matrices for the ChSm Inception model.}
 \label{chsm:chsm}
 \end{figure}
-All three model types achieved over 90\% mean test acuracy, with the highest at $98\pm2\%$ from the Inception model.
+All three model types achieve over 90\% mean test acuracy, with Inception the highest and ResNet50 the lowest. The extremely high capacity of ResNet50 could lead to some overfitting, despite usage of early stopping. Overall, the variances in accuracy suggest good stability in training the models, with no standard deviations greater than 3\%. The mean test accuracies are higher than validation in every case. However, the differences are small. This trend is most likely due to the relatively small size of the dataset, which could result in elevated sensitivity to the exact choice of videos to include in each set.
+
+The mean confusion matrix in Figure \ref{chsm:mean} for the Inception model shows that the inaccuracies in general stem from misidentifying the cholesteric phase as smectic, at 3\%. This is likely due to the large imbalance in the dataset in favour of the smectic class, which has approximately three times the number of samples. Such an imbalance may induce some bias in the model towards the larger class. In addition, the models are most unstable when processing cholesteric samples, as demonstrated by the standard deviation confusion matrix in Figure \ref{chsm:std}, with 6\% for both true cholesteric values. Again, this could be due to the class imbalance. There may also be some cholesteric images with features that are similar to some smectic ones.
+
+Overall, the ChSm task is highly successful and demonstrates that the CNN models can easily learn to distinguish between features of two broad and distinct LC phases.
 
 \subsubsection{SmAC}
+The smectic A and C phases share highly similar textural features
 \begin{table}[!htb]
 \begin{center}
 \caption{Best results and corresponding model configuration details for the SmAC dataset.}
@@ -300,7 +306,7 @@ All three model types achieved over 90\% mean test acuracy, with the highest at 
 \textbf{Architecture details} & 4, 8 & 2, 2 & N/A\\
 \textbf{Batch size} & 16 & 16 & 16\\
 \textbf{Learning rate} & $1\times10^{-4}$ & $1\times10^{-4}$ & $1\times10^{-5}$\\
-\textbf{Trainable parameters} & 31 k & 34 k & 23 m\\
+\textbf{Trainable parameters} & 31 k & 34 k & 25.5 m\\
 \bottomrule
 \omit
 \label{smactab}
@@ -344,7 +350,7 @@ All three model types achieved over 90\% mean test acuracy, with the highest at 
 \textbf{Architecture details} & 3, 128 & 2, 8 & N/A\\
 \textbf{Batch size} & 16 & 16 & 16\\
 \textbf{Learning rate} & $1\times10^{-4}$ & $1\times10^{-4}$ & $1\times10^{-5}$\\
-\textbf{Trainable parameters} & 1.9 m & 538 k & 23 m\\
+\textbf{Trainable parameters} & 1.9 m & 538 k & 25.5 m\\
 \bottomrule
 \omit
 \label{smiftab}
@@ -389,7 +395,7 @@ All three model types achieved over 90\% mean test acuracy, with the highest at 
 \textbf{Architecture details} & 3, 64 & 1, 8 & N/A\\
 \textbf{Batch size} & 16 & 16 & 16\\
 \textbf{Learning rate} & $5\times10^{-5}$ & $1\times10^{-4}$ & $1\times10^{-4}$\\
-\textbf{Trainable parameters} & 470 k & 125 k & 23 m\\
+\textbf{Trainable parameters} & 470 k & 125 k & 25.5 m\\
 \bottomrule
 \omit
 \label{chsm2tab}
@@ -433,7 +439,7 @@ All three model types achieved over 90\% mean test acuracy, with the highest at 
 \textbf{Architecture details} & 3, 128 & 2, 4 & N/A\\
 \textbf{Batch size} & 16 & 16 & 16\\
 \textbf{Learning rate} & $1\times10^{-5}$ & $1\times10^{-4}$ & $5\times10^{-4}$\\
-\textbf{Trainable parameters} & 1.9 m & 135 k & 23 m\\
+\textbf{Trainable parameters} & 1.9 m & 135 k & 25.5 m\\
 \bottomrule
 \omit
 \label{chsm4tab}
@@ -473,5 +479,92 @@ All three model types achieved over 90\% mean test acuracy, with the highest at 
 
 \appendix
 \appendixpage
+\section{Data distributions}
+The exact numbers of images of each phase in each sub dataset are presented here.
+\begin{table}[!htb]
+\begin{center}
+\caption{}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{ChSm} & \textbf{Ch} & \textbf{Sm} & \textbf{Totals}\\
+\midrule
+\textbf{Training} & 1148 & 3598 & 4746\\
+\textbf{Validation} & 245 & 853 & 1098\\
+\textbf{Test} & 253 & 881 & 1134\\
+\textbf{Totals} & 1646 & 5332 & 6978\\
+\bottomrule
+\omit
+\label{chsmdist}
+\end{tabular}
+\end{center}
+\end{table}
+\begin{table}[!htb]
+\begin{center}
+\caption{}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{SmAC} & \textbf{SmA} & \textbf{SmC} & \textbf{Totals}\\
+\midrule
+\textbf{Training} & 722 & 1388 & 2110\\
+\textbf{Validation} & 180 & 301 & 481\\
+\textbf{Test} & 204 & 311 & 515\\
+\textbf{Totals} & 1106 & 2000 & 3106\\
+\bottomrule
+\omit
+\label{smacdist}
+\end{tabular}
+\end{center}
+\end{table}
+\begin{table}[!htb]
+\begin{center}
+\caption{}
+\begin{tabular}{l|c|c|c}
+\toprule
+\textbf{SmIF} & \textbf{SmI} & \textbf{SmF} & \textbf{Totals}\\
+\midrule
+\textbf{Training} & 918 & 570 & 1488\\
+\textbf{Validation} & 198 & 168 & 366\\
+\textbf{Test} & 210 & 162 & 372\\
+\textbf{Totals} & 1326 & 900 & 2226\\
+\bottomrule
+\omit
+\label{smifdist}
+\end{tabular}
+\end{center}
+\end{table}
+\begin{table}[!htb]
+\begin{center}
+\caption{}
+\begin{tabular}{l|c|c|c|c}
+\toprule
+\textbf{ChSm2} & \textbf{Ch} & \textbf{FSm} & \textbf{HSm} & \textbf{Totals}\\
+\midrule
+\textbf{Training} & 1148 & 2110 & 1488 & 4746\\
+\textbf{Validation} & 245 & 481 & 372 & 1098\\
+\textbf{Test} & 253 & 515 & 366 & 1134\\
+\textbf{Totals} & 1646 & 3106 & 2226 & 6978\\
+\bottomrule
+\omit
+\label{chsm2dist}
+\end{tabular}
+\end{center}
+\end{table}
+\begin{table}[!htb]
+\begin{center}
+\caption{}
+\begin{tabular}{l|c|c|c|c|c|c}
+\toprule
+\textbf{ChSm4} & \textbf{Ch} & \textbf{SmA} & \textbf{SmC} & \textbf{SmI} & \textbf{SmF} &\textbf{Totals}\\
+\midrule
+\textbf{Training} & 1148 & 722 & 1388 & 534 & 420 & 4212\\
+\textbf{Validation} & 245 & 180 & 301 & 108 & 90 & 924\\
+\textbf{Test} & 253 & 204 & 311 & 120 & 120 & 1008\\
+\textbf{Totals} & 1646 & 1106 & 2000 & 762 & 630 & 6144\\
+\bottomrule
+\omit
+\label{chsm4dist}
+\end{tabular}
+\end{center}
+\end{table}
 
 \end{document}

@@ -20,8 +20,9 @@
 \contentsline {subsection}{\numberline {6.1}Binary classifiers}{10}% 
 \contentsline {subsubsection}{\numberline {6.1.1}ChSm}{10}% 
 \contentsline {subsubsection}{\numberline {6.1.2}SmAC}{11}% 
-\contentsline {subsubsection}{\numberline {6.1.3}SmIF}{11}% 
+\contentsline {subsubsection}{\numberline {6.1.3}SmIF}{12}% 
 \contentsline {subsection}{\numberline {6.2}Multi-phase classifiers}{12}% 
 \contentsline {subsubsection}{\numberline {6.2.1}ChSm2}{12}% 
 \contentsline {subsubsection}{\numberline {6.2.2}ChSm4}{12}% 
 \contentsline {section}{\numberline {7}Conclusions}{12}% 
+\contentsline {section}{\numberline {A}Data distributions}{17}% 
