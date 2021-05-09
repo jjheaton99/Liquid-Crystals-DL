@@ -58,7 +58,13 @@ Liquid crystal phases are characterised by the positional and orientational orde
 
 At sufficiently high temperatures, thermotropic LCs take the form of a fully anisotropic liquid with no structural order and hence birefringence, resulting in completely dark PM textures. Upon cooling, they will display at least one higher ordered phase before reaching the fully crystalline stage. Of lowest order, just orientational, is the nematic (N) phase, in which the molecules are aligned along a particular axis, called the director, and are still free to move around as in a liquid. Compounds with chiral molecules may instead display the cholesteric (Ch) phase, which is the same as the nematic phase except with helical variation of the director. Layered positional order is introduced in the smectic phase (Sm), which is divided into three distinct phase groupings. The orientation of the director further categorises these groupings. The fluid smectic (FSm) phases have no positional order within molecular layers. The orientation of the director with respect to the layer planes determines whether the phase is smectic A (SmA), in which it is perpendicular, or C (SmC) otherwise. The smectic B (SmB), I (SmI), and F (SmF) phases are placed into the hexatic smectic (HSm) group, with short-range hexagonal structures generating positional order within the layers. The soft crystal phases differ in that the layers show long-range positional order \cite{Dierking03}.
 
-This project uses CNNs to classify PM textures from thermotropic chiral LC compounds, including the phases Ch, SmA, SmC, SmI, and SmF.  
+This project uses CNNs to classify PM textures from thermotropic chiral LC compounds, including the phases Ch, SmA, SmC, SmI, and SmF. Figure \ref{textures} gives an example texture images from each of these phases.
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\textwidth]{images/textures.png}
+\caption{Samples from our complete LC phase texture dataset, from left to right: Ch, SmA, SmC, SmI, and SmF.}
+\label{textures}
+\end{figure}  
 
 \subsection{Supervised machine learning}
 Machine learning algorithms can in general be categorised as supervised, unsupervised, or reinforcement learning \cite{Murphy12}. The ML implementations of this project are purely supervised learning algorithms. In this case, the ML model is defined as a function, parametrised by learned values $\bm{\theta}$, that maps an input data sample $\bm{x}$ containing various features to an output predicted label $\hat{\bm{y}}$ \cite{Murphy12},
@@ -122,16 +128,46 @@ z\leftarrow\gamma\left(\frac{z-\mu}{\sigma}\right)+\beta, \label{batchnorm}
 where $\gamma$ and $\beta$ are the extra learnable parameters, $\mu$ is the mean and $\sigma$ is the standard deviation of the unit's output over the minibatch. For future computations on single samples, during training running averages of the means and standard deviations are recorded. Batch normalisation improves model stability whilst training and provides a regularising effect by introducing a form of noise \cite{Ioffe15}.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{CNN Models}
+\section{Methodology}
+
+\subsection{Data preparation}
+All LC texture image data used has been obtained from polarised microscopy videos of LCs, labelled by compound and temperature range. If not provided, the phases displayed in the videos are identified using project supervisor Ingo Dierking's co-authored papers on homologous LC series \cite{Dierking94, Schacht95}. The software VLC Media Player \cite{VideoLan06} is used to extract image frames from the videos, and they are classified  according to the LC phase displayed at the point of extraction. The raw images have a resolution of $2048\times1088$. They are split into six smaller images of size $682\times544$ without compromising on the features displayed by each image. The images are then cropped to square $544\times544$ before being scaled down to the model input size of $256\times256$ and converted to greyscale with pixel value range zero to one. This input size is decided based upon results of the first semester \cite{Heaton20}.
+
+In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy \cite{Kaufman12}.
+
+The distribution of the complete dataset over all LC phases is presented in Figure \ref{datasetgraph}. 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=4in]{images/Graphs/overalldataset.png}
+\caption{The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.}
+\label{datasetgraph}
+\end{figure}
+From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix \ref{datdist}.
+\begin{table}[!htb]
+\begin{center}
+\caption{The LC phases contained in each dataset.}
+\begin{tabular}{l|c|c|c|c|c}
+\toprule
+\textbf{Dataset} & ChSm & SmAC & SmIF & ChSm2 & ChSm4\\
+\midrule
+\textbf{Phases} & Ch, Sm & SmA, SmC & SmI, SmF & Ch, FSm, HSm & Ch, SmA, SmC, SmI, SmF\\
+\bottomrule
+\omit
+\label{datasets}
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{CNN Models}
 In this project we use three different types of CNN architectures, with each built from dense, convolutional, and pooling layers. All convolutional layers use a stride of $1\times1$, same padding, and ReLU activation, and all dense and convolutional layers have batch normalisation. A standard convolutional layer has kernel size $3\times3$, and a standard pooling layer refers to a max pooling layer with pool size and stride of $2\times2$ and same padding.
 
-\subsection{Sequential}
+\subsubsection{Sequential}
 The simplest and lowest capacity models used are Sequential CNNs. They consist of a series of standard convolutional layers, each followed by a standard pooling layer. The number of channels is doubled with each successive convolutional layer. The final convolutional layer in the network is followed instead by global average pooling, which is proceeded by two dense layers, first with a number of units equal to the number of channels in the previous convolutional layer, and second with half this. Both dense layers have ReLU activation and dropout rate 0.5. The final layer is the dense classification output with a number of units equal to the number of classes and a softmax activation.
 
-\subsection{Inception}
+\subsubsection{Inception}
 A set of models based on Google's Inception CNN architecture contain modules called inception blocks, which have parallel convolutional layers with different kernel sizes sharing inputs and outputs \cite{Szegedy15}. The structure of an inception block is detailed in Figure \ref{arch:inc}. Our simplified inception networks begin with a convolutional layer with kernel size $7\times7$, followed sequentially by a standard pooling layer, a convolutional layer with kernel size $1\times1$, a standard convolutional layer, and a standard pooling layer. The output of this pooling layer is then fed into a series of one or more inception blocks. The output of the final inception block is followed sequentially by an average pooling layer with pool size and stride $5\times5$ and valid padding, a standard convolutional layer, and finally the same output dense layer structure as the Sequential models starting with global average pooling. Similarly to the Sequential models, the number of channels doubles with each convolutional layer, aside from inside the inception blocks, in which the number of channels is halved from the block input and then kept constant. The output concatenation has four times the channels as they are stacked from each branching layer.
 
-\subsection{ResNet50}
+\subsubsection{ResNet50}
 The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim to tackle the problem of vanishing gradients in CNNs with many layers \cite{He15}. They do this by adding skip connections to the network, which feed the ouputs of layers early in the network to later layers, in conjunction with the standard Sequential layer inputs. The specific model we utilise in this project is called ResNet50, owing to it having a total of 50 layers \cite{He15}. A diagram of the architecture is presented in Figure \ref{arch:res}. This is an extremely high capacity model owing to the number of layers and channels within each layer, amounting to more than 25.5 million trainable parameters \cite{He15}.
 
 \begin{figure}[!h]
@@ -168,36 +204,6 @@ The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim 
 %\end{figure}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Methodology}
-
-\subsection{Data preparation}
-All LC texture image data used has been obtained from polarised microscopy videos of LCs, labelled by compound and temperature range. If not provided, the phases displayed in the videos are identified using project supervisor Ingo Dierking's co-authored papers on homologous LC series \cite{Dierking94, Schacht95}. The software VLC Media Player \cite{VideoLan06} is used to extract image frames from the videos, and they are classified  according to the LC phase displayed at the point of extraction. The raw images have a resolution of $2048\times1088$. They are split into six smaller images of size $682\times544$ without compromising on the features displayed by each image. The images are then cropped to square $544\times544$ before being scaled down to the model input size of $256\times256$ and converted to greyscale with pixel value range zero to one.
-
-In construction of the training, validation, and test data sets, images of the same phase that also come from the same video are not divided between any of the three sets. This is to minimise potential data leakage, which is when samples in the training set are highly similar to samples in the validation or test sets, artificially inflating perceived model accuracy \cite{Kaufman12}.
-
-The distribution of the complete dataset over all LC phases is presented in Figure \ref{datasetgraph}. 
-\begin{figure}[!h]
-\centering
-\includegraphics[width=4in]{images/Graphs/overalldataset.png}
-\caption{The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.}
-\label{datasetgraph}
-\end{figure}
-From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix .
-\begin{table}[!htb]
-\begin{center}
-\caption{The LC phases contained in each dataset.}
-\begin{tabular}{l|c|c|c|c|c}
-\toprule
-\textbf{Dataset} & ChSm & SmAC & SmIF & ChSm2 & ChSm4\\
-\midrule
-\textbf{Phases} & Ch, Sm & SmA, SmC & SmI, SmF & Ch, FSm, HSm & Ch, SmA, SmC, SmI, SmF\\
-\bottomrule
-\omit
-\label{datasets}
-\end{tabular}
-\end{center}
-\end{table}
-
 \subsection{Model training configurations}
 We use the deep learning libraries TensorFlow and Keras to build and train all models \cite{Abadi16, Gulli17}. Model training is powered by NVIDIA CUDA, either on an NVIDIA RTX 2060 graphics card or cloud-based using Google Colaboratory \cite{Cook12, Bisong19}. All models use the categorical cross-entropy loss function and are updated with the Adam optimiser, detailed in the first semester report, with variable learning rate and other fixed hyperparameter settings of $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$ \cite{Heaton20, Kingma14}. Early stopping is applied to all models, with a patience of 30 epochs and based on validation set cost. The final saved model parameters correspond to the epoch of training with the lowest validation set cost. Based on investigations of the previous semester, random flipping in both the horizontal and vertical directions are applied to the minibatches of images throughout training \cite{Heaton20}. These are the only augmentations used. Model accuracy on a dataset is evaluated as the percentage of correctly classified images in the set. 
 
@@ -205,7 +211,7 @@ We use the deep learning libraries TensorFlow and Keras to build and train all m
 For each dataset, we train and tune Sequential, Inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the Sequential models we also vary the number of convolutional layers and starting channels, and for the Inception models we vary the number Inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train the model ten times, recording the validation and test set accuracies at the end of each run. The model's parameters are reset between each run. The mean accuracies for the configuration are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods. In a grid-search lists of values are specified for two or more hyperparameters, and models are trained with all possible combinations of the values \cite{Goodfellow16}.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Summary of previous work}
+\section{Summary of previous results}
 The work of the first semester focussed on applying Sequential, Inception and ResNet models to three different LC phase classification tasks. These included a four-phase set with isotropic, nematic, cholesteric, and smectic, a binary set with smectic A and C, a general smectic set including fluid smectic, hexatic smectic, and soft crystal, and a six-phase smectic set including smectic A, C, I, F, and two soft crystal phases. The final models were trained three times each and the mean accuracy over all three runs calculated for the test sets. The error was calculated as half the range in accuracy. The results are summarised in Table \ref{sem1}.
 \begin{table}[!htb]
 \begin{center}
@@ -337,7 +343,7 @@ The fluid smectic A and C phases share similar textural features because the dif
 The mean confusion matrix for the Inception model in Figure \ref{smac:mean} shows that on all ten training runs, the model is 100\% accurate in identifying the smectic A phase. The only confusion is an average rate of 1\% misidentification of smectic C as A despite the slight imbalance of the dataset, with almost two times more smectic C samples than A. The results of the first semester for smectic A and C have been reinforced and improved upon, demonstrating the suitability of CNNs in cases with fine differences between image features. 
 
 \subsubsection{SmIF}
-The hexatic smectic I and F binary classification task is another one in which the phases display similar features due to similar underlying structure \cite{Dierking03}. The results and model configurations for the SmIF dataset are displayed in Figure \ref{smif:smif} and Table \ref{smiftab}. Overall model performance is worse than for the previous datasets, with the highest mean test set accuracy coming from the Sequential architecture, at $93\pm6$. In addition, there are large variances in accuracy for SmIF. This could be a result of the relatively small size of the dataset, which may result in instability in training the models as there are not enough samples to consistently learn the correct characteristic features for each phase. The poorer performance and high variance could also suggest that the features distinguishing smectic I and F are more subtle than in, for example, the case of smectic A and C.
+The hexatic smectic I and F binary classification task is another one in which the phases display similar features due to similar underlying structure \cite{Dierking03}. The results and model configurations for the SmIF dataset are displayed in Figure \ref{smif:smif} and Table \ref{smiftab}. Overall model performance is worse than for the previous datasets, with the highest mean test set accuracy coming from the Sequential architecture, at $93\pm6$. In addition, there are large variances in accuracy for SmIF. This could be a result of the relatively small size of the dataset, which may result in instability in training the models as there are not enough samples to consistently learn the correct characteristic features for each phase. The poorer performance and high variance could also suggest that the features distinguishing smectic I and F are more subtle than in, for example, the case of smectic A and C. The performance of ResNet50 is particularly low. This is in part because the training time is longer than for the sequential and inception models, which allows for fewer tuning attempts. 
 \begin{table}[!htb]
 \begin{center}
 \caption{Best results and corresponding model configuration details for the SmIF dataset.}
@@ -380,10 +386,14 @@ The hexatic smectic I and F binary classification task is another one in which t
 \caption{(a) Mean test and validation set accuracies for the best model of each type trained on the SmIF dataset. (b) Mean test set confusion matrix for the SmIF Sequential model. (c) Standard deviations of test set confusion matrices for the SmIF Sequential model.}
 \label{smif:smif}
 \end{figure}
-Figure \ref{smif:mean} shows the mean test set confusion matrix for the SmIF Sequential model.
+
+Figure \ref{smif:mean} shows the mean test set confusion matrix for the SmIF Sequential model. From this we see the greatest source of inaccuracy is in the true smectic I sample predictions, with 90\% mean test accuracy as opposed to 97\% for smectic F. The two classes are well balanced in this case, which provides no explanation for the inaccuracy. It may instead perhaps stem from images in the dataset that have been taken near the point of a phase transition between smectic I and F, which could result in some overlap of important features from each phase in the image. Therefore, the model could be exhibiting the bias towards smectic F if its confidence identifying smectic F features is greater than for smectic I. The standard deviation confusion matrix in Figure \ref{smif:std} shows that true phase smectic I accuracy is also more unstable than smectic F, which provides further evidence that the model is less confident in extracting the features of smectic I.
+
+The performance on the SmIF dataset is satisfactory in that the models perform substantially better than randomly guessing. However, there is room for improvement. This may only be facilitated by expansion of the dataset with more videos from smectic I and F phases, which would provide more samples for the models to learn a more accurate interpretation of the subtle textural features.
 
 \subsection{Multi-phase classifiers}
 \subsubsection{ChSm2}
+Having demonstrated success in binary LC phase classification, we now move on to the wider tasks of classification of more than two phases at a time. The ChSm2 dataset contains all phases in the complete dataset, with smectic A and C grouped into the fluid smectic class and smectic I and F grouped into the hextic smectic class. The hexatic smectic class contains more images than the entire SmIF dataset because one video displaying the hexatic  smectic phase could not be further labelled as smectic I and F. Figure \ref{chsm2:chsm2} and Table \ref{chsm2tab} give the results and model configurations for this dataset. We see similar performance from the Sequential and Inception models, with both reaching 85\% mean test accuracy. ResNet50 falls behind again on this task, most likely for similar reasons of overfitting and fewer attempts at tuning, as before. With no standard deviations greater than 3\%, model training and accuracy is relatively stable for the ChSm2 task. Overall performance is low in comparison to the binary datasets, which could be explained by the increased complexity and size of the task with a greater number of phases and, subsequently, more features to learn.
 \begin{table}[!htb]
 \begin{center}
 \caption{Best results and corresponding model details for the ChSm2 dataset.}
@@ -427,7 +437,10 @@ Figure \ref{smif:mean} shows the mean test set confusion matrix for the SmIF Seq
 \label{chsm2:chsm2}
 \end{figure}
 
+Displayed in Figure \ref{chsm2:mean} is the mean test set confusion matrix for the Sequential model. Surprisingly, the true cholesteric samples are most often mislabelled as hexatic smectic, at 11\%. This is counter-intuitive because the hextic smectic phase has higher order than fluid smetic, which would normally result in greater similarity between the cholesteric and fluid smectic phases rather than between cholesteric and hexatic smectic. There is also generally high confusion between the fluid and hexatic smectic phases, and relatively high instability in accuracy for true hexatic smectic samples, when studying Figure \ref{chsm2:std}. These results could be explained by the similarity of texture features over all fluid and hexatic smectic phases, with more data and perhaps more rigorous tuning required to push accuracy further.
+
 \subsubsection{ChSm4}
+The final dataset, ChSm4, contains five classes with all individual phases of the complete dataset. This is the most ambitious and challenging of all the phase classification tasks, requiring the models to learn numerous subtle features to distinguish between a closely related series of LC phases. The results from extensive tuning are presented in Figure \ref{chsm4:chsm4} and Table \ref{chsm4tab}. We again see good performance on the test set from the Sequential and Inception models, at 87\% and 86\% mean accuracy respectively, with ResNet50 performing worse by approximately 20\%. Of note is the particularly poor mean validation accuracy for all model types, with none reaching 70\%. This is indicative that the final result is sensitive to the specific choice of videos placed in each sub-dataset, likely due to the small overall size of the complete dataset. 
 \begin{table}[!htb]
 \begin{center}
 \caption{Best results and corresponding model configuration details for the ChSm4 dataset.}
@@ -472,15 +485,18 @@ Figure \ref{smif:mean} shows the mean test set confusion matrix for the SmIF Seq
 \label{chsm4:chsm4}
 \end{figure}
 
+Upon constructing the mean test set confusion matrix for the Sequential model, in Figure \ref{chsm4:mean}, the main source of inaccuracy is revealed. The true smectic I samples are mislabelled as smectic C 55\% of the time on average, with a large standard deviation of 19\% as seen in Figure \ref{chsm4:std}.
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Conclusions}
+In this project,
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \bibliography{report2}
 
 \appendix
 \appendixpage
-\section{Data distributions}
+\section{Data distributions} \label{datdist}
 The exact numbers of images of each phase in each sub dataset are presented here.
 \begin{table}[!htb]
 \begin{center}
