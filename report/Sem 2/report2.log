@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  9 MAY 2021 18:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.5)  9 MAY 2021 22:59
 entering extended mode
 **./report2.tex
 (report2.tex
@@ -754,17 +754,17 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <images/textures.png, id=16, 1342.01375pt x 257.96375pt>
 File: images/textures.png Graphic file (type png)
 <use images/textures.png>
-Package pdftex.def Info: images/textures.png  used on input line 64.
+Package pdftex.def Info: images/textures.png  used on input line 62.
 (pdftex.def)             Requested size: 476.98244pt x 91.686pt.
  [2 <./images/textures.png>] [3] [4] [5]
 <images/Graphs/overalldataset.png, id=41, 578.16pt x 578.16pt>
 File: images/Graphs/overalldataset.png Graphic file (type png)
 <use images/Graphs/overalldataset.png>
 Package pdftex.def Info: images/Graphs/overalldataset.png  used on input line 1
-41.
+38.
 (pdftex.def)             Requested size: 289.07999pt x 289.07928pt.
 
-Overfull \hbox (6.53055pt too wide) in paragraph at lines 149--158
+Overfull \hbox (6.53055pt too wide) in paragraph at lines 146--155
  [] 
  []
 
@@ -775,12 +775,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/inception_block.png, id=49, 715.67375pt x 565.11125pt>
 File: images/inception_block.png Graphic file (type png)
 <use images/inception_block.png>
-Package pdftex.def Info: images/inception_block.png  used on input line 177.
+Package pdftex.def Info: images/inception_block.png  used on input line 174.
 (pdftex.def)             Requested size: 180.67499pt x 142.65712pt.
 <images/resnet50.png, id=50, 614.295pt x 453.695pt>
 File: images/resnet50.png Graphic file (type png)
 <use images/resnet50.png>
-Package pdftex.def Info: images/resnet50.png  used on input line 183.
+Package pdftex.def Info: images/resnet50.png  used on input line 180.
 (pdftex.def)             Requested size: 252.94499pt x 186.8192pt.
 
 
@@ -790,17 +790,17 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/Graphs/ChSm.png, id=61, 316.5426pt x 325.215pt>
 File: images/Graphs/ChSm.png Graphic file (type png)
 <use images/Graphs/ChSm.png>
-Package pdftex.def Info: images/Graphs/ChSm.png  used on input line 276.
+Package pdftex.def Info: images/Graphs/ChSm.png  used on input line 270.
 (pdftex.def)             Requested size: 180.67499pt x 185.62755pt.
 <images/ConMats/ChSm_mean.png, id=62, 285.065pt x 285.065pt>
 File: images/ConMats/ChSm_mean.png Graphic file (type png)
 <use images/ConMats/ChSm_mean.png>
-Package pdftex.def Info: images/ConMats/ChSm_mean.png  used on input line 282.
+Package pdftex.def Info: images/ConMats/ChSm_mean.png  used on input line 276.
 (pdftex.def)             Requested size: 108.405pt x 108.40411pt.
 <images/ConMats/ChSm_std.png, id=63, 285.065pt x 285.065pt>
 File: images/ConMats/ChSm_std.png Graphic file (type png)
 <use images/ConMats/ChSm_std.png>
-Package pdftex.def Info: images/ConMats/ChSm_std.png  used on input line 288.
+Package pdftex.def Info: images/ConMats/ChSm_std.png  used on input line 282.
 (pdftex.def)             Requested size: 108.405pt x 108.40411pt.
 
 
@@ -810,42 +810,42 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/Graphs/SmAC.png, id=67, 319.4334pt x 324.4923pt>
 File: images/Graphs/SmAC.png Graphic file (type png)
 <use images/Graphs/SmAC.png>
-Package pdftex.def Info: images/Graphs/SmAC.png  used on input line 323.
+Package pdftex.def Info: images/Graphs/SmAC.png  used on input line 317.
 (pdftex.def)             Requested size: 180.67499pt x 183.54149pt.
 <images/ConMats/SmAC_mean.png, id=68, 285.065pt x 285.065pt>
 File: images/ConMats/SmAC_mean.png Graphic file (type png)
 <use images/ConMats/SmAC_mean.png>
-Package pdftex.def Info: images/ConMats/SmAC_mean.png  used on input line 329.
+Package pdftex.def Info: images/ConMats/SmAC_mean.png  used on input line 323.
 (pdftex.def)             Requested size: 108.405pt x 108.40411pt.
 <images/ConMats/SmAC_std.png, id=69, 285.065pt x 285.065pt>
 File: images/ConMats/SmAC_std.png Graphic file (type png)
 <use images/ConMats/SmAC_std.png>
-Package pdftex.def Info: images/ConMats/SmAC_std.png  used on input line 335.
+Package pdftex.def Info: images/ConMats/SmAC_std.png  used on input line 329.
 (pdftex.def)             Requested size: 108.405pt x 108.40411pt.
  [11 <./images/Graphs/ChSm.png> <./images/ConMats/ChSm_mean.png> <./images/ConM
 ats/ChSm_std.png>]
 <images/Graphs/SmIF.png, id=77, 317.2653pt x 325.215pt>
 File: images/Graphs/SmIF.png Graphic file (type png)
 <use images/Graphs/SmIF.png>
-Package pdftex.def Info: images/Graphs/SmIF.png  used on input line 370.
+Package pdftex.def Info: images/Graphs/SmIF.png  used on input line 364.
 (pdftex.def)             Requested size: 180.67499pt x 185.20575pt.
 <images/ConMats/SmIF_mean.png, id=78, 298.11375pt x 269.005pt>
 File: images/ConMats/SmIF_mean.png Graphic file (type png)
 <use images/ConMats/SmIF_mean.png>
-Package pdftex.def Info: images/ConMats/SmIF_mean.png  used on input line 376.
+Package pdftex.def Info: images/ConMats/SmIF_mean.png  used on input line 370.
 (pdftex.def)             Requested size: 122.85876pt x 110.86331pt.
 
-Overfull \hbox (3.61316pt too wide) in paragraph at lines 376--377
+Overfull \hbox (3.61316pt too wide) in paragraph at lines 370--371
  [][] 
  []
 
 <images/ConMats/SmIF_std.png, id=79, 289.08pt x 260.975pt>
 File: images/ConMats/SmIF_std.png Graphic file (type png)
 <use images/ConMats/SmIF_std.png>
-Package pdftex.def Info: images/ConMats/SmIF_std.png  used on input line 382.
+Package pdftex.def Info: images/ConMats/SmIF_std.png  used on input line 376.
 (pdftex.def)             Requested size: 122.85876pt x 110.91092pt.
 
-Overfull \hbox (3.61316pt too wide) in paragraph at lines 382--383
+Overfull \hbox (3.61316pt too wide) in paragraph at lines 376--377
  [][] 
  []
 
@@ -855,31 +855,31 @@ g> <./images/ConMats/SmIF_std.png>]
 <images/Graphs/ChSm2.png, id=92, 346.896pt x 361.35pt>
 File: images/Graphs/ChSm2.png Graphic file (type png)
 <use images/Graphs/ChSm2.png>
-Package pdftex.def Info: images/Graphs/ChSm2.png  used on input line 420.
+Package pdftex.def Info: images/Graphs/ChSm2.png  used on input line 414.
 (pdftex.def)             Requested size: 180.67499pt x 188.20082pt.
 
-Overfull \hbox (4.19382pt too wide) in paragraph at lines 420--421
+Overfull \hbox (4.19382pt too wide) in paragraph at lines 414--415
  [][] 
  []
 
 <images/ConMats/ChSm2_mean.png, id=93, 209.78375pt x 208.78pt>
 File: images/ConMats/ChSm2_mean.png Graphic file (type png)
 <use images/ConMats/ChSm2_mean.png>
-Package pdftex.def Info: images/ConMats/ChSm2_mean.png  used on input line 426.
+Package pdftex.def Info: images/ConMats/ChSm2_mean.png  used on input line 420.
 
 (pdftex.def)             Requested size: 144.54pt x 143.84807pt.
 
-Overfull \hbox (1.44382pt too wide) in paragraph at lines 426--427
+Overfull \hbox (1.44382pt too wide) in paragraph at lines 420--421
  [][] 
  []
 
 <images/ConMats/ChSm2_std.png, id=94, 210.7875pt x 205.76875pt>
 File: images/ConMats/ChSm2_std.png Graphic file (type png)
 <use images/ConMats/ChSm2_std.png>
-Package pdftex.def Info: images/ConMats/ChSm2_std.png  used on input line 432.
+Package pdftex.def Info: images/ConMats/ChSm2_std.png  used on input line 426.
 (pdftex.def)             Requested size: 144.54pt x 141.10144pt.
 
-Overfull \hbox (1.44382pt too wide) in paragraph at lines 432--433
+Overfull \hbox (1.44382pt too wide) in paragraph at lines 426--427
  [][] 
  []
 
@@ -890,32 +890,32 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <images/Graphs/ChSm4.png, id=98, 317.2653pt x 325.9377pt>
 File: images/Graphs/ChSm4.png Graphic file (type png)
 <use images/Graphs/ChSm4.png>
-Package pdftex.def Info: images/Graphs/ChSm4.png  used on input line 467.
+Package pdftex.def Info: images/Graphs/ChSm4.png  used on input line 461.
 (pdftex.def)             Requested size: 180.67499pt x 185.61731pt.
 <images/ConMats/ChSm4_mean.png, id=99, 363.3575pt x 335.2525pt>
 File: images/ConMats/ChSm4_mean.png Graphic file (type png)
 <use images/ConMats/ChSm4_mean.png>
-Package pdftex.def Info: images/ConMats/ChSm4_mean.png  used on input line 474.
+Package pdftex.def Info: images/ConMats/ChSm4_mean.png  used on input line 468.
 
 (pdftex.def)             Requested size: 180.67499pt x 166.70503pt.
 <images/ConMats/ChSm4_std.png, id=100, 371.3875pt x 334.24875pt>
 File: images/ConMats/ChSm4_std.png Graphic file (type png)
 <use images/ConMats/ChSm4_std.png>
-Package pdftex.def Info: images/ConMats/ChSm4_std.png  used on input line 480.
+Package pdftex.def Info: images/ConMats/ChSm4_std.png  used on input line 474.
 (pdftex.def)             Requested size: 180.67499pt x 162.61026pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(report2.bbl [15 <./images/Graphs/ChSm2.png> <./images/ConMats/ChSm2_mean.png> 
-<./images/ConMats/ChSm2_std.png>] [16 <./images/Graphs/ChSm4.png> <./images/Con
-Mats/ChSm4_mean.png> <./images/ConMats/ChSm4_std.png>] [17]) [18] [19] [20]
+[15 <./images/Graphs/ChSm2.png> <./images/ConMats/ChSm2_mean.png> <./images/Con
+Mats/ChSm2_std.png>] [16 <./images/Graphs/ChSm4.png> <./images/ConMats/ChSm4_me
+an.png> <./images/ConMats/ChSm4_std.png>] (report2.bbl [17] [18]) [19] [20]
 (report2.aux) ) 
 Here is how much of TeX's memory you used:
- 18459 strings out of 492895
- 357134 string characters out of 3123736
- 407668 words of memory out of 3000000
- 22193 multiletter control sequences out of 15000+200000
+ 18460 strings out of 492895
+ 357140 string characters out of 3123736
+ 405678 words of memory out of 3000000
+ 22194 multiletter control sequences out of 15000+200000
  546916 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,10n,63p,1793b,574s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -939,7 +939,7 @@ pe1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jj_he/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/jj_he/AppData/Local/Pro
 grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/jj_he/AppD
 ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report2.pdf (22 pages, 1420993 bytes).
+Output written on report2.pdf (22 pages, 1423307 bytes).
 PDF statistics:
  180 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
