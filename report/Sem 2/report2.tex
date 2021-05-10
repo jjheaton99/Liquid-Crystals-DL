@@ -33,6 +33,7 @@
 \maketitle
 
 \begin{abstract}
+This project investigates the application of convolutional neural networks (CNNs) in the classification of liquid crystal phases from images of their textures. Three CNN classifier model types are tuned and trained on five individual phase group datasets. The complete dataset includes images of the cholesteric phase, as well as smectic A, C, I and F phases, all extracted from polarised microscopy videos of various liquid crystalline compound samples. Three binary classification tasks, each including two liquid crystal phases, provide the foundational demonstration of CNN model viability. The highest mean test set accuracies obtained are $98\pm2\%$, $99\pm1\%$, and $93\pm6\%$, for cholesteric and smectic, smectic A and C, and smectic I and F datasets respectively. More complex multi-phase datasets are also created and investigated, with a three-phase cholesteric, fluid smectic, and hexatic smectic set as well as a set containing all five individual phases. The highest mean test set accuracies for these classification tasks are $85\pm2\%$ for the three-phase set, and $87\pm3\%$ for the five-phase set. These results confirm and expand upon the conclusions of the first semester of the project, further demonstrating the efficacy of CNNs in identifying experimentally-captured liquid crystal texture images. However, the full potential of the models in this task may not be realised without significant expansion of the dataset.
 \end{abstract}
 
 \pagenumbering{gobble}
@@ -83,7 +84,13 @@ Neural networks are a type of ML algorithm that pass input data through a series
 \end{equation}
 where $\bm{O}$ is the vector containing the outputs for the layer, $\bm{W}$ is the matrix of layer weights, $\bm{I}$ is the vector of layer inputs, $\bm{B}$ is the vector of bias parameters, and $A$ is the activation function applied element-wise \cite{Goodfellow16, Haykin98}.
 
-Convolutional layers take grid-based input data such as two-dimensional images, and convolve it with a kernel of trainable parameters. The kernel has a width and height smaller than that of the input. The kernel is moved iteratively over the input, with the distance moved each iteration known as the stride of the convolution \cite{Aghdam17}. At each step the kernel's parameters are multiplied with aligned input values, with the results summed together to produce the final output value. An activation function can be applied to this output value. The complete layer output is formed as a grid containing the ordered output values from the convolution. The size of the output grid depends on the dimensions of the kernel and the stride of the convolution, as these together determine the number of convolution steps in each direction \cite{Aghdam17}. The input and output of the layer can have a third dimension, for example with the three colour channels of an RGB image. In this case, the kernel will have a different set of parameters for each channel. The number of channels can be increased from input to output by stacking the results from multiple kernels \cite{Aghdam17}. A convolutional layer's padding refers to the behaviour of the kernel at the edges of the input. When the kernel is confined completely within the input space it is called valid padding. Same padding is when the kernel extends beyond the input space such that each value is visited by the kernel the same number of times, with kernel values outside the space multiplied by zero. For a stride of one in both directions, same padding will result in an output with the same shape as the input, and valid padding will result in dimensionality reduction \cite{Goodfellow16, Aghdam17}.
+Convolutional layers take grid-based input data such as two-dimensional images, and convolve it with a kernel of trainable parameters. The kernel has a width and height smaller than that of the input. The kernel is moved iteratively over the input, with the distance moved each iteration known as the stride of the convolution \cite{Aghdam17}. At each step the kernel's parameters are multiplied with aligned input values, with the results summed together to produce the final output value. An activation function can be applied to this output value. The complete layer output is formed as a grid containing the ordered output values from the convolution. The size of the output grid depends on the dimensions of the kernel and the stride of the convolution, as these together determine the number of convolution steps in each direction \cite{Aghdam17}. The input and output of the layer can have a third dimension, for example with the three colour channels of an RGB image. In this case, the kernel will have a different set of parameters for each channel. The number of channels can be increased from input to output by stacking the results from multiple kernels \cite{Aghdam17}. A convolutional layer's padding refers to the behaviour of the kernel at the edges of the input. When the kernel is confined completely within the input space it is called valid padding. Same padding is when the kernel extends beyond the input space such that each value is visited by the kernel the same number of times, with kernel values outside the space multiplied by zero. For a stride of one in both directions, same padding will result in an output with the same shape as the input, and valid padding will result in dimensionality reduction \cite{Goodfellow16, Aghdam17}. An example of a convolution operation is detailed in Figure \ref{convop}.
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.5\textwidth]{images/convolution.png}
+\caption{Adapted from \cite{Goodfellow16}. An example convolution operation with one channel. The $3\times3$ input is convolved, denoted by $\ast$, with a $2\times2$ kernel with stride 1 and valid padding, to produce a $2\times2$ output matrix.}
+\label{convop}
+\end{figure}
 
 The main advantage of convolutional layers over dense layers is the greatly reduced computational and memory cost, since they require far fewer parameters. The kernel parameters are shared over the entire input, which can also improve regularisation. Each kernel can be thought of as learning to extract a particular feature from the input to be passed on to the next layer, such as edges of objects in an image \cite{Goodfellow16}.
 
@@ -139,7 +146,7 @@ The distribution of the complete dataset over all LC phases is presented in Figu
 \caption{The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.}
 \label{datasetgraph}
 \end{figure}
-From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set count. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix \ref{datdist}.
+From this we construct five individual model training datasets, split by video in an approximate ratio of 3:1:1 training to validation to test set image count. Videos are selected randomly from the training set to be moved into the validation and test sets until the target split ratio is approximately met. The five phase groupings includes three binary, or two-phase, sets and two multi-phase sets. The names of each dataset and the phases they include are summarised in Table \ref{datasets}, with the specific distributions of the data in each set presented in Appendix \ref{datdist}.
 \begin{table}[!htb]
 \begin{center}
 \caption{The LC phases contained in each dataset.}
@@ -181,8 +188,8 @@ The ResNet models, first implemented in 2015 by Kaiming He \textit{et al}., aim 
 	\caption{}
 	\label{arch:res}
 \end{subfigure}
-\caption{(a) Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 		1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input. 
-(b) The architecture of ResNet50, adapted from \cite{He15}. "Conv 1x1, N" is a convolutional layer with kernel size $1\times1$ and $N$ channels. All convolutional layers have stride of $1\times1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that many blocks.}
+\caption{(a) Diagram of a single inception block, adapted from \cite{Szegedy15}. "Conv 		1x1" represents a convolutional layer with kernel size $1\times1$ and "max pool 3x3" represents max pooling with pool size and stride of $3\times3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input \cite{Szegedy15}. 
+(b) The architecture of ResNet50, adapted from \cite{He15}. "Conv 1x1, N" is a convolutional layer with kernel size $1\times1$ and $N$ channels. All convolutional layers have stride of $1\times1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that number of blocks.}
 \label{arch:arch}
 \end{figure}
 
@@ -206,7 +213,21 @@ We use the deep learning libraries TensorFlow and Keras to build and train all m
 \subsection{Model tuning}
 For each dataset, we train and tune Sequential, Inception and ResNet50 classifier models with the aim of maximising accuracy when evaluating on the test set. The hyperparameters we choose to vary include batch size and learning rate for all model types. For the Sequential models we also vary the number of convolutional layers and starting channels, and for the Inception models we vary the number Inception blocks and starting channels. The ResNet50 architecture is fixed. For every configuration tested we train the model ten times, recording the validation and test set accuracies at the end of each run. The model's parameters are reset between each run. The mean accuracies for the configuration are then calculated along with the standard deviations. Selection of hyperparameters is based on trial and error combined with grid-search methods. In a grid-search lists of values are specified for two or more hyperparameters, and models are trained with all possible combinations of the values \cite{Goodfellow16}.
 
-\section{Summary of previous results}
+\section{Classification tasks and results}
+Here, the results for the models of each type achieving the highest mean test set accuracies for each phase classification task are presented. Architecture details are listed as number of convolutional layers, number of starting channels for Sequential models, and number of blocks, number of starting channels for Inception models. The error bars on the results summary graphs for each dataset represent the standard deviation of the test set accuracy. Model types are abbreviated as "Seq" for Sequential, "Inc" for Inception, and "RN50" for ResNet50. The y-axis scale is fixed at 50 to 100 percent to aid comparison of the results between each dataset.
+
+The test set mean and standard deviation confusion matrices are given for the best model type and configuration in each case. Confusion matrix values represent the fraction of test set samples with a particular true label that the model assigned a particular predicted label. For the best performing model configurations, the confusion matrices are calculated for all ten individual trained models, and the mean and standard deviation are calculated for each value.
+
+%Describe task
+%Model specfifics
+%Accuracy results
+%Model comparisons
+%Standard deviations
+%Difference between validation and test
+%Discussion of best con mat
+%Interpretation
+
+\subsection{Summary of first semester results}
 The work of the first semester focussed on applying Sequential, Inception and ResNet models to three different LC phase classification tasks. These included a four-phase set with isotropic, nematic, cholesteric, and smectic, a binary set with smectic A and C, a general smectic set including fluid smectic, hexatic smectic, and soft crystal, and a six-phase smectic set including smectic A, C, I, F, and two soft crystal phases. The final models were trained three times each and the mean accuracy over all three runs calculated for the test sets. The error was calculated as half the range in accuracy. The results are summarised in Table \ref{sem1}.
 \begin{table}[!htb]
 \begin{center}
@@ -227,21 +248,9 @@ Six-phase smectic & 6 & ResNet50 & $54\pm1$\\
 \end{table}
 It was concluded that the poor performance in the more complex six-phase smectic task was a result of limited dataset size \cite{Heaton20}.
 
-\section{Classification tasks and results}
-Here, the results for the models of each type achieving the highest mean test set accuracies for each phase classification task are presented. Architecture details are listed as number of convolutional layers, number of starting channels for Sequential models, and number of blocks, number of starting channels for Inception models. The error bars on the results summary graphs for each dataset represent the standard deviation of the test set accuracy. Model types are abbreviated as "Seq" for Sequential, "Inc" for Inception, and "RN50" for ResNet50. The y-axis scale is fixed at 50 to 100 percent to aid comparison of the results between each dataset.
-
-The test set mean and standard deviation confusion matrices are given for the best model type and configuration in each case. Confusion matrix values represent the fraction of test set samples with a particular true label that the model assigned a particular predicted label. For the best performing model configurations, the confusion matrices are calculated for all ten individual trained models, and the mean and standard deviation are calculated for each value.
-
-%Describe task
-%Model specfifics
-%Accuracy results
-%Model comparisons
-%Standard deviations
-%Difference between validation and test
-%Discussion of best con mat
-%Interpretation
-
 \subsection{Binary classifiers}
+The binary classifiers are tasked with predicting which of two phases a LC texture is displaying. These serve as foundational investigations for model viability before attempting to build more complex multi-phase classifiers.
+
 \subsubsection{ChSm}
 Models in this first binary phase classification task attempt to differentiate between the cholesteric phase and all smectic phases in the dataset. The final results for the tuned models are displayed in \ref{chsm:chsm} and the model configurations and accuracies are given in Table \ref{chsmtab}. All three model types achieve over 90\% mean test acuracy, with Inception the highest and ResNet50 the lowest. The extremely high capacity of ResNet50 could lead to some overfitting, despite usage of early stopping. Overall, the variances in accuracy suggest good stability in training the models, with no standard deviations greater than 3\%. The mean test accuracies are higher than validation in every case. However, the differences are small. This trend is most likely due to the relatively small size of the dataset, which could result in elevated sensitivity to the exact choice of videos to include in each set.
 \begin{table}[!htb]
@@ -386,8 +395,10 @@ Figure \ref{smif:mean} shows the mean test set confusion matrix for the SmIF Seq
 The performance on the SmIF dataset is satisfactory in that the models perform substantially better than randomly guessing. However, there is room for improvement. This may only be facilitated by expansion of the dataset with more videos from smectic I and F phases, which would provide more samples for the models to learn a more accurate interpretation of the subtle textural features.
 
 \subsection{Multi-phase classifiers}
+Having demonstrated success in binary LC phase classification, we now move on to the wider tasks of classification of more than two phases at a time.
+
 \subsubsection{ChSm2}
-Having demonstrated success in binary LC phase classification, we now move on to the wider tasks of classification of more than two phases at a time. The ChSm2 dataset contains all phases in the complete dataset, with smectic A and C grouped into the fluid smectic class and smectic I and F grouped into the hextic smectic class. The hexatic smectic class contains more images than the entire SmIF dataset because one video displaying the hexatic  smectic phase could not be further labelled as smectic I and F. Figure \ref{chsm2:chsm2} and Table \ref{chsm2tab} give the results and model configurations for this dataset. We see similar performance from the Sequential and Inception models, with both reaching 85\% mean test accuracy. ResNet50 falls behind again on this task, most likely for similar reasons of overfitting and fewer attempts at tuning, as before. With no standard deviations greater than 3\%, model training and accuracy is relatively stable for the ChSm2 task. Overall performance is low in comparison to the binary datasets, which could be explained by the increased complexity and size of the task with a greater number of phases and, subsequently, more features to learn.
+The ChSm2 dataset contains all phases in the complete dataset, with smectic A and C grouped into the fluid smectic class and smectic I and F grouped into the hextic smectic class. The hexatic smectic class contains more images than the entire SmIF dataset because one video displaying the hexatic  smectic phase could not be further labelled as smectic I and F. Figure \ref{chsm2:chsm2} and Table \ref{chsm2tab} give the results and model configurations for this dataset. We see similar performance from the Sequential and Inception models, with both reaching 85\% mean test accuracy. ResNet50 falls behind again on this task, most likely for similar reasons of overfitting and fewer attempts at tuning, as before. With no standard deviations greater than 3\%, model training and accuracy is relatively stable for the ChSm2 task. Overall performance is low in comparison to the binary datasets, which could be explained by the increased complexity and size of the task with a greater number of phases and, subsequently, more features to learn.
 \begin{table}[!htb]
 \begin{center}
 \caption{Best results and corresponding model details for the ChSm2 dataset.}
@@ -509,9 +520,13 @@ ChSm4 & 5 & Sequential & $87\pm3$\\
 \end{tabular}
 \end{center}
 \end{table}
-The results of the previous semester have been expanded, improved, and consolidated, further demonstrating the potential of CNN models in the automatic identification of LC phase textures. Of particular note is the improvement in model performance in tasks involving the hexatic smectic phases, which were relatively unsuccessful in the first half of the project \cite{Heaton20}. This has been achieved through the addition of more smectic I and F texture images to the dataset as well as more robust model training and tuning methodology.
+The results of the previous semester have been expanded, improved, and consolidated, further demonstrating the potential of CNN models in the automatic identification of LC phase textures. Of particular note is the improvement in model performance in tasks involving the hexatic smectic phases, which were relatively unsuccessful in the first half of the project \cite{Heaton20}. This has been achieved through the addition of more smectic I and F texture images to the dataset as well as more robust model training and tuning methodology. The current literature has been expanded upon, which remains limited to classification of simulated textures of non-smectic LC phases \cite{Sigaki20}. 
 
-The ResNet50 models have not 
+Overall the Sequential models have proved most successful, achieving the highest mean test accuracies in, arguably, the three most complex classification tasks. The inception models follow closely behind with comparable results in all cases. Contradictory to the results of the previous semester, ResNet50 has performed the worst on all datasets. However, it did produce mean test accuracies above 90\% on the ChSm and SmAC datasets. The generally poor performance suggests the capacity of the model is too high and overfitting to the training set has occurred. Furthermore, the size of ResNet50 results in training times much longer than for the other models. For this reason, fewer hyperparameter tuning cycles have been performed.
+
+Throughout the project, dataset size has been the key limitation. For certain classification tasks, particularly those involving the smectic I and F phases, the results could potentially be improved by further balancing and expanding the dataset with more samples. Confusion between smetic C and I, as in the case of the ChSm4 results, is a limitation that could be investigated further. Texture similarity between the phases is a likely cause of the inaccuracy, which could again be tested further by incorporation of samples from different LC compounds. Including PM videos from an extended range of compounds would be beneficial in allowing the models to learn more general textural features from each phase, improving accuracy when applied to new unseen samples. In addition, the limited dataset size has resulted in model accuracy being sensitive to the specific choice of training, validation and test set split. This is seen in the discrepancies between validation and test accuracy in some tasks, especially so for ChSm4.
+
+As an outlook to future potential research, an ambitious goal would be to establish a vastly expanded dataset spanning more phases, such as soft crystal. Larger models such as ResNet50 would be necessary to obtain high accuracies on such a more complex classification task. Alternatives to CNNs could be investigated, such as the promising Transformer network architectures which have seen success in computer vision tasks involving extremely large datasets \cite{Khan2021TransformersIV}.
 
 \bibliography{report2}
 

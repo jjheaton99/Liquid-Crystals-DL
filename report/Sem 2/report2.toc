@@ -6,23 +6,23 @@
 \contentsline {subsection}{\numberline {2.3}Neural networks}{3}% 
 \contentsline {subsubsection}{\numberline {2.3.1}Layers}{3}% 
 \contentsline {subsubsection}{\numberline {2.3.2}Training}{5}% 
-\contentsline {subsubsection}{\numberline {2.3.3}Regularisation methods}{5}% 
+\contentsline {subsubsection}{\numberline {2.3.3}Regularisation methods}{6}% 
 \contentsline {section}{\numberline {3}Methodology}{6}% 
 \contentsline {subsection}{\numberline {3.1}Data preparation}{6}% 
-\contentsline {subsection}{\numberline {3.2}CNN Models}{7}% 
-\contentsline {subsubsection}{\numberline {3.2.1}Sequential}{7}% 
+\contentsline {subsection}{\numberline {3.2}CNN Models}{8}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Sequential}{8}% 
 \contentsline {subsubsection}{\numberline {3.2.2}Inception}{8}% 
 \contentsline {subsubsection}{\numberline {3.2.3}ResNet50}{8}% 
-\contentsline {subsection}{\numberline {3.3}Model training configurations}{8}% 
-\contentsline {subsection}{\numberline {3.4}Model tuning}{9}% 
-\contentsline {section}{\numberline {4}Summary of previous results}{9}% 
-\contentsline {section}{\numberline {5}Classification tasks and results}{10}% 
-\contentsline {subsection}{\numberline {5.1}Binary classifiers}{10}% 
-\contentsline {subsubsection}{\numberline {5.1.1}ChSm}{10}% 
-\contentsline {subsubsection}{\numberline {5.1.2}SmAC}{11}% 
-\contentsline {subsubsection}{\numberline {5.1.3}SmIF}{13}% 
-\contentsline {subsection}{\numberline {5.2}Multi-phase classifiers}{14}% 
-\contentsline {subsubsection}{\numberline {5.2.1}ChSm2}{14}% 
-\contentsline {subsubsection}{\numberline {5.2.2}ChSm4}{15}% 
-\contentsline {section}{\numberline {6}Conclusions}{17}% 
-\contentsline {section}{\numberline {A}Data distributions}{19}% 
+\contentsline {subsection}{\numberline {3.3}Model training configurations}{9}% 
+\contentsline {subsection}{\numberline {3.4}Model tuning}{10}% 
+\contentsline {section}{\numberline {4}Classification tasks and results}{10}% 
+\contentsline {subsection}{\numberline {4.1}Summary of first semester results}{10}% 
+\contentsline {subsection}{\numberline {4.2}Binary classifiers}{11}% 
+\contentsline {subsubsection}{\numberline {4.2.1}ChSm}{11}% 
+\contentsline {subsubsection}{\numberline {4.2.2}SmAC}{12}% 
+\contentsline {subsubsection}{\numberline {4.2.3}SmIF}{13}% 
+\contentsline {subsection}{\numberline {4.3}Multi-phase classifiers}{15}% 
+\contentsline {subsubsection}{\numberline {4.3.1}ChSm2}{15}% 
+\contentsline {subsubsection}{\numberline {4.3.2}ChSm4}{15}% 
+\contentsline {section}{\numberline {5}Conclusions}{17}% 
+\contentsline {section}{\numberline {A}Data distributions}{21}% 

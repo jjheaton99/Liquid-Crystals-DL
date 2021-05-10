@@ -60,15 +60,18 @@
 \citation{Aghdam17}
 \citation{Goodfellow16}
 \citation{Goodfellow16}
+\citation{Goodfellow16}
+\citation{Goodfellow16}
 \citation{Aghdam17}
 \citation{Aghdam17}
 \citation{Goodfellow16}
 \citation{Aghdam17}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Adapted from \cite  {Goodfellow16}. An example convolution operation with one channel. The $3\times 3$ input is convolved, denoted by $\ast $, with a $2\times 2$ kernel with stride 1 and valid padding, to produce a $2\times 2$ output matrix.\relax }}{4}\protected@file@percent }
+\newlabel{convop}{{2}{4}}
 \citation{Glorot11}
 \citation{Goodfellow16}
 \citation{Glorot11}
 \citation{Goodfellow16}
-\newlabel{relu}{{3}{4}}
 \citation{Goodfellow16}
 \citation{Goodfellow16}
 \citation{Goodfellow16}
@@ -80,35 +83,40 @@
 \citation{Amari93}
 \citation{Goodfellow16}
 \citation{Goodfellow16}
+\newlabel{relu}{{3}{5}}
+\newlabel{softmax}{{4}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Training}{5}\protected@file@percent }
 \citation{Goodfellow16}
 \citation{Goodfellow16}
 \citation{Goodfellow16}
 \citation{Bishop95}
-\newlabel{softmax}{{4}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Training}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Regularisation methods}{5}\protected@file@percent }
 \citation{Srivastava2014}
 \citation{Ioffe15}
 \citation{Dierking94}
 \citation{Schacht95}
 \citation{VideoLan06}
 \citation{Heaton20}
-\citation{Kaufman12}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Regularisation methods}{6}\protected@file@percent }
 \newlabel{batchnorm}{{7}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Data preparation}{6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.\relax }}{7}\protected@file@percent }
-\newlabel{datasetgraph}{{2}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The LC phases contained in each dataset.\relax }}{7}\protected@file@percent }
-\newlabel{datasets}{{1}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}CNN Models}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Sequential}{7}\protected@file@percent }
+\citation{Kaufman12}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The number of images in the complete dataset belonging to each phase, with a total of 6,978 images.\relax }}{7}\protected@file@percent }
+\newlabel{datasetgraph}{{3}{7}}
 \citation{Szegedy15}
 \citation{He15}
 \citation{He15}
 \citation{He15}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The LC phases contained in each dataset.\relax }}{8}\protected@file@percent }
+\newlabel{datasets}{{1}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}CNN Models}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Sequential}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Inception}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}ResNet50}{8}\protected@file@percent }
+\citation{Szegedy15}
 \citation{Szegedy15}
 \citation{He15}
+\citation{Szegedy15}
 \citation{Szegedy15}
 \citation{He15}
 \citation{Abadi16}
@@ -119,84 +127,87 @@
 \citation{Kingma14}
 \citation{Heaton20}
 \citation{Goodfellow16}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Inception}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}ResNet50}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Model training configurations}{8}\protected@file@percent }
-\citation{Heaton20}
-\newlabel{arch:inc}{{3a}{9}}
+\newlabel{arch:inc}{{4a}{9}}
 \newlabel{sub@arch:inc}{{a}{9}}
-\newlabel{arch:res}{{3b}{9}}
+\newlabel{arch:res}{{4b}{9}}
 \newlabel{sub@arch:res}{{b}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces (a) Diagram of a single inception block, adapted from \cite  {Szegedy15}. \csqQQ {34}Conv 1x1\csqQQ {34} represents a convolutional layer with kernel size $1\times 1$ and \csqQQ {34}max pool 3x3\csqQQ {34} represents max pooling with pool size and stride of $3\times 3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input. (b) The architecture of ResNet50, adapted from \cite  {He15}. \csqQQ {34}Conv 1x1, N\csqQQ {34} is a convolutional layer with kernel size $1\times 1$ and $N$ channels. All convolutional layers have stride of $1\times 1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that many blocks.\relax }}{9}\protected@file@percent }
-\newlabel{arch:arch}{{3}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Model tuning}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Summary of previous results}{9}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces First semester mean test set percentage accuracies for final models and phase classification tasks.\relax }}{10}\protected@file@percent }
-\newlabel{sem1}{{2}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Classification tasks and results}{10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Binary classifiers}{10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}ChSm}{10}\protected@file@percent }
-\citation{Dierking03}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (a) Diagram of a single inception block, adapted from \cite  {Szegedy15}. \csqQQ {34}Conv 1x1\csqQQ {34} represents a convolutional layer with kernel size $1\times 1$ and \csqQQ {34}max pool 3x3\csqQQ {34} represents max pooling with pool size and stride of $3\times 3$. The branching architecture with varying kernel sizes attempts to extract features of varying sizes from the input \cite  {Szegedy15}. (b) The architecture of ResNet50, adapted from \cite  {He15}. \csqQQ {34}Conv 1x1, N\csqQQ {34} is a convolutional layer with kernel size $1\times 1$ and $N$ channels. All convolutional layers have stride of $1\times 1$. The input to a skip connection block is put through three convolutional layers, and the output of this is concatenated with the original input. The factors next to each skip connection block represent a series of that number of blocks.\relax }}{9}\protected@file@percent }
+\newlabel{arch:arch}{{4}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Model training configurations}{9}\protected@file@percent }
 \citation{Heaton20}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Model tuning}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Classification tasks and results}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Summary of first semester results}{10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces First semester mean test set percentage accuracies for final models and phase classification tasks.\relax }}{11}\protected@file@percent }
+\newlabel{sem1}{{2}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Binary classifiers}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}ChSm}{11}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Best results and corresponding model configuration details for the ChSm dataset.\relax }}{11}\protected@file@percent }
 \newlabel{chsmtab}{{3}{11}}
-\newlabel{chsm:graph}{{4a}{11}}
-\newlabel{sub@chsm:graph}{{a}{11}}
-\newlabel{chsm:mean}{{4b}{11}}
-\newlabel{sub@chsm:mean}{{b}{11}}
-\newlabel{chsm:std}{{4c}{11}}
-\newlabel{sub@chsm:std}{{c}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm dataset. (b) Mean test set confusion matrix for the ChSm Inception model. (c) Standard deviations of test set confusion matrices for the ChSm Inception model.\relax }}{11}\protected@file@percent }
-\newlabel{chsm:chsm}{{4}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}SmAC}{11}\protected@file@percent }
 \citation{Dierking03}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Best results and corresponding model configuration details for the SmAC dataset.\relax }}{12}\protected@file@percent }
-\newlabel{smactab}{{4}{12}}
-\newlabel{smac:graph}{{5a}{12}}
-\newlabel{sub@smac:graph}{{a}{12}}
-\newlabel{smac:mean}{{5b}{12}}
-\newlabel{sub@smac:mean}{{b}{12}}
-\newlabel{smac:std}{{5c}{12}}
-\newlabel{sub@smac:std}{{c}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the SmAC dataset. (b) Mean test set confusion matrix for the SmAC Inception model. (c) Standard deviations of test set confusion matrices for the SmAC Inception model.\relax }}{12}\protected@file@percent }
-\newlabel{smac:smac}{{5}{12}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}SmIF}{13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Best results and corresponding model configuration details for the SmIF dataset.\relax }}{13}\protected@file@percent }
-\newlabel{smiftab}{{5}{13}}
-\newlabel{smif:graph}{{6a}{13}}
-\newlabel{sub@smif:graph}{{a}{13}}
-\newlabel{smif:mean}{{6b}{13}}
-\newlabel{sub@smif:mean}{{b}{13}}
-\newlabel{smif:std}{{6c}{13}}
-\newlabel{sub@smif:std}{{c}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the SmIF dataset. (b) Mean test set confusion matrix for the SmIF Sequential model. (c) Standard deviations of test set confusion matrices for the SmIF Sequential model.\relax }}{13}\protected@file@percent }
-\newlabel{smif:smif}{{6}{13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Multi-phase classifiers}{14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}ChSm2}{14}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Best results and corresponding model details for the ChSm2 dataset.\relax }}{14}\protected@file@percent }
-\newlabel{chsm2tab}{{6}{14}}
-\newlabel{chsm2:graph}{{7a}{15}}
-\newlabel{sub@chsm2:graph}{{a}{15}}
-\newlabel{chsm2:mean}{{7b}{15}}
-\newlabel{sub@chsm2:mean}{{b}{15}}
-\newlabel{chsm2:std}{{7c}{15}}
-\newlabel{sub@chsm2:std}{{c}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm2 dataset. (b) Mean test set confusion matrix for the ChSm2 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm2 Sequential model.\relax }}{15}\protected@file@percent }
-\newlabel{chsm2:chsm2}{{7}{15}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}ChSm4}{15}\protected@file@percent }
+\citation{Heaton20}
+\citation{Dierking03}
+\newlabel{chsm:graph}{{5a}{12}}
+\newlabel{sub@chsm:graph}{{a}{12}}
+\newlabel{chsm:mean}{{5b}{12}}
+\newlabel{sub@chsm:mean}{{b}{12}}
+\newlabel{chsm:std}{{5c}{12}}
+\newlabel{sub@chsm:std}{{c}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm dataset. (b) Mean test set confusion matrix for the ChSm Inception model. (c) Standard deviations of test set confusion matrices for the ChSm Inception model.\relax }}{12}\protected@file@percent }
+\newlabel{chsm:chsm}{{5}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}SmAC}{12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Best results and corresponding model configuration details for the SmAC dataset.\relax }}{13}\protected@file@percent }
+\newlabel{smactab}{{4}{13}}
+\newlabel{smac:graph}{{6a}{13}}
+\newlabel{sub@smac:graph}{{a}{13}}
+\newlabel{smac:mean}{{6b}{13}}
+\newlabel{sub@smac:mean}{{b}{13}}
+\newlabel{smac:std}{{6c}{13}}
+\newlabel{sub@smac:std}{{c}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the SmAC dataset. (b) Mean test set confusion matrix for the SmAC Inception model. (c) Standard deviations of test set confusion matrices for the SmAC Inception model.\relax }}{13}\protected@file@percent }
+\newlabel{smac:smac}{{6}{13}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}SmIF}{13}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Best results and corresponding model configuration details for the SmIF dataset.\relax }}{14}\protected@file@percent }
+\newlabel{smiftab}{{5}{14}}
+\newlabel{smif:graph}{{7a}{14}}
+\newlabel{sub@smif:graph}{{a}{14}}
+\newlabel{smif:mean}{{7b}{14}}
+\newlabel{sub@smif:mean}{{b}{14}}
+\newlabel{smif:std}{{7c}{14}}
+\newlabel{sub@smif:std}{{c}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the SmIF dataset. (b) Mean test set confusion matrix for the SmIF Sequential model. (c) Standard deviations of test set confusion matrices for the SmIF Sequential model.\relax }}{14}\protected@file@percent }
+\newlabel{smif:smif}{{7}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Multi-phase classifiers}{15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}ChSm2}{15}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Best results and corresponding model details for the ChSm2 dataset.\relax }}{15}\protected@file@percent }
+\newlabel{chsm2tab}{{6}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}ChSm4}{15}\protected@file@percent }
+\newlabel{chsm2:graph}{{8a}{16}}
+\newlabel{sub@chsm2:graph}{{a}{16}}
+\newlabel{chsm2:mean}{{8b}{16}}
+\newlabel{sub@chsm2:mean}{{b}{16}}
+\newlabel{chsm2:std}{{8c}{16}}
+\newlabel{sub@chsm2:std}{{c}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm2 dataset. (b) Mean test set confusion matrix for the ChSm2 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm2 Sequential model.\relax }}{16}\protected@file@percent }
+\newlabel{chsm2:chsm2}{{8}{16}}
 \@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Best results and corresponding model configuration details for the ChSm4 dataset.\relax }}{16}\protected@file@percent }
 \newlabel{chsm4tab}{{7}{16}}
-\newlabel{chsm4:graph}{{8a}{16}}
-\newlabel{sub@chsm4:graph}{{a}{16}}
-\newlabel{chsm4:mean}{{8b}{16}}
-\newlabel{sub@chsm4:mean}{{b}{16}}
-\newlabel{chsm4:std}{{8c}{16}}
-\newlabel{sub@chsm4:std}{{c}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm4 dataset. (b) Mean test set confusion matrix for the ChSm4 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm4 Sequential model.\relax }}{16}\protected@file@percent }
-\newlabel{chsm4:chsm4}{{8}{16}}
 \citation{Heaton20}
+\citation{Sigaki20}
+\newlabel{chsm4:graph}{{9a}{17}}
+\newlabel{sub@chsm4:graph}{{a}{17}}
+\newlabel{chsm4:mean}{{9b}{17}}
+\newlabel{sub@chsm4:mean}{{b}{17}}
+\newlabel{chsm4:std}{{9c}{17}}
+\newlabel{sub@chsm4:std}{{c}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (a) Mean test and validation set accuracies for the best model of each type trained on the ChSm4 dataset. (b) Mean test set confusion matrix for the ChSm4 Sequential model. (c) Standard deviations of test set confusion matrices for the ChSm4 Sequential model.\relax }}{17}\protected@file@percent }
+\newlabel{chsm4:chsm4}{{9}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{17}\protected@file@percent }
+\citation{Khan2021TransformersIV}
 \bibdata{report2}
 \bibcite{Murphy12}{1}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Results for the best tuned model for each prepared dataset.\relax }}{18}\protected@file@percent }
+\newlabel{sem2}{{8}{18}}
 \bibcite{Goodfellow16}{2}
 \bibcite{Shrestha19}{3}
 \bibcite{Voulodimos18}{4}
@@ -204,9 +215,6 @@
 \bibcite{Sigaki20}{6}
 \bibcite{Sigaki19}{7}
 \bibcite{Minor20}{8}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{17}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Results for the best tuned model for each prepared dataset.\relax }}{17}\protected@file@percent }
-\newlabel{sem2}{{8}{17}}
 \bibcite{Walters19}{9}
 \bibcite{Florin07}{10}
 \bibcite{Butnariu13}{11}
@@ -233,15 +241,16 @@
 \bibcite{Cook12}{32}
 \bibcite{Bisong19}{33}
 \bibcite{Kingma14}{34}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Data distributions}{19}\protected@file@percent }
-\newlabel{datdist}{{A}{19}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Image count and distribution for the ChSm dataset.\relax }}{20}\protected@file@percent }
-\newlabel{chsmdist}{{9}{20}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Image count and distribution for the SmAC dataset.\relax }}{20}\protected@file@percent }
-\newlabel{smacdist}{{10}{20}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Image count and distribution for the SmIF dataset.\relax }}{20}\protected@file@percent }
-\newlabel{smifdist}{{11}{20}}
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Image count and distribution for the ChSm2 dataset.\relax }}{20}\protected@file@percent }
-\newlabel{chsm2dist}{{12}{20}}
-\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Image count and distribution for the ChSm4 dataset.\relax }}{20}\protected@file@percent }
-\newlabel{chsm4dist}{{13}{20}}
+\bibcite{Khan2021TransformersIV}{35}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Data distributions}{21}\protected@file@percent }
+\newlabel{datdist}{{A}{21}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Image count and distribution for the ChSm dataset.\relax }}{21}\protected@file@percent }
+\newlabel{chsmdist}{{9}{21}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Image count and distribution for the SmAC dataset.\relax }}{21}\protected@file@percent }
+\newlabel{smacdist}{{10}{21}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Image count and distribution for the SmIF dataset.\relax }}{21}\protected@file@percent }
+\newlabel{smifdist}{{11}{21}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Image count and distribution for the ChSm2 dataset.\relax }}{22}\protected@file@percent }
+\newlabel{chsm2dist}{{12}{22}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Image count and distribution for the ChSm4 dataset.\relax }}{22}\protected@file@percent }
+\newlabel{chsm4dist}{{13}{22}}
