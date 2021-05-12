@@ -29,7 +29,7 @@ train_gen, valid_gen, test_gen = create_generators(train_dir,
                                                    batch_size=16)
 """
 
-model = sequential_model(2, 3, 64)
+model = sequential_model(2, 3, 4)
 model.summary()
 
 """

@@ -12,17 +12,17 @@
 \contentsline {subsection}{\numberline {3.2}CNN Models}{8}% 
 \contentsline {subsubsection}{\numberline {3.2.1}Sequential}{8}% 
 \contentsline {subsubsection}{\numberline {3.2.2}Inception}{8}% 
-\contentsline {subsubsection}{\numberline {3.2.3}ResNet50}{8}% 
-\contentsline {subsection}{\numberline {3.3}Model training configurations}{9}% 
+\contentsline {subsubsection}{\numberline {3.2.3}ResNet50}{9}% 
+\contentsline {subsection}{\numberline {3.3}Model training configurations}{10}% 
 \contentsline {subsection}{\numberline {3.4}Model tuning}{10}% 
 \contentsline {section}{\numberline {4}Classification tasks and results}{10}% 
-\contentsline {subsection}{\numberline {4.1}Summary of first semester results}{10}% 
+\contentsline {subsection}{\numberline {4.1}Summary of first semester results}{11}% 
 \contentsline {subsection}{\numberline {4.2}Binary classifiers}{11}% 
 \contentsline {subsubsection}{\numberline {4.2.1}ChSm}{11}% 
 \contentsline {subsubsection}{\numberline {4.2.2}SmAC}{12}% 
 \contentsline {subsubsection}{\numberline {4.2.3}SmIF}{13}% 
 \contentsline {subsection}{\numberline {4.3}Multi-phase classifiers}{15}% 
 \contentsline {subsubsection}{\numberline {4.3.1}ChSm2}{15}% 
-\contentsline {subsubsection}{\numberline {4.3.2}ChSm4}{15}% 
-\contentsline {section}{\numberline {5}Conclusions}{17}% 
+\contentsline {subsubsection}{\numberline {4.3.2}ChSm4}{16}% 
+\contentsline {section}{\numberline {5}Conclusions}{18}% 
 \contentsline {section}{\numberline {A}Data distributions}{21}% 
